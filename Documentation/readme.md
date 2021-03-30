@@ -39,3 +39,5 @@ Use this file to fill in your documentation
 	* GamePieceId
 	* DiceThrowValue
 	* GamePiecePosition
+* GameEngineAPI
+	* Lista med GamePiece

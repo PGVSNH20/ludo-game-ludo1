@@ -32,23 +32,6 @@ Use this file to fill in your documentation
 * <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FUseCaseDiagram.drawio">Use case</a>
 
 ## Klasser
-* GamePiece
-* User
-* Dice	
-	* ThrowValue
-	* ThrowDice()
-* GameBoard
-	* BoardTrack
-	* FinalTrack
-* Move
-	* UserName
-	* GamePieceId
-	* DiceThrowValue
-	* GamePiecePosition
-* GameEngineAPI
-	* Lista med GamePiece
-
-## Klasser (version2)
 * GameBoard
   * Track
 * GameDice

@@ -24,6 +24,8 @@ Use this file to fill in your documentation
 * Som spelare vill jag slå rätt siffra för kunna flytta mig till dess center efter ett varv på brädet
 * Som spelare vill jag att min pjäs flyttas bakåt om jag slår för många steg in i mål för att siffran  måste vara rätt
 * Som spelare vill jag ha alla mina pjäser i spelplanens center för att vinna
+* Som spelare vill jag kunna spara spelet för att kunna ta upp det igen efter paus
+* Som spelare vill jag kunna hämta tidigare spel för att kunna återuppta det
 
 ### Klasser
 * GamePiece

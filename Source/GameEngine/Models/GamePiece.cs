@@ -21,7 +21,7 @@ namespace GameEngine.Models
                     var gamePiece = new GamePiece()
                     {
                         Colour = (GameColour)i,
-                        Number = y
+                        Number = y + 1
                     };
                     gamePieceSetup.Add(gamePiece);
                 }

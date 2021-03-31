@@ -4,7 +4,12 @@ using System.Text;
 
 namespace GameEngine.Models
 {
-    class GameDice
+    public class GameDice
     {
+        public int ThrowValue()
+        {
+            Random value = new Random();
+            return value.Next(1, 7);
+        }
     }
 }

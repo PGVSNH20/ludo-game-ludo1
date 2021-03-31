@@ -10,3 +10,9 @@
 * Vi påbörjade ett Class Responsibility Collaborator-diagram (CRC) (Documentation/CRCDiagram.drawio)
 * Vi uppdaterade dokumentationen med nya klasser
 * Vi skrev till några user stories
+* Vi satte upp lokala databser och konfigurerade upp DbContext klass för Entity Framwork ramverket
+  * Vi kommer använda SQL databas
+  * Connectionstring: 
+```
+Server=localhost;Database=LudoGameDb;User Id=sa;Password=My!P@ssw0rd1;"
+```

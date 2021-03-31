@@ -43,3 +43,35 @@ Use this file to fill in your documentation
 	* GamePiecePosition
 * GameEngineAPI
 	* Lista med GamePiece
+
+### Klasser (version2)
+* GameBoard
+  * Track
+* GameDice
+  * ThrowValue
+* GameMove
+  * GameMoveId
+  * Player
+  * GamePiece
+  * OriginalPostion
+  * DiceThrowValue
+* GamePeace
+  * GamePieceId
+  * Color
+  * Number
+  * TrackPossition
+* LudoGame
+  * LudoGameId
+  * Players
+  * Moves
+  * Winner
+  * GamePieceSetUp
+* Player
+  * PlayerId
+  * Name
+  * Color
+* GameRunner
+  * LudoGame
+  * GameDice
+  * GameBoard
+  * CurrentPlayer

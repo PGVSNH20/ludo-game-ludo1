@@ -55,7 +55,7 @@ Use this file to fill in your documentation
   * GamePiece
   * OriginalPostion
   * DiceThrowValue
-* GamePeace
+* GamePiece
   * GamePieceId
   * Color
   * Number

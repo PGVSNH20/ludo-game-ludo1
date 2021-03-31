@@ -27,6 +27,10 @@ Use this file to fill in your documentation
 * Som spelare vill jag kunna spara spelet för att kunna ta upp det igen efter paus
 * Som spelare vill jag kunna hämta tidigare spel för att kunna återuppta det
 
+## Diagram
+* <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FCRCDiagram.drawio">CRC</a>
+* <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FUseCaseDiagram.drawio">Use case</a>
+
 ## Klasser
 * GamePiece
 * User
@@ -75,10 +79,3 @@ Use this file to fill in your documentation
   * GameDice
   * GameBoard
   * CurrentPlayer
-
-## CRC diagram
-<iframe frameborder="0" style="width:100%;height:523px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Frawcdn.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2F5975576791addc952d42926f51bc6132276709b3%2FDocumentation%2FCRCDiagram.drawio"></iframe>
-
-## Use Case diagram
-
-<iframe frameborder="0" style="width:100%;height:523px;" src="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Frawcdn.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2F5975576791addc952d42926f51bc6132276709b3%2FDocumentation%2FUseCaseDiagram.drawio"></iframe>

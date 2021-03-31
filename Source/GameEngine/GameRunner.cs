@@ -20,28 +20,34 @@ namespace GameEngine
 
         public GameRunner CreateNewGame()
         {
-            int playerCount = 2; //tmp code
-            var players = new List<Player>();
+            Console.WriteLine("Please choose player count");
+            int playerCount = int.Parse(Console.ReadLine());
             var availableColors = new List<GamePeaceColor>() {
                 0, (GamePeaceColor)1, (GamePeaceColor)2, (GamePeaceColor)3,
             };
 
             for (var i = 0; i < playerCount; i++)
             {
-                foreach (var color in availableColors)
+                Console.Write($"player{i}, write your name: ");
+                var playerName = Console.ReadLine();
+                playerName = (playerName == string.Empty) ? $"player{i}" : playerName;
+
+                Console.Write($"{playerName}, chose your color: ");
+
+                for (int index = 0; index < availableColors.Count; index++)
                 {
-                    Console.WriteLine($"{(int)color}: {color}");
+                    Console.WriteLine($"{index}: {availableColors[index]}");
                 }
-                int colorIndex = playerCount - i; //tmp code
+
+                int colorIndex = int.Parse(Console.ReadLine());
                 var chosenColor = availableColors[colorIndex];
                 availableColors.Remove(chosenColor);
-                players.Add(new Player()
+                Game.Players.Add(new Player()
                 {
-                    Name = $"player{i}",
+                    Name = playerName,
                     Color = chosenColor,
                 });
             }
-            Game.Players = players;
             //save db
             return this;
         }

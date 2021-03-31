@@ -17,6 +17,7 @@ namespace GameEngine.Models
         {
             Moves = new List<GameMove>();
             GamePeaceSetUp = new GamePeace().GetGamePeaceSetUp();
+            Players = new List<Player>();
         }
     }
 }

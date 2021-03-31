@@ -4,7 +4,7 @@
     {
         public int GameMoveId { get; set; }
         public Player Player { get; set; }
-        public GamePeace GamePeace { get; set; }
+        public GamePiece GamePeace { get; set; }
         public int OriginalPosition { get; set; }
         public int DiceThrow { get; set; }
     }

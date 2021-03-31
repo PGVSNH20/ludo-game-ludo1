@@ -22,25 +22,25 @@ namespace GameEngine
         {
             Console.WriteLine("Please choose player count");
             int playerCount = int.Parse(Console.ReadLine());
-            var availableColors = new List<GamePeaceColor>() {
-                0, (GamePeaceColor)1, (GamePeaceColor)2, (GamePeaceColor)3,
+            var availableColors = new List<GamePieceColor>() {
+                0, (GamePieceColor)1, (GamePieceColor)2, (GamePieceColor)3,
             };
 
-            for (var i = 0; i < playerCount; i++)
+            for (var i = 1; i <= playerCount; i++)
             {
                 Console.Write($"player{i}, write your name: ");
                 var playerName = Console.ReadLine();
                 playerName = (playerName == string.Empty) ? $"player{i}" : playerName;
 
-                Console.Write($"{playerName}, chose your color: ");
+                Console.WriteLine($"{playerName}, chose your color: ");
 
-                for (int index = 0; index < availableColors.Count; index++)
+                for (int index = 1; index <= availableColors.Count; index++)
                 {
-                    Console.WriteLine($"{index}: {availableColors[index]}");
+                    Console.WriteLine($"{index}: {availableColors[index - 1]}");
                 }
 
                 int colorIndex = int.Parse(Console.ReadLine());
-                var chosenColor = availableColors[colorIndex];
+                var chosenColor = availableColors[colorIndex - 1];
                 availableColors.Remove(chosenColor);
                 Game.Players.Add(new Player()
                 {
@@ -105,10 +105,10 @@ namespace GameEngine
 
         private void MakeMove()
         {
-            Console.WriteLine($"Which game peace you want to move?");
+            Console.WriteLine($"Which game piece you want to move?");
             foreach (var gamePeace in Game.GamePeaceSetUp.FindAll(p => p.Color == CurrentPlayer.Color))
             {
-                Console.WriteLine($"Game peace number: {gamePeace.Number} currently att position {gamePeace.TrackPossition}");
+                Console.WriteLine($"Game piece number: {gamePeace.Number} currently att position {gamePeace.TrackPossition}");
             }
             var gameMove = new GameMove();
             gameMove.Player = CurrentPlayer;

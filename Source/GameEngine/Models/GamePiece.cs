@@ -4,24 +4,24 @@ using System.Text;
 
 namespace GameEngine.Models
 {
-    public class GamePeace
+    public class GamePiece
     {
         public int GamePeaceId { get; set; }
-        public GamePeaceColor Color { get; set; }
+        public GamePieceColor Color { get; set; }
         public int Number { get; set; }
         public int TrackPossition { get; set; }
 
-        public List<GamePeace> GetGamePeaceSetUp()
+        public List<GamePiece> GetGamePeaceSetUp()
         {
-            var gamePeaceSetUp = new List<GamePeace>();
+            var gamePeaceSetUp = new List<GamePiece>();
             for (int i = 0; i < 4; i++)
             {
                 for (int y = 1; y <= 4; y++)
                 {
-                    gamePeaceSetUp.Add(new GamePeace()
+                    gamePeaceSetUp.Add(new GamePiece()
                     {
                         Number = y,
-                        Color = (GamePeaceColor)i,
+                        Color = (GamePieceColor)i,
                         TrackPossition = 0
                     });
                 }
@@ -30,7 +30,7 @@ namespace GameEngine.Models
         }
     }
 
-    public enum GamePeaceColor
+    public enum GamePieceColor
     {
         Blue,
         Red,

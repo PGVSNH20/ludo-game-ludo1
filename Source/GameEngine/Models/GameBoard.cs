@@ -2,6 +2,6 @@
 {
     public class GameBoard
     {
-        public GamePeace[] Track = new GamePeace[40];
+        public GamePiece[] Track = new GamePiece[40];
     }
 }

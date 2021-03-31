@@ -10,13 +10,13 @@ namespace GameEngine.Models
         public List<Player> Players { get; set; }
         public List<GameMove> Moves { get; set; }
         public Player Winner { get; set; }
-        public List<GamePeace> GamePeaceSetUp { get; set; }
+        public List<GamePiece> GamePeaceSetUp { get; set; }
 
         //public string Status { get; set; }
         public LudoGame()
         {
             Moves = new List<GameMove>();
-            GamePeaceSetUp = new GamePeace().GetGamePeaceSetUp();
+            GamePeaceSetUp = new GamePiece().GetGamePeaceSetUp();
             Players = new List<Player>();
         }
     }

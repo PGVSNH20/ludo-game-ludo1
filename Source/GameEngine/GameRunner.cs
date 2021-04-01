@@ -68,28 +68,24 @@ namespace GameEngine
         {
             while (Game.Winner == null)
             {
+                Console.Clear();
+                Board.PrintBoard(Game.GamePeaceSetUp);
                 Console.WriteLine(
                     $"{Game.NextTurnPlayer.Name}'s turn. Whats your move, {Game.NextTurnPlayer.Name}?\n" +
-                    $"[1] Show game board\n" +
-                    $"[2] Throw dice\n" +
-                    $"[3] Pause game\n");
-
-                switch (int.Parse(Console.ReadLine()))
+                    $"[1] Throw dice\n" +
+                    $"[2] Pause game\n");
+                var turnChoise = Console.ReadLine();
+                switch ((turnChoise == string.Empty) ? 1 : int.Parse(turnChoise))
                 {
                     case 1:
-                        Board.PrintBoard();
-                        break;
-
-                    case 2:
-                        //ThrowDice
                         ThrowDice();
                         MakeMove();
                         Game.NextTurnPlayer = Game.Players[(Game.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.Players.Count];
                         Console.WriteLine("player changed");
                         break;
 
-                    case 3:
-                        //PauseGame
+                    case 2:
+                        //save game
                         break;
 
                     default:
@@ -115,10 +111,15 @@ namespace GameEngine
             }
             var gameMove = new GameMove();
             gameMove.Player = Game.NextTurnPlayer;
-            int userChoise = int.Parse(Console.ReadLine());
-            gameMove.GamePiece = Game.GamePeaceSetUp.Find(p => (p.Color == Game.NextTurnPlayer.Color && p.Number == userChoise));
+            var userChoise = Console.ReadLine();
+
+            gameMove.GamePiece = Game.GamePeaceSetUp
+                .Find(p => (
+                    p.Color == Game.NextTurnPlayer.Color
+                    && p.Number == (
+                        (userChoise == string.Empty) ? 1 : int.Parse(userChoise))));
             if (gameMove.GamePiece.Possition == null)
-                gameMove.GamePiece.Possition = Dice.Result;
+                gameMove.GamePiece.Possition = Dice.Result - 1;
             else
                 gameMove.GamePiece.Possition += Dice.Result;
 
@@ -129,9 +130,11 @@ namespace GameEngine
 
         private void UppdateBoardTrack(GamePiece currentGamePiece)
         {
-            var boardTrackIndex = (int)currentGamePiece.Possition + (10 * (int)currentGamePiece.Color) % 40;
+            var boardTrackIndex = ((int)currentGamePiece.Possition + 10 * (int)currentGamePiece.Color) % 40;
             if (Board.Track[boardTrackIndex] != null)
                 Board.Track[boardTrackIndex].Possition = null;
+            if ((currentGamePiece.Possition - Dice.Result) >= 0)
+                Board.Track[(40 + boardTrackIndex - Dice.Result) % 40] = null;
             Board.Track[boardTrackIndex] = currentGamePiece;
         }
     }

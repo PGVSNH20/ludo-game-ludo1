@@ -1,6 +1,7 @@
 ﻿using GameEngine.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameEngine
@@ -25,7 +26,7 @@ namespace GameEngine
             {
                 CurrentGame.Players.Add(new GamePlayer()
                 {
-                    GamePlayerName = $"Player {i+1}",
+                    GamePlayerName = $"Player {i + 1}",
                     GamePlayerColour = (GameColour)i
                 });
             }
@@ -37,7 +38,6 @@ namespace GameEngine
             CurrentGame.NextTurnPlayer = CurrentGame.Players[startingPlayerIndex];
 
             CurrentGame.Moves = new List<GameMove>();
-            
         }
 
         public void LoadGame()
@@ -47,27 +47,38 @@ namespace GameEngine
 
         public void PlayGame()
         {
-            while(CurrentGame.Winner == null)
+            while (CurrentGame.Winner == null)
             {
                 Console.WriteLine($"Now it's {CurrentGame.NextTurnPlayer.GamePlayerName} turn\n" +
                     $"1) Throw dice\n" +
-                    $"2) Show board\n" +
-                    $"3) Save game");
+                    $"2) Save game");
 
                 var input = Console.ReadLine();
 
                 switch (input)
                 {
                     case "1":
-                        ThrowDice();
+                        Dice.ThrowDice();
+                        MakeMove();
                         break;
                 }
             }
         }
 
-        private void ThrowDice()
+        public void MakeMove()
         {
-
+            var playersPieces = CurrentGame.PieceSetup.Where(p => p.Colour == CurrentGame.NextTurnPlayer.GamePlayerColour).ToList();
+            Console.WriteLine("Choose your game piece:");
+            foreach (var gamePiece in playersPieces)
+            {
+                Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
+            }
+            var chosenPieceIndex = int.Parse(Console.ReadLine());
+            var currentMove = new GameMove()
+            {
+                Player = CurrentGame.NextTurnPlayer,
+            };
+            CurrentGame.Moves.Add(currentMove)
         }
     }
 }

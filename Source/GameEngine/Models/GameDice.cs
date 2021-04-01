@@ -6,10 +6,17 @@ namespace GameEngine.Models
 {
     public class GameDice
     {
-        public int ThrowValue()
+        public Random Random { get; set; }
+        public int LastResult { get; set; }
+
+        public GameDice()
         {
-            Random value = new Random();
-            return value.Next(1, 7);
+            Random = new Random();
+        }
+
+        public void ThrowDice()
+        {
+            LastResult = Random.Next(1, 7);
         }
     }
 }

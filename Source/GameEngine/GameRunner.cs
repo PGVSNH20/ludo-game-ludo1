@@ -31,6 +31,13 @@ namespace GameEngine
             }
 
             CurrentGame.PieceSetup = GamePiece.GetGamePieceSetup();
+
+            int startingPlayerIndex = new Random().Next(0, CurrentGame.Players.Count);
+
+
+            CurrentGame.NextTurnPlayer = CurrentGame.Players[startingPlayerIndex];
+
+            
             
         }
 

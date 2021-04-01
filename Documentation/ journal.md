@@ -14,3 +14,7 @@
 ```
 "Server=localhost;Database=LudoGameDb;User Id=sa;Password=My!P@ssw0rd1;"
 ```
+## 2021-04-01
+* Vi jobbade med LudoGame och GameRunner klasser
+* Gjorde om lite GameDice klassen
+* Skapade Test projekt och en unitest*

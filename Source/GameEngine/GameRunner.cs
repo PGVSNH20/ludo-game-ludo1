@@ -65,7 +65,7 @@ namespace GameEngine
             }
         }
 
-        public void MakeMove()
+        private void MakeMove()
         {
             var playersPieces = CurrentGame.PieceSetup.Where(p => p.Colour == CurrentGame.NextTurnPlayer.GamePlayerColour).ToList();
             Console.WriteLine("Choose your game piece:");
@@ -83,7 +83,6 @@ namespace GameEngine
             Board.Track[playersPieces[chosenPieceIndex].TrackPosition] = playersPieces[chosenPieceIndex];
 
             var boardTrackIndex = (int)playersPieces[chosenPieceIndex].TrackPosition + (10 * (int)playersPieces[chosenPieceIndex].Colour) % 40;
-
         }
     }
 }

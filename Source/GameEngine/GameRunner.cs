@@ -80,7 +80,10 @@ namespace GameEngine
             };
             CurrentGame.Moves.Add(currentMove);
             playersPieces[chosenPieceIndex].TrackPosition += Dice.LastResult;
-            Board.Track[0] = playersPieces[chosenPieceIndex];
+            Board.Track[playersPieces[chosenPieceIndex].TrackPosition] = playersPieces[chosenPieceIndex];
+
+            var boardTrackIndex = (int)playersPieces[chosenPieceIndex].TrackPosition + (10 * (int)playersPieces[chosenPieceIndex].Colour) % 40;
+
         }
     }
 }

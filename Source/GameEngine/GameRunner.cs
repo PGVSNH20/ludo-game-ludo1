@@ -143,21 +143,41 @@ namespace GameEngine
             if (oldPossition >= 0 && oldPossition < 40)
             {
                 var oldBoardTrackIndex = (oldPossition + 10 * (int)currentGamePiece.Color) % 40;
-                Board.Track[oldBoardTrackIndex] = null;
+
+                if (Board.Track[oldBoardTrackIndex] != null)
+                    Board.Track[oldBoardTrackIndex].Remove(currentGamePiece);
             }
             else if (oldPossition >= 40)
             {
-                Board.FinalTracks[(int)currentGamePiece.Color, oldPossition - 40] = null;
+                Board.FinalTracks[(int)currentGamePiece.Color, oldPossition - 40].Remove(currentGamePiece);
             }
 
             if (currentGamePiece.Possition >= 0 && currentGamePiece.Possition < 40)
             {
                 var boardTrackIndex = ((int)currentGamePiece.Possition + 10 * (int)currentGamePiece.Color) % 40;
-                Board.Track[boardTrackIndex] = currentGamePiece;
+                if (Board.Track[boardTrackIndex] != null)
+                {
+                    if (Board.Track[boardTrackIndex].FindAll(p => p.Color == Game.NextTurnPlayer.Color).Count == 0)
+                    {
+                        if (Board.Track[boardTrackIndex].Count > 0)
+                        {
+                            foreach (var gamePiece in Board.Track[boardTrackIndex])
+                            {
+                                gamePiece.Possition = null;
+                            }
+                            Board.Track[boardTrackIndex].Clear();
+                        }
+                    }
+                }
+                else
+                    Board.Track[boardTrackIndex] = new List<GamePiece>();
+                Board.Track[boardTrackIndex].Add(currentGamePiece);
             }
             else if (currentGamePiece.Possition >= 40 && currentGamePiece.Possition < 44)
             {
-                Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] = currentGamePiece;
+                if (Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] == null)
+                    Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] = new List<GamePiece>();
+                Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40].Add(currentGamePiece);
             }
         }
     }

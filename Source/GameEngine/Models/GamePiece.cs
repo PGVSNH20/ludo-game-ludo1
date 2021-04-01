@@ -11,7 +11,7 @@ namespace GameEngine.Models
         public int TrackPosition { get; set; }
 
 
-        public List<GamePiece> GetGamePieceSetup()
+        public static List<GamePiece> GetGamePieceSetup()
         {
             var gamePieceSetup = new List<GamePiece>();
             for (int i = 0; i < 4; i++)

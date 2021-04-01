@@ -20,6 +20,18 @@ namespace GameEngine
         public void CreateNewGame()
         {
             CurrentGame = new LudoGame();
+            CurrentGame.Players = new List<GamePlayer>();
+            for (int i = 0; i < 3; i++)
+            {
+                CurrentGame.Players.Add(new GamePlayer()
+                {
+                    GamePlayerName = $"Player {i+1}",
+                    GamePlayerColour = (GameColour)i
+                });
+            }
+
+            CurrentGame.PieceSetup = GamePiece.GetGamePieceSetup();
+            
         }
 
         public void LoadGame()

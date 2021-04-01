@@ -10,6 +10,7 @@ namespace GameEngine.Models
         public List<Player> Players { get; set; }
         public List<GameMove> Moves { get; set; }
         public Player Winner { get; set; }
+        public Player NextTurnPlayer { get; set; }
         public List<GamePiece> GamePeaceSetUp { get; set; }
 
         //public string Status { get; set; }

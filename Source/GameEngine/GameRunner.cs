@@ -1,6 +1,7 @@
 ﻿using GameEngine.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameEngine
@@ -10,20 +11,20 @@ namespace GameEngine
         public LudoGame Game { get; set; }
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
-        public Player CurrentPlayer { get; set; }
 
         public GameRunner()
         {
             Game = new LudoGame();
             Dice = new GameDice();
+            Board = new GameBoard();
         }
 
         public GameRunner CreateNewGame()
         {
             Console.WriteLine("Please choose player count");
             int playerCount = int.Parse(Console.ReadLine());
-            var availableColors = new List<GamePieceColor>() {
-                0, (GamePieceColor)1, (GamePieceColor)2, (GamePieceColor)3,
+            var availableColors = new List<GameColor>() {
+                0, (GameColor)1, (GameColor)2, (GameColor)3,
             };
 
             for (var i = 1; i <= playerCount; i++)
@@ -38,8 +39,8 @@ namespace GameEngine
                 {
                     Console.WriteLine($"{index}: {availableColors[index - 1]}");
                 }
-
-                int colorIndex = int.Parse(Console.ReadLine());
+                if (!Int32.TryParse(Console.ReadLine(), out int colorIndex))
+                    colorIndex = 1;
                 var chosenColor = availableColors[colorIndex - 1];
                 availableColors.Remove(chosenColor);
                 Game.Players.Add(new Player()
@@ -48,6 +49,9 @@ namespace GameEngine
                     Color = chosenColor,
                 });
             }
+            Game.Players = Game.Players.OrderBy(p => p.Color).ToList();
+            var startingPlayerIndex = new Random().Next(0, Game.Players.Count);
+            Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
             //save db
             return this;
         }
@@ -62,11 +66,10 @@ namespace GameEngine
 
         public GameRunner PlayGame()
         {
-            CurrentPlayer = Game.Players[0];
             while (Game.Winner == null)
             {
                 Console.WriteLine(
-                    $"{CurrentPlayer.Name}'s turn. Whats your move, {CurrentPlayer.Name}?\n" +
+                    $"{Game.NextTurnPlayer.Name}'s turn. Whats your move, {Game.NextTurnPlayer.Name}?\n" +
                     $"[1] Show game board\n" +
                     $"[2] Throw dice\n" +
                     $"[3] Pause game\n");
@@ -74,13 +77,15 @@ namespace GameEngine
                 switch (int.Parse(Console.ReadLine()))
                 {
                     case 1:
-                        //ShowBoard
+                        Board.PrintBoard();
                         break;
 
                     case 2:
                         //ThrowDice
                         ThrowDice();
                         MakeMove();
+                        Game.NextTurnPlayer = Game.Players[(Game.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.Players.Count];
+                        Console.WriteLine("player changed");
                         break;
 
                     case 3:
@@ -91,35 +96,43 @@ namespace GameEngine
                         //wrong numer
                         break;
                 }
-                CurrentPlayer = Game.Players[(Game.Players.IndexOf(CurrentPlayer) + 1) % Game.Players.Count];
-                Console.WriteLine("player changed");
             }
             return this;
         }
 
         private void ThrowDice()
         {
-            Dice.ThrowValue = 4;
-            Console.WriteLine($"Nice, {CurrentPlayer.Name}, you throw {Dice.ThrowValue}");
+            Dice.TrowDice();
+            Console.WriteLine($"Nice, {Game.NextTurnPlayer.Name}, you throw {Dice.Result}");
         }
 
         private void MakeMove()
         {
             Console.WriteLine($"Which game piece you want to move?");
-            foreach (var gamePeace in Game.GamePeaceSetUp.FindAll(p => p.Color == CurrentPlayer.Color))
+            foreach (var gamePeace in Game.GamePeaceSetUp.FindAll(p => p.Color == Game.NextTurnPlayer.Color))
             {
-                Console.WriteLine($"Game piece number: {gamePeace.Number} currently att position {gamePeace.TrackPossition}");
+                Console.WriteLine($"Game piece number: {gamePeace.Number} currently att position {gamePeace.Possition}");
             }
             var gameMove = new GameMove();
-            gameMove.Player = CurrentPlayer;
+            gameMove.Player = Game.NextTurnPlayer;
             int userChoise = int.Parse(Console.ReadLine());
-            var currentGamePeace = Game.GamePeaceSetUp.Find(p => (p.Color == CurrentPlayer.Color && p.Number == userChoise));
-            var currentGamePeaceIndex = Game.GamePeaceSetUp.IndexOf(currentGamePeace);
-            gameMove.GamePeace = Game.GamePeaceSetUp[currentGamePeaceIndex];
+            gameMove.GamePiece = Game.GamePeaceSetUp.Find(p => (p.Color == Game.NextTurnPlayer.Color && p.Number == userChoise));
+            if (gameMove.GamePiece.Possition == null)
+                gameMove.GamePiece.Possition = Dice.Result;
+            else
+                gameMove.GamePiece.Possition += Dice.Result;
 
-            gameMove.DiceThrow = Dice.ThrowValue;
-            Game.GamePeaceSetUp[currentGamePeaceIndex].TrackPossition += Dice.ThrowValue;
+            UppdateBoardTrack(gameMove.GamePiece);
+
             Game.Moves.Add(gameMove);
+        }
+
+        private void UppdateBoardTrack(GamePiece currentGamePiece)
+        {
+            var boardTrackIndex = (int)currentGamePiece.Possition + (10 * (int)currentGamePiece.Color) % 40;
+            if (Board.Track[boardTrackIndex] != null)
+                Board.Track[boardTrackIndex].Possition = null;
+            Board.Track[boardTrackIndex] = currentGamePiece;
         }
     }
 }

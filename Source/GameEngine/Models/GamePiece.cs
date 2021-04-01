@@ -7,9 +7,9 @@ namespace GameEngine.Models
     public class GamePiece
     {
         public int GamePeaceId { get; set; }
-        public GamePieceColor Color { get; set; }
+        public GameColor? Color { get; set; }
         public int Number { get; set; }
-        public int TrackPossition { get; set; }
+        public int? Possition { get; set; }
 
         public List<GamePiece> GetGamePeaceSetUp()
         {
@@ -21,8 +21,8 @@ namespace GameEngine.Models
                     gamePeaceSetUp.Add(new GamePiece()
                     {
                         Number = y,
-                        Color = (GamePieceColor)i,
-                        TrackPossition = 0
+                        Color = (GameColor)i,
+                        Possition = null
                     });
                 }
             }
@@ -30,7 +30,7 @@ namespace GameEngine.Models
         }
     }
 
-    public enum GamePieceColor
+    public enum GameColor
     {
         Blue,
         Red,

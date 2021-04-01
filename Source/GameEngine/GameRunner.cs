@@ -78,7 +78,9 @@ namespace GameEngine
             {
                 Player = CurrentGame.NextTurnPlayer,
             };
-            CurrentGame.Moves.Add(currentMove)
+            CurrentGame.Moves.Add(currentMove);
+            playersPieces[chosenPieceIndex].TrackPosition += Dice.LastResult;
+            Board.Track[0] = playersPieces[chosenPieceIndex];
         }
     }
 }

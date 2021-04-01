@@ -11,12 +11,14 @@ namespace GameEngine
         public LudoGame Game { get; set; }
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
+        public AiPlayer Ai { get; set; }
 
         public GameRunner()
         {
             Game = new LudoGame();
             Dice = new GameDice();
             Board = new GameBoard();
+            Ai = new AiPlayer(Board, Game.GamePeaceSetUp);
         }
 
         public GameRunner CreateNewGame()
@@ -74,7 +76,7 @@ namespace GameEngine
                     $"{Game.NextTurnPlayer.Name}'s turn. Whats your move, {Game.NextTurnPlayer.Name}?\n" +
                     $"[1] Throw dice\n" +
                     $"[2] Pause game\n");
-                var turnChoise = Console.ReadLine();
+                var turnChoise = (Game.NextTurnPlayer.Name.ToLower() == "ai") ? "1" : Console.ReadLine();
                 switch ((turnChoise == string.Empty) ? 1 : int.Parse(turnChoise))
                 {
                     case 1:
@@ -111,31 +113,52 @@ namespace GameEngine
             }
             var gameMove = new GameMove();
             gameMove.Player = Game.NextTurnPlayer;
-            var userChoise = Console.ReadLine();
+
+            var userChoise = (Game.NextTurnPlayer.Name.ToLower() == "ai") ? Ai.ChoosePieceToMove(Game.NextTurnPlayer.Color) : Console.ReadLine();
 
             gameMove.GamePiece = Game.GamePeaceSetUp
                 .Find(p => (
                     p.Color == Game.NextTurnPlayer.Color
                     && p.Number == (
                         (userChoise == string.Empty) ? 1 : int.Parse(userChoise))));
+            int oldPossition;
             if (gameMove.GamePiece.Possition == null)
+            {
                 gameMove.GamePiece.Possition = Dice.Result - 1;
+                oldPossition = (int)gameMove.GamePiece.Possition;
+            }
             else
+            {
+                oldPossition = (int)gameMove.GamePiece.Possition;
                 gameMove.GamePiece.Possition += Dice.Result;
+            }
 
-            UppdateBoardTrack(gameMove.GamePiece);
+            UppdateBoardTrack(gameMove.GamePiece, oldPossition);
 
             Game.Moves.Add(gameMove);
         }
 
-        private void UppdateBoardTrack(GamePiece currentGamePiece)
+        private void UppdateBoardTrack(GamePiece currentGamePiece, int oldPossition)
         {
-            var boardTrackIndex = ((int)currentGamePiece.Possition + 10 * (int)currentGamePiece.Color) % 40;
-            if (Board.Track[boardTrackIndex] != null)
-                Board.Track[boardTrackIndex].Possition = null;
-            if ((currentGamePiece.Possition - Dice.Result) >= 0)
-                Board.Track[(40 + boardTrackIndex - Dice.Result) % 40] = null;
-            Board.Track[boardTrackIndex] = currentGamePiece;
+            if (oldPossition >= 0 && oldPossition < 40)
+            {
+                var oldBoardTrackIndex = (oldPossition + 10 * (int)currentGamePiece.Color) % 40;
+                Board.Track[oldBoardTrackIndex] = null;
+            }
+            else if (oldPossition >= 40)
+            {
+                Board.FinalTracks[(int)currentGamePiece.Color, oldPossition - 40] = null;
+            }
+
+            if (currentGamePiece.Possition >= 0 && currentGamePiece.Possition < 40)
+            {
+                var boardTrackIndex = ((int)currentGamePiece.Possition + 10 * (int)currentGamePiece.Color) % 40;
+                Board.Track[boardTrackIndex] = currentGamePiece;
+            }
+            else if (currentGamePiece.Possition >= 40 && currentGamePiece.Possition < 44)
+            {
+                Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] = currentGamePiece;
+            }
         }
     }
 }

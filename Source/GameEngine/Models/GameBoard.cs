@@ -7,12 +7,15 @@ namespace GameEngine.Models
     public class GameBoard
     {
         public GamePiece[] Track { get; set; }
+        public GamePiece[,] FinalTracks { get; set; }
         public GamePiece[,] Board { get; set; }
         public List<GamePiece> EmptyCells { get; set; }
 
         public GameBoard()
         {
             Track = new GamePiece[40];
+            FinalTracks = new GamePiece[4, 4];
+
             Board = new GamePiece[11, 11];
             EmptyCells = new List<GamePiece>(){
                 new GamePiece() { Number = 0, Color = (GameColor)0 },
@@ -75,40 +78,71 @@ namespace GameEngine.Models
             Board[10, 6] = (Track[38] == null) ? EmptyCells[4] : Track[38];
             Board[10, 5] = (Track[39] == null) ? EmptyCells[4] : Track[39];
 
-            //base blue
-            Board[8, 1] = EmptyCells[0];
-            Board[8, 2] = EmptyCells[0];
-            Board[9, 1] = EmptyCells[0];
-            Board[9, 2] = EmptyCells[0];
-
-            for (int i = 0; i < gamePeaceSetUp.Where(p => p.Color == 0).ToList().Count; i++)
+            //base
+            for (int n = 0; n < 4; n++)
             {
-            }
-
-            //base red
-            Board[1, 1] = EmptyCells[1];
-            Board[1, 2] = EmptyCells[1];
-            Board[2, 1] = EmptyCells[1];
-            Board[2, 2] = EmptyCells[1];
-
-            //base yellow
-            Board[1, 8] = EmptyCells[2];
-            Board[1, 9] = EmptyCells[2];
-            Board[2, 8] = EmptyCells[2];
-            Board[2, 9] = EmptyCells[2];
-
-            //base green
-            Board[8, 8] = EmptyCells[3];
-            Board[8, 9] = EmptyCells[3];
-            Board[9, 8] = EmptyCells[3];
-            Board[9, 9] = EmptyCells[3];
-
-            for (int i = 0; i < 40; i++)
-            {
-                for (int y = 0; y < 10; y++)
+                var oneColorAtBasePieceSetup = gamePeaceSetUp.Where(p => p.Color == (GameColor)n).ToList();
+                int indexVer = 0;
+                int indexHor = 0;
+                if (n == 0)
                 {
+                    indexVer = 8;
+                    indexHor = 1;
+                }
+                if (n == 1)
+                {
+                    indexVer = 1;
+                    indexHor = 1;
+                }
+                if (n == 2)
+                {
+                    indexVer = 1;
+                    indexHor = 8;
+                }
+                if (n == 3)
+                {
+                    indexVer = 8;
+                    indexHor = 8;
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    var additionalHor = i % 2;
+                    var additionalVer = i / 2;
+                    if (oneColorAtBasePieceSetup[i].Possition == null)
+                        Board[(indexVer + additionalVer), (indexHor + additionalHor)] = oneColorAtBasePieceSetup.Where(p => p.Number == (i + 1)).Single();
+                    else
+                        Board[(indexVer + additionalVer), (indexHor + additionalHor)] = EmptyCells[n];
                 }
             }
+            //final tracks
+            for (int n = 0; n < 4; n++)
+            {
+                if (n == 0)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i].Possition == 40 + i)
+                            Board[9 - i, 5] = FinalTracks[n, i];
+                        else
+                            Board[9 - i, 5] = EmptyCells[n];
+                if (n == 1)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i].Possition == 40 + i)
+                            Board[5, 1 + i] = FinalTracks[n, i];
+                        else
+                            Board[5, 1 + i] = EmptyCells[n];
+                if (n == 2)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i].Possition == 40 + i)
+                            Board[1 + i, 5] = FinalTracks[n, i];
+                        else
+                            Board[1 + i, 5] = EmptyCells[n];
+                if (n == 3)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i].Possition == 40 + i)
+                            Board[5, 9 - i] = FinalTracks[n, i];
+                        else
+                            Board[5, 9 - i] = EmptyCells[n];
+            }
+
             Console.WriteLine();
             for (int i = 0; i < 11; i++)
             {

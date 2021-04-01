@@ -34,16 +34,40 @@ namespace GameEngine
 
             int startingPlayerIndex = new Random().Next(0, CurrentGame.Players.Count);
 
-
             CurrentGame.NextTurnPlayer = CurrentGame.Players[startingPlayerIndex];
 
-            
+            CurrentGame.Moves = new List<GameMove>();
             
         }
 
         public void LoadGame()
         {
             //get game from db
+        }
+
+        public void PlayGame()
+        {
+            while(CurrentGame.Winner == null)
+            {
+                Console.WriteLine($"Now it's {CurrentGame.NextTurnPlayer.GamePlayerName} turn\n" +
+                    $"1) Throw dice\n" +
+                    $"2) Show board\n" +
+                    $"3) Save game");
+
+                var input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1":
+                        ThrowDice();
+                        break;
+                }
+            }
+        }
+
+        private void ThrowDice()
+        {
+
         }
     }
 }

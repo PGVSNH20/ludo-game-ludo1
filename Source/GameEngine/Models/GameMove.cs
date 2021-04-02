@@ -5,7 +5,7 @@
         public int GameMoveId { get; set; }
         public Player Player { get; set; }
         public GamePiece GamePiece { get; set; }
-        public int OriginalPosition { get; set; }
+        public int? OriginalPosition { get; set; }
         public int DiceThrow { get; set; }
     }
 }

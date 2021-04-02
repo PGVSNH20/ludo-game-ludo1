@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GameEngine
 {
@@ -18,7 +19,7 @@ namespace GameEngine
             Game = new LudoGame();
             Dice = new GameDice();
             Board = new GameBoard();
-            Ai = new AiPlayer(Board, Game.GamePeaceSetUp);
+            Ai = new AiPlayer(Board, Game.GamePieceSetUp);
         }
 
         public GameRunner CreateNewGame()
@@ -71,7 +72,10 @@ namespace GameEngine
             while (Game.Winner == null)
             {
                 Console.Clear();
-                Board.PrintBoard(Game.GamePeaceSetUp);
+                Board.UppdateBoardTrack();
+                Board.UpdateBoardBases(Game.GamePieceSetUp);
+                Board.UppdateFinalTracks();
+                Board.PrintBoard();
                 Console.WriteLine(
                     $"{Game.NextTurnPlayer.Name}'s turn. Whats your move, {Game.NextTurnPlayer.Name}?\n" +
                     $"[1] Throw dice\n" +
@@ -81,9 +85,13 @@ namespace GameEngine
                 {
                     case 1:
                         ThrowDice();
-                        MakeMove();
-                        Game.NextTurnPlayer = Game.Players[(Game.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.Players.Count];
-                        Console.WriteLine("player changed");
+                        CreateNewGameMove();
+                        ChooseGamePiece();
+                        if (Game.Moves.Last().GamePiece != null)
+                            ExecuteLastMove();
+                        else
+                            Thread.Sleep(100);
+                        SetNextPlayer();
                         break;
 
                     case 2:
@@ -104,81 +112,115 @@ namespace GameEngine
             Console.WriteLine($"Nice, {Game.NextTurnPlayer.Name}, you throw {Dice.Result}");
         }
 
-        private void MakeMove()
+        public void CreateNewGameMove()
         {
-            Console.WriteLine($"Which game piece you want to move?");
-            foreach (var gamePeace in Game.GamePeaceSetUp.FindAll(p => p.Color == Game.NextTurnPlayer.Color))
+            var gameMove = new GameMove
             {
-                Console.WriteLine($"Game piece number: {gamePeace.Number} currently att position {gamePeace.Possition}");
-            }
-            var gameMove = new GameMove();
-            gameMove.Player = Game.NextTurnPlayer;
+                Player = Game.NextTurnPlayer,
+                //GamePiece = chosenGamePiece,
+                //OriginalPosition = chosenGamePiece.Possition,
+                DiceThrow = Dice.Result
+            };
 
-            var userChoise = (Game.NextTurnPlayer.Name.ToLower() == "ai") ? Ai.ChoosePieceToMove(Game.NextTurnPlayer.Color) : Console.ReadLine();
-
-            gameMove.GamePiece = Game.GamePeaceSetUp
-                .Find(p => (
-                    p.Color == Game.NextTurnPlayer.Color
-                    && p.Number == (
-                        (userChoise == string.Empty) ? 1 : int.Parse(userChoise))));
-            int oldPossition;
-            if (gameMove.GamePiece.Possition == null)
-            {
-                gameMove.GamePiece.Possition = Dice.Result - 1;
-                oldPossition = (int)gameMove.GamePiece.Possition;
-            }
-            else
-            {
-                oldPossition = (int)gameMove.GamePiece.Possition;
-                gameMove.GamePiece.Possition += Dice.Result;
-            }
-
-            UppdateBoardTrack(gameMove.GamePiece, oldPossition);
+            //UppdateBoardTrack(gameMove.GamePiece, oldPossition);
 
             Game.Moves.Add(gameMove);
+            //return gameMove
         }
 
-        private void UppdateBoardTrack(GamePiece currentGamePiece, int oldPossition)
+        private void ChooseGamePiece()
         {
-            if (oldPossition >= 0 && oldPossition < 40)
-            {
-                var oldBoardTrackIndex = (oldPossition + 10 * (int)currentGamePiece.Color) % 40;
+            List<GamePiece> availableGamePieces;
+            if (Game.Moves.Last().DiceThrow > 1 && Game.Moves.Last().DiceThrow < 6)
+                availableGamePieces = Game.GamePieceSetUp.Where(p => (p.Color == Game.NextTurnPlayer.Color && p.Possition != null)).ToList();
+            else
+                availableGamePieces = Game.GamePieceSetUp.Where(p => p.Color == Game.NextTurnPlayer.Color).ToList();
 
-                if (Board.Track[oldBoardTrackIndex] != null)
-                    Board.Track[oldBoardTrackIndex].Remove(currentGamePiece);
-            }
-            else if (oldPossition >= 40)
-            {
-                Board.FinalTracks[(int)currentGamePiece.Color, oldPossition - 40].Remove(currentGamePiece);
-            }
+            availableGamePieces.RemoveAll(p => p.Possition > 44);
 
-            if (currentGamePiece.Possition >= 0 && currentGamePiece.Possition < 40)
+            if (availableGamePieces.Count == 0)
+                Console.WriteLine("Sorry, you need to throw 1 or 6 to move game piece from base to track");
+            else
             {
-                var boardTrackIndex = ((int)currentGamePiece.Possition + 10 * (int)currentGamePiece.Color) % 40;
-                if (Board.Track[boardTrackIndex] != null)
+                Console.WriteLine($"Which game piece you want to move?");
+                foreach (var gamePeace in availableGamePieces)
                 {
-                    if (Board.Track[boardTrackIndex].FindAll(p => p.Color == Game.NextTurnPlayer.Color).Count == 0)
+                    Console.WriteLine($"Game piece number: {gamePeace.Number} currently att position {gamePeace.Possition}");
+                }
+                var userChoise = (Game.NextTurnPlayer.Name.ToLower() == "ai") ? Ai.ChoosePieceToMove(availableGamePieces) : Console.ReadLine();
+                var pieceNumber = (userChoise == string.Empty) ? 1 : int.Parse(userChoise);
+                Game.Moves.Last().GamePiece = availableGamePieces
+                                                .Find(p =>
+                                                    (p.Color == Game.NextTurnPlayer.Color
+                                                     && p.Number == pieceNumber));
+                Game.Moves.Last().OriginalPosition = Game.Moves.Last().GamePiece.Possition;
+            }
+        }
+
+        public void ExecuteLastMove()
+        {
+            var originalPosition = Game.Moves.Last().OriginalPosition;
+            var currentGamePiece = Game.Moves.Last().GamePiece;
+            var currentGameColor = Game.Moves.Last().Player.Color;
+            var newPosition = (originalPosition == null) ? Game.Moves.Last().DiceThrow - 1 : (int)originalPosition + Game.Moves.Last().DiceThrow;
+            if (newPosition > 44)
+                newPosition = 88 - newPosition;
+            //removes game piece from original cell
+            if (originalPosition != null && originalPosition < 40)
+            {
+                var originalBoardTrackCellIndex = (originalPosition + 10 * (int)currentGamePiece.Color) % 40;
+                var tmpCell = Board.Track[(int)originalBoardTrackCellIndex];
+                //if (originalBoardTrackCell != null) //do we need this?
+                tmpCell.Remove(currentGamePiece);
+                if (tmpCell.Count == 0)
+                    tmpCell = null;
+                Board.Track[(int)originalBoardTrackCellIndex] = tmpCell;
+            }
+            else if (originalPosition >= 40 && originalPosition < 44)
+            {
+                var tmpCell = Board.FinalTracks[(int)currentGamePiece.Color, (int)originalPosition - 40];
+                tmpCell.Remove(currentGamePiece);
+                if (tmpCell.Count == 0)
+                    tmpCell = null;
+                Board.FinalTracks[(int)currentGamePiece.Color, (int)originalPosition - 40] = tmpCell;
+            }
+
+            //add game piece to target cell
+            if (newPosition < 40)
+            {
+                var targetBoardTrackCellIndex = ((int)newPosition + 10 * (int)currentGameColor) % 40;
+                var tmpCell = Board.Track[targetBoardTrackCellIndex];
+
+                if (tmpCell == null)
+                    tmpCell = new List<GamePiece>();
+                else
+                {
+                    if (tmpCell.FindAll(p => p.Color == currentGameColor).Count == 0)
                     {
-                        if (Board.Track[boardTrackIndex].Count > 0)
+                        for (int i = 0; i < tmpCell.Count; i++)
                         {
-                            foreach (var gamePiece in Board.Track[boardTrackIndex])
-                            {
-                                gamePiece.Possition = null;
-                            }
-                            Board.Track[boardTrackIndex].Clear();
+                            tmpCell[i].Possition = null;
                         }
+                        tmpCell.Clear();
                     }
                 }
-                else
-                    Board.Track[boardTrackIndex] = new List<GamePiece>();
-                Board.Track[boardTrackIndex].Add(currentGamePiece);
+                tmpCell.Add(currentGamePiece);
+                Board.Track[targetBoardTrackCellIndex] = tmpCell;
             }
-            else if (currentGamePiece.Possition >= 40 && currentGamePiece.Possition < 44)
+            else if (newPosition >= 40 && newPosition < 44)
             {
-                if (Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] == null)
-                    Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40] = new List<GamePiece>();
-                Board.FinalTracks[(int)currentGamePiece.Color, (int)currentGamePiece.Possition - 40].Add(currentGamePiece);
+                var tmpCell = Board.FinalTracks[(int)currentGamePiece.Color, newPosition - 40];
+                if (tmpCell == null)
+                    tmpCell = new List<GamePiece>();
+                tmpCell.Add(currentGamePiece);
+                Board.FinalTracks[(int)currentGamePiece.Color, newPosition - 40] = tmpCell;
             }
+            currentGamePiece.Possition = newPosition;
+        }
+
+        private void SetNextPlayer()
+        {
+            Game.NextTurnPlayer = Game.Players[(Game.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.Players.Count];
         }
     }
 }

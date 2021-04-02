@@ -32,9 +32,11 @@ namespace GameEngine.Models
                     Board[i, y] = null;
                 }
             }
+
+            UppdateBoardTrack();
         }
 
-        public void PrintBoard(List<GamePiece> gamePeaceSetUp)
+        public void UppdateBoardTrack()
         {
             //track
             Board[10, 4] = (Track[0] == null || Track[0].Count == 0) ? EmptyCells[4] : Track[0];
@@ -78,6 +80,62 @@ namespace GameEngine.Models
             Board[10, 6] = (Track[38] == null || Track[38].Count == 0) ? EmptyCells[4] : Track[38];
             Board[10, 5] = (Track[39] == null || Track[39].Count == 0) ? EmptyCells[4] : Track[39];
 
+            //final tracks
+        }
+
+        public void UppdateFinalTracks()
+        {
+            //Board[9, 5] = (FinalTracks[0, 0] == null || FinalTracks[0, 0].Count == 0) ? EmptyCells[0] : FinalTracks[0, 0];
+            //Board[8, 5] = (FinalTracks[0, 1] == null || FinalTracks[0, 1].Count == 0) ? EmptyCells[0] : FinalTracks[0, 1];
+            //Board[7, 5] = (FinalTracks[0, 2] == null || FinalTracks[0, 2].Count == 0) ? EmptyCells[0] : FinalTracks[0, 2];
+            //Board[6, 5] = (FinalTracks[0, 3] == null || FinalTracks[0, 3].Count == 0) ? EmptyCells[0] : FinalTracks[0, 3];
+
+            //Board[5, 1] = (FinalTracks[1, 0] == null || FinalTracks[1, 0].Count == 0) ? EmptyCells[1] : FinalTracks[1, 0];
+            //Board[5, 2] = (FinalTracks[1, 1] == null || FinalTracks[1, 1].Count == 0) ? EmptyCells[1] : FinalTracks[1, 1];
+            //Board[5, 3] = (FinalTracks[1, 2] == null || FinalTracks[1, 2].Count == 0) ? EmptyCells[1] : FinalTracks[1, 2];
+            //Board[5, 4] = (FinalTracks[1, 3] == null || FinalTracks[1, 3].Count == 0) ? EmptyCells[1] : FinalTracks[1, 3];
+
+            //Board[1, 5] = (FinalTracks[2, 0] == null || FinalTracks[2, 0].Count == 0) ? EmptyCells[2] : FinalTracks[2, 0];
+            //Board[2, 5] = (FinalTracks[2, 1] == null || FinalTracks[2, 1].Count == 0) ? EmptyCells[2] : FinalTracks[2, 1];
+            //Board[3, 5] = (FinalTracks[2, 2] == null || FinalTracks[2, 2].Count == 0) ? EmptyCells[2] : FinalTracks[2, 2];
+            //Board[4, 5] = (FinalTracks[2, 3] == null || FinalTracks[2, 3].Count == 0) ? EmptyCells[2] : FinalTracks[2, 3];
+
+            //Board[5, 9] = (FinalTracks[3, 0] == null || FinalTracks[3, 0].Count == 0) ? EmptyCells[3] : FinalTracks[3, 0];
+            //Board[5, 8] = (FinalTracks[3, 1] == null || FinalTracks[3, 1].Count == 0) ? EmptyCells[3] : FinalTracks[3, 1];
+            //Board[5, 7] = (FinalTracks[3, 2] == null || FinalTracks[3, 2].Count == 0) ? EmptyCells[3] : FinalTracks[3, 2];
+            //Board[5, 6] = (FinalTracks[3, 3] == null || FinalTracks[3, 3].Count == 0) ? EmptyCells[3] : FinalTracks[3, 3];
+
+            for (int n = 0; n < 4; n++)
+            {
+                if (n == 0)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
+                            Board[9 - i, 5] = FinalTracks[n, i];
+                        else
+                            Board[9 - i, 5] = EmptyCells[n];
+                if (n == 1)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
+                            Board[5, 1 + i] = FinalTracks[n, i];
+                        else
+                            Board[5, 1 + i] = EmptyCells[n];
+                if (n == 2)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
+                            Board[1 + i, 5] = FinalTracks[n, i];
+                        else
+                            Board[1 + i, 5] = EmptyCells[n];
+                if (n == 3)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
+                            Board[5, 9 - i] = FinalTracks[n, i];
+                        else
+                            Board[5, 9 - i] = EmptyCells[n];
+            }
+        }
+
+        public void UpdateBoardBases(List<GamePiece> gamePeaceSetUp)
+        {
             //base
             for (int n = 0; n < 4; n++)
             {
@@ -108,47 +166,26 @@ namespace GameEngine.Models
                 {
                     var additionalHor = i % 2;
                     var additionalVer = i / 2;
-                    if (oneColorAtBasePieceSetup[i].Possition == null)
+                    if (Board[(indexVer + additionalVer), (indexHor + additionalHor)] == null)
+                        Board[(indexVer + additionalVer), (indexHor + additionalHor)] = new List<GamePiece>();
+                    if (oneColorAtBasePieceSetup[i].Possition == null || oneColorAtBasePieceSetup[i].Possition == -1)
                     {
-                        if (Board[(indexVer + additionalVer), (indexHor + additionalHor)] == null)
-                            Board[(indexVer + additionalVer), (indexHor + additionalHor)] = new List<GamePiece>();
+                        
 
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)].Clear();
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)].Add(oneColorAtBasePieceSetup.Where(p => p.Number == (i + 1)).Single());
                     }
                     else
-                        Board[(indexVer + additionalVer), (indexHor + additionalHor)] = EmptyCells[n];
+                    {
+                            Board[(indexVer + additionalVer), (indexHor + additionalHor)].Clear();
+                        Board[(indexVer + additionalVer), (indexHor + additionalHor)].Add(EmptyCells[n][0]);
+                    }
                 }
             }
-            //final tracks
-            for (int n = 0; n < 4; n++)
-            {
-                if (n == 0)
-                    for (int i = 0; i < 4; i++)
-                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
-                            Board[9 - i, 5] = FinalTracks[n, i];
-                        else
-                            Board[9 - i, 5] = EmptyCells[n];
-                if (n == 1)
-                    for (int i = 0; i < 4; i++)
-                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
-                            Board[5, 1 + i] = FinalTracks[n, i];
-                        else
-                            Board[5, 1 + i] = EmptyCells[n];
-                if (n == 2)
-                    for (int i = 0; i < 4; i++)
-                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
-                            Board[1 + i, 5] = FinalTracks[n, i];
-                        else
-                            Board[1 + i, 5] = EmptyCells[n];
-                if (n == 3)
-                    for (int i = 0; i < 4; i++)
-                        if (FinalTracks[n, i] != null && FinalTracks[n, i][0].Possition == 40 + i)
-                            Board[5, 9 - i] = FinalTracks[n, i];
-                        else
-                            Board[5, 9 - i] = EmptyCells[n];
-            }
+        }
 
+        public void PrintBoard()
+        {
             Console.WriteLine();
             for (int i = 0; i < 11; i++)
             {
@@ -172,21 +209,25 @@ namespace GameEngine.Models
                             case (GameColor)0:
                                 Console.ForegroundColor = ConsoleColor.Blue;
                                 RenderCell(i, y);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
 
                             case (GameColor)1:
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 RenderCell(i, y);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
 
                             case (GameColor)2:
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 RenderCell(i, y);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
 
                             case (GameColor)3:
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 RenderCell(i, y);
+                                Console.ForegroundColor = ConsoleColor.White;
                                 break;
                         }
                     }

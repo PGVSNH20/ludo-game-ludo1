@@ -18,15 +18,14 @@ namespace GameEngine
             GamePeaceSetUp = gamePeaceSetUp;
         }
 
-        internal string ChoosePieceToMove(GameColor color)
+        internal string ChoosePieceToMove(List<GamePiece> availableGamePieces)
         {
-            var currentGamePieces = GamePeaceSetUp.Where(p => p.Color == color).ToList();
             int? minValue = null;
-            if (currentGamePieces.FindAll(p => p.Possition == null).Count == 0)
-                minValue = currentGamePieces.Min(p => p.Possition);
+            if (availableGamePieces.FindAll(p => p.Possition == null).Count == 0)
+                minValue = availableGamePieces.Min(p => p.Possition);
 
             Thread.Sleep(100);
-            return (currentGamePieces.IndexOf(currentGamePieces.Find(p => p.Possition == minValue)) + 1).ToString();
+            return availableGamePieces.Find(p => p.Possition == minValue).Number.ToString();
         }
     }
 }

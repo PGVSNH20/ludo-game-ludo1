@@ -11,7 +11,7 @@ namespace GameEngine.Models
         public int Number { get; set; }
         public int? Possition { get; set; }
 
-        public List<GamePiece> GetGamePeaceSetUp()
+        public static List<GamePiece> GetGamePeaceSetUp()
         {
             var gamePeaceSetUp = new List<GamePiece>();
             for (int i = 0; i < 4; i++)

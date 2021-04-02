@@ -8,7 +8,7 @@ namespace GameEngine.Models
         public List<int> ThrowValues { get; set; }
         public Random Random { get; set; }
         public int Result { get => result; }
-        private int result { get; set; }
+        public int result { get; set; }
 
         public GameDice()
         {
@@ -18,7 +18,7 @@ namespace GameEngine.Models
 
         public void TrowDice()
         {
-            result = Random.Next(1, 6);
+            result = Random.Next(1, 7);
             ThrowValues.Add(result);
         }
     }

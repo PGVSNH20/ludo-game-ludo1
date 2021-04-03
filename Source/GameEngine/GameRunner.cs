@@ -103,6 +103,12 @@ namespace GameEngine
                         break;
                 }
             }
+            Console.Clear();
+            Board.UppdateBoardTrack();
+            Board.UpdateBoardBases(Game.GamePieceSetUp);
+            Board.UppdateFinalTracks();
+            Board.PrintBoard();
+            Console.WriteLine($"Game is finished after {Game.Moves.Count}, the winner is {Game.Winner.Name}");
             return this;
         }
 
@@ -219,7 +225,15 @@ namespace GameEngine
                 tmpCell.Add(currentGamePiece);
                 Board.FinalTracks[(int)currentGamePiece.Color, newPosition - 40] = tmpCell;
             }
+
             currentGamePiece.Possition = newPosition;
+            if (newPosition == 44)
+            {
+                int piecesAtFinish = Game.GamePieceSetUp.Where(p => p.Color == currentGameColor && p.Possition == 44).Count();
+                if (piecesAtFinish == 4)
+                    Game.Winner = Game.Moves.Last().Player;
+            }
+            // update database
         }
 
         private void SetNextPlayer()

@@ -109,7 +109,8 @@ namespace GameEngine
         private void ThrowDice()
         {
             Dice.TrowDice();
-            Console.WriteLine($"Nice, {Game.NextTurnPlayer.Name}, you throw {Dice.Result}");
+            Dice.RenderDiceTrow(Dice.Result);
+            Console.WriteLine($"{Game.NextTurnPlayer.Name}, you throw {Dice.Result}");
         }
 
         public void CreateNewGameMove()
@@ -139,7 +140,10 @@ namespace GameEngine
             availableGamePieces.RemoveAll(p => p.Possition > 44);
 
             if (availableGamePieces.Count == 0)
+            {
                 Console.WriteLine("Sorry, you need to throw 1 or 6 to move game piece from base to track");
+                Thread.Sleep(3000);
+            }
             else
             {
                 Console.WriteLine($"Which game piece you want to move?");

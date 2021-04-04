@@ -1,4 +1,5 @@
 ﻿using GameEngine.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,16 +47,16 @@ namespace GameEngine
                     colorIndex = 1;
                 var chosenColor = availableColors[colorIndex - 1];
                 availableColors.Remove(chosenColor);
-                Game.Players.Add(new Player()
+                Game.GamePlayers.Players.Add(new GamePlayer()
                 {
                     Name = playerName,
                     Color = chosenColor,
                 });
             }
-            Game.Players = Game.Players.OrderBy(p => p.Color).ToList();
-            var startingPlayerIndex = new Random().Next(0, Game.Players.Count);
-            Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
-            //save db
+            Game.GamePlayers.Players = Game.GamePlayers.Players.OrderBy(p => p.Color).ToList();
+            var startingPlayerIndex = new Random().Next(0, Game.GamePlayers.Players.Count);
+            Game.NextTurnPlayer = Game.GamePlayers.Players[startingPlayerIndex];
+            CreateNewGameInDbContext();
             return this;
         }
 
@@ -72,9 +73,9 @@ namespace GameEngine
             while (Game.Winner == null)
             {
                 Console.Clear();
-                Board.UppdateBoardTrack();
-                Board.UpdateBoardBases(Game.GamePieceSetUp);
-                Board.UppdateFinalTracks();
+                Board.UppdateBoardTrackCells();
+                Board.UpdateBoardBasesCells(Game.GamePieceSetUp);
+                Board.UppdateFinalTracksCells();
                 Board.PrintBoard();
                 Console.WriteLine(
                     $"{Game.NextTurnPlayer.Name}'s turn. Whats your move, {Game.NextTurnPlayer.Name}?\n" +
@@ -104,9 +105,9 @@ namespace GameEngine
                 }
             }
             Console.Clear();
-            Board.UppdateBoardTrack();
-            Board.UpdateBoardBases(Game.GamePieceSetUp);
-            Board.UppdateFinalTracks();
+            Board.UppdateBoardTrackCells();
+            Board.UpdateBoardBasesCells(Game.GamePieceSetUp);
+            Board.UppdateFinalTracksCells();
             Board.PrintBoard();
             Console.WriteLine($"Game is finished after {Game.Moves.Count}, the winner is {Game.Winner.Name}");
             return this;
@@ -115,7 +116,7 @@ namespace GameEngine
         private void ThrowDice()
         {
             Dice.TrowDice();
-            Dice.RenderDiceTrow(Dice.Result);
+            //Dice.RenderDiceTrow(Dice.Result);
             Console.WriteLine($"{Game.NextTurnPlayer.Name}, you throw {Dice.Result}");
         }
 
@@ -147,6 +148,13 @@ namespace GameEngine
 
             if (availableGamePieces.Count == 0)
             {
+                var move = new GameMove()
+                {
+                    Player = Game.NextTurnPlayer,
+                    DiceThrow = Dice.Result
+                };
+                Game.Moves.Add(move);
+                UppdateGameInDbContext();
                 Console.WriteLine("Sorry, you need to throw 1 or 6 to move game piece from base to track");
                 Thread.Sleep(3000);
             }
@@ -233,12 +241,57 @@ namespace GameEngine
                 if (piecesAtFinish == 4)
                     Game.Winner = Game.Moves.Last().Player;
             }
-            // update database
+            UppdateGameInDbContext();
         }
 
         private void SetNextPlayer()
         {
-            Game.NextTurnPlayer = Game.Players[(Game.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.Players.Count];
+            Game.NextTurnPlayer = Game.GamePlayers.Players[(Game.GamePlayers.Players.IndexOf(Game.NextTurnPlayer) + 1) % Game.GamePlayers.Players.Count];
+        }
+
+        private void UppdateGameInDbContext()
+        {
+            var db = new LudoGameDbContext();
+            GamePiece gamePiece = null;
+
+            if (Game.Moves.Last().GamePiece != null)
+            {
+                gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().GamePiece).Single();
+                gamePiece.Possition = Game.Moves.Last().GamePiece.Possition;
+                db.GamePieces.Update(gamePiece);
+                db.SaveChanges();
+            }
+
+            var player = db.Players.Where(p => p == Game.NextTurnPlayer).Single();
+            var game = db.Games.Where(g => g == Game).Include("Moves").Single();
+
+            game.Moves.Add(Game.Moves.Last());
+
+            game.Moves.Last().Player = player;
+            game.Moves.Last().GamePiece = gamePiece;
+            db.Games.Update(game);
+            db.SaveChanges();
+        }
+
+        private void CreateNewGameInDbContext()
+        {
+            var db = new LudoGameDbContext();
+            var allGamePieces = Game.GamePieceSetUp.ToList();
+            List<GamePiece> usedPieces = new List<GamePiece>();
+            foreach (var player in Game.GamePlayers.Players)
+            {
+                foreach (var piece in allGamePieces)
+                {
+                    if (piece.Color == player.Color)
+                        usedPieces.Add(piece);
+                }
+            }
+            Game.GamePieceSetUp = usedPieces;
+            db.Games.Add(Game);
+            db.SaveChanges();
+            Game.GamePieceSetUp = allGamePieces;
+            Console.WriteLine($"Your Game Id is {Game.LudoGameId}");
+            Thread.Sleep(2000);
         }
     }
 }

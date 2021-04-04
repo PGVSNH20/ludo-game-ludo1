@@ -1,8 +1,8 @@
 ﻿namespace GameEngine.Models
 {
-    public class Player
+    public class GamePlayer
     {
-        public int PalyerId { get; set; }
+        public int GamePlayerId { get; set; }
         public string Name { get; set; }
         public GameColor Color { get; set; }
     }

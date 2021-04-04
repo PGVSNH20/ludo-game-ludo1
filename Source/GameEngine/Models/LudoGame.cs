@@ -7,10 +7,10 @@ namespace GameEngine.Models
     public class LudoGame
     {
         public int LudoGameId { get; set; }
-        public List<Player> Players { get; set; }
+        public GamePlayers GamePlayers { get; set; }
         public List<GameMove> Moves { get; set; }
-        public Player Winner { get; set; }
-        public Player NextTurnPlayer { get; set; }
+        public GamePlayer Winner { get; set; }
+        public GamePlayer NextTurnPlayer { get; set; }
         public List<GamePiece> GamePieceSetUp { get; set; }
 
         //public string Status { get; set; }
@@ -18,7 +18,7 @@ namespace GameEngine.Models
         {
             Moves = new List<GameMove>();
             GamePieceSetUp = GamePiece.GetGamePeaceSetUp();
-            Players = new List<Player>();
+            GamePlayers = new GamePlayers();
         }
     }
 }

@@ -12,11 +12,11 @@ namespace GameEngineTest
         [Fact]
         public void When_GamePieceTargetsCellWithTwoOpenentGamePiecesOn_Expect_OpentsPiecesBePlacedAtBase()
         {
-            var players = new List<Player>()
-            {
-                new Player(){Name = "player1", Color = 0},
-                new Player(){Name = "player2", Color = (GameColor)1},
-            };
+            var gamePlayers = new GamePlayers();
+
+            gamePlayers.Players.Add(new GamePlayer() { Name = "player1", Color = 0 });
+            gamePlayers.Players.Add(new GamePlayer() { Name = "player2", Color = (GameColor)1 });
+
             var gamePieceSetup = GamePiece.GetGamePeaceSetUp();
             gamePieceSetup[0] = new GamePiece() { Number = 1, Color = 0, Possition = 14 };
             gamePieceSetup[4] = new GamePiece() { Number = 1, Color = (GameColor)1, Possition = 5 };
@@ -24,9 +24,9 @@ namespace GameEngineTest
 
             var game = new LudoGame()
             {
-                Players = players,
+                GamePlayers = gamePlayers,
                 GamePieceSetUp = gamePieceSetup,
-                NextTurnPlayer = players[0]
+                NextTurnPlayer = gamePlayers.Players[0]
             };
 
             var gameMove = new GameMove()
@@ -61,18 +61,17 @@ namespace GameEngineTest
         [Fact]
         public void When_GamePieceTargetsNewCell_ThatGamePiecePosstionIsChanged()
         {
-            var players = new List<Player>()
-            {
-                new Player(){Name = "player1", Color = 0}
-            };
+            var gamePlayers = new GamePlayers();
+            gamePlayers.Players.Add(new GamePlayer() { Name = "player1", Color = 0 });
+
             var gamePieceSetup = GamePiece.GetGamePeaceSetUp();
             gamePieceSetup[0] = new GamePiece() { Number = 1, Color = 0, Possition = 5 };
 
             var game = new LudoGame()
             {
-                Players = players,
+                GamePlayers = gamePlayers,
                 GamePieceSetUp = gamePieceSetup,
-                NextTurnPlayer = players[0]
+                NextTurnPlayer = gamePlayers.Players[0]
             };
 
             var gameMove = new GameMove()
@@ -102,18 +101,17 @@ namespace GameEngineTest
         [Fact]
         public void When_GamePieceTargetsNewCell_TrackCellContentIsChanged()
         {
-            var players = new List<Player>()
-            {
-                new Player(){Name = "player1", Color = 0}
-            };
+            var gamePlayers = new GamePlayers();
+            gamePlayers.Players.Add(new GamePlayer() { Name = "player1", Color = 0 });
+
             var gamePieceSetup = GamePiece.GetGamePeaceSetUp();
             gamePieceSetup[0] = new GamePiece() { Number = 1, Color = 0, Possition = 5 };
 
             var game = new LudoGame()
             {
-                Players = players,
+                GamePlayers = gamePlayers,
                 GamePieceSetUp = gamePieceSetup,
-                NextTurnPlayer = players[0]
+                NextTurnPlayer = gamePlayers.Players[0]
             };
 
             var gameMove = new GameMove()
@@ -145,10 +143,9 @@ namespace GameEngineTest
         [Fact]
         public void When_GamePieceOfSameColorReachFinish_SetPlayerAsWinner()
         {
-            var players = new List<Player>()
-            {
-                new Player(){Name = "player1", Color = 0},
-            };
+            var gamePlayers = new GamePlayers();
+            gamePlayers.Players.Add(new GamePlayer() { Name = "player1", Color = 0 });
+
             var gamePieceSetup = GamePiece.GetGamePeaceSetUp();
             gamePieceSetup[0] = new GamePiece() { Number = 1, Color = 0, Possition = 38 };
             gamePieceSetup[1] = new GamePiece() { Number = 2, Color = 0, Possition = 42 };
@@ -157,9 +154,9 @@ namespace GameEngineTest
 
             var game = new LudoGame()
             {
-                Players = players,
+                GamePlayers = gamePlayers,
                 GamePieceSetUp = gamePieceSetup,
-                NextTurnPlayer = players[0]
+                NextTurnPlayer = gamePlayers.Players[0]
             };
             var board = new GameBoard();
             board.Track[38] = new List<GamePiece>() { gamePieceSetup[0] };
@@ -215,7 +212,7 @@ namespace GameEngineTest
 
             var pieces = gameRunner.Game.GamePieceSetUp.Where(p => p.Color == (GameColor)1);
             var winner = gameRunner.Game.Winner;
-            var player = gameRunner.Game.Players[0];
+            var player = gameRunner.Game.GamePlayers.Players[0];
 
             Assert.Equal(winner, player);
             Assert.Null(board.Track[38]);

@@ -33,10 +33,10 @@ namespace GameEngine.Models
                 }
             }
 
-            UppdateBoardTrack();
+            UppdateBoardTrackCells();
         }
 
-        public void UppdateBoardTrack()
+        public void UppdateBoardTrackCells()
         {
             //track
             Board[10, 4] = (Track[0] == null || Track[0].Count == 0) ? EmptyCells[4] : Track[0];
@@ -83,7 +83,7 @@ namespace GameEngine.Models
             //final tracks
         }
 
-        public void UppdateFinalTracks()
+        public void UppdateFinalTracksCells()
         {
             //Board[9, 5] = (FinalTracks[0, 0] == null || FinalTracks[0, 0].Count == 0) ? EmptyCells[0] : FinalTracks[0, 0];
             //Board[8, 5] = (FinalTracks[0, 1] == null || FinalTracks[0, 1].Count == 0) ? EmptyCells[0] : FinalTracks[0, 1];
@@ -134,7 +134,7 @@ namespace GameEngine.Models
             }
         }
 
-        public void UpdateBoardBases(List<GamePiece> gamePeaceSetUp)
+        public void UpdateBoardBasesCells(List<GamePiece> gamePeaceSetUp)
         {
             //base
             for (int n = 0; n < 4; n++)
@@ -170,14 +170,12 @@ namespace GameEngine.Models
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)] = new List<GamePiece>();
                     if (oneColorAtBasePieceSetup[i].Possition == null || oneColorAtBasePieceSetup[i].Possition == -1)
                     {
-                        
-
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)].Clear();
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)].Add(oneColorAtBasePieceSetup.Where(p => p.Number == (i + 1)).Single());
                     }
                     else
                     {
-                            Board[(indexVer + additionalVer), (indexHor + additionalHor)].Clear();
+                        Board[(indexVer + additionalVer), (indexHor + additionalHor)].Clear();
                         Board[(indexVer + additionalVer), (indexHor + additionalHor)].Add(EmptyCells[n][0]);
                     }
                 }

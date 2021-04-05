@@ -8,6 +8,6 @@ namespace GameEngine.Models
     {
         public int GamePlayerID { get; set; }
         public string GamePlayerName { get; set; }
-        public GameColour GamePlayerColour { get; set; }
+        public GameColor GamePlayerColour { get; set; }
     }
 }

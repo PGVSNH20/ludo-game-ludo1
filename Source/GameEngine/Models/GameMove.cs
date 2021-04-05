@@ -9,7 +9,7 @@ namespace GameEngine.Models
         public int GameMoveID { get; set; }
         public GamePlayer Player { get; set; }
         public GamePiece Piece { get; set; }
-        public int OriginalPosition { get; set; }
+        public int? OriginalPosition { get; set; }
         public int DiceThrowValue { get; set; }
     }
 }

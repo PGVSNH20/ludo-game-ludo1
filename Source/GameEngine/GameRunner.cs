@@ -8,7 +8,7 @@ namespace GameEngine
 {
     public class GameRunner
     {
-        public LudoGame CurrentGame { get; set; }
+        public LudoGame Game { get; set; }
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
 
@@ -20,24 +20,24 @@ namespace GameEngine
 
         public void CreateNewGame()
         {
-            CurrentGame = new LudoGame();
-            CurrentGame.Players = new List<GamePlayer>();
+            Game = new LudoGame();
+            Game.Players = new List<GamePlayer>();
             for (int i = 0; i < 3; i++)
             {
-                CurrentGame.Players.Add(new GamePlayer()
+                Game.Players.Add(new GamePlayer()
                 {
                     GamePlayerName = $"Player {i + 1}",
-                    GamePlayerColour = (GameColour)i
+                    GamePlayerColour = (GameColor)i
                 });
             }
 
-            CurrentGame.PieceSetup = GamePiece.GetGamePieceSetup();
+            Game.PieceSetup = GamePiece.GetGamePieceSetup();
 
-            int startingPlayerIndex = new Random().Next(0, CurrentGame.Players.Count);
+            int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
 
-            CurrentGame.NextTurnPlayer = CurrentGame.Players[startingPlayerIndex];
+            Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
 
-            CurrentGame.Moves = new List<GameMove>();
+            Game.Moves = new List<GameMove>();
         }
 
         public void LoadGame()
@@ -47,9 +47,9 @@ namespace GameEngine
 
         public void PlayGame()
         {
-            while (CurrentGame.Winner == null)
+            while (Game.Winner == null)
             {
-                Console.WriteLine($"Now it's {CurrentGame.NextTurnPlayer.GamePlayerName} turn\n" +
+                Console.WriteLine($"Now it's {Game.NextTurnPlayer.GamePlayerName} turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
 
@@ -59,15 +59,68 @@ namespace GameEngine
                 {
                     case "1":
                         Dice.ThrowDice();
-                        MakeMove();
+                        CreateNewMove();
+                        ExecuteLastMove();
                         break;
                 }
             }
         }
 
-        private void MakeMove()
+        private void ExecuteLastMove()
         {
-            var playersPieces = CurrentGame.PieceSetup.Where(p => p.Colour == CurrentGame.NextTurnPlayer.GamePlayerColour).ToList();
+            var originalPosition = Game.Moves.Last().OriginalPosition;
+            var currentGamePiece = Game.Moves.Last().Piece;
+            var currentGameColor = Game.Moves.Last().Piece.Color;
+            var currentPlayer = Game.Moves.Last().Player;
+            var diceValue = Game.Moves.Last().DiceThrowValue;
+            int newPosition = (originalPosition == null) ? diceValue : (int)originalPosition + diceValue;
+            newPosition = (newPosition > 44) ? 88 - newPosition : newPosition;
+
+            //removes game piece from original cell
+
+            if (originalPosition != null && originalPosition < 40)
+            {
+                var originalBoardTrackCellIndex = (int)originalPosition + 10 * (int)currentGameColor % 40;
+                Board.Track[originalBoardTrackCellIndex] = null;
+            }
+            else if (originalPosition >= 40 && originalPosition < 44)
+            {
+                var originalFinalTrackCellIndex = (int)originalPosition - 40;
+                Board.FinalTracks[(int)currentGameColor][originalFinalTrackCellIndex] = null;
+            }
+
+            //add game piece to target cell
+
+            if (newPosition < 40)
+            {
+                var targetBoardTrackCellIndex = (int)newPosition + 10 * (int)currentGameColor % 40;
+                var tmpCell = Board.Track[targetBoardTrackCellIndex];
+                if (tmpCell != null)
+                {
+                    tmpCell.TrackPosition = null;
+                }
+                Board.Track[targetBoardTrackCellIndex] = currentGamePiece;
+            }
+            else if (newPosition >= 40 && newPosition < 44)
+            {
+                var targetFinalTrackCellIndex = (int)newPosition - 40;
+                Board.FinalTracks[(int)currentGameColor][targetFinalTrackCellIndex] = currentGamePiece;
+            }
+            currentGamePiece.TrackPosition = newPosition;
+
+            if (newPosition == 44)
+            {
+                var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 44).Count();
+                if (piecesAtFinish == 4)
+                {
+                    Game.Winner = currentPlayer;
+                }
+            }
+        }
+
+        private void CreateNewMove()
+        {
+            var playersPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
             Console.WriteLine("Choose your game piece:");
             foreach (var gamePiece in playersPieces)
             {
@@ -76,15 +129,16 @@ namespace GameEngine
             var chosenPieceIndex = int.Parse(Console.ReadLine());
             var currentMove = new GameMove()
             {
-                Player = CurrentGame.NextTurnPlayer,
+                Player = Game.NextTurnPlayer,
+                Piece = playersPieces[chosenPieceIndex],
+                OriginalPosition = playersPieces[chosenPieceIndex].TrackPosition,
+                DiceThrowValue = Dice.LastResult
             };
-            CurrentGame.Moves.Add(currentMove);
-            playersPieces[chosenPieceIndex].TrackPosition += Dice.LastResult;
-            Board.Track[playersPieces[chosenPieceIndex].TrackPosition] = playersPieces[chosenPieceIndex];
+            Game.Moves.Add(currentMove);
+            //playersPieces[chosenPieceIndex].TrackPosition += Dice.LastResult;
+            //Board.Track[playersPieces[chosenPieceIndex].TrackPosition] = playersPieces[chosenPieceIndex];
 
-            var boardTrackIndex = (int)playersPieces[chosenPieceIndex].TrackPosition + (10 * (int)playersPieces[chosenPieceIndex].Colour) % 40;
+            //var boardTrackIndex = (int)playersPieces[chosenPieceIndex].TrackPosition + (10 * (int)playersPieces[chosenPieceIndex].Colour) % 40;
         }
-
-
     }
 }

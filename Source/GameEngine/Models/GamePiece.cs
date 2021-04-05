@@ -6,10 +6,9 @@ namespace GameEngine.Models
 {
     public class GamePiece
     {
-        public GameColour Colour { get; set; }
+        public GameColor Color { get; set; }
         public int Number { get; set; }
-        public int TrackPosition { get; set; }
-
+        public int? TrackPosition { get; set; }
 
         public static List<GamePiece> GetGamePieceSetup()
         {
@@ -20,17 +19,18 @@ namespace GameEngine.Models
                 {
                     var gamePiece = new GamePiece()
                     {
-                        Colour = (GameColour)i,
+                        Color = (GameColor)i,
                         Number = y + 1
                     };
                     gamePieceSetup.Add(gamePiece);
                 }
             }
             return gamePieceSetup;
-        } 
-    }
-        public enum GameColour
-        {
-            Red, Blue, Green, Yellow
         }
+    }
+
+    public enum GameColor
+    {
+        Red, Blue, Green, Yellow
+    }
 }

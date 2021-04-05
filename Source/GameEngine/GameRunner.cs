@@ -80,11 +80,13 @@ namespace GameEngine
 
             if (originalPosition != null && originalPosition < 40)
             {
+                //remove from track
                 var originalBoardTrackCellIndex = (int)originalPosition + 10 * (int)currentGameColor % 40;
                 Board.Track[originalBoardTrackCellIndex] = null;
             }
             else if (originalPosition >= 40 && originalPosition < 44)
             {
+                //remove from final track
                 var originalFinalTrackCellIndex = (int)originalPosition - 40;
                 Board.FinalTracks[(int)currentGameColor][originalFinalTrackCellIndex] = null;
             }
@@ -93,19 +95,24 @@ namespace GameEngine
 
             if (newPosition < 40)
             {
+                //add to track
                 var targetBoardTrackCellIndex = (int)newPosition + 10 * (int)currentGameColor % 40;
                 var tmpCell = Board.Track[targetBoardTrackCellIndex];
                 if (tmpCell != null)
                 {
-                    tmpCell.TrackPosition = null;
+                    //update position av opponents piece
+                    if (tmpCell.Color != currentGameColor)
+                        tmpCell.TrackPosition = null;
                 }
                 Board.Track[targetBoardTrackCellIndex] = currentGamePiece;
             }
             else if (newPosition >= 40 && newPosition < 44)
             {
+                //add to final track
                 var targetFinalTrackCellIndex = (int)newPosition - 40;
                 Board.FinalTracks[(int)currentGameColor][targetFinalTrackCellIndex] = currentGamePiece;
             }
+            //update piece position
             currentGamePiece.TrackPosition = newPosition;
 
             if (newPosition == 44)
@@ -135,10 +142,6 @@ namespace GameEngine
                 DiceThrowValue = Dice.LastResult
             };
             Game.Moves.Add(currentMove);
-            //playersPieces[chosenPieceIndex].TrackPosition += Dice.LastResult;
-            //Board.Track[playersPieces[chosenPieceIndex].TrackPosition] = playersPieces[chosenPieceIndex];
-
-            //var boardTrackIndex = (int)playersPieces[chosenPieceIndex].TrackPosition + (10 * (int)playersPieces[chosenPieceIndex].Colour) % 40;
         }
     }
 }

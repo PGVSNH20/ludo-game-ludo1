@@ -18,3 +18,13 @@
 * Vi jobbade med LudoGame och GameRunner klasser
 * Gjorde om lite GameDice klassen
 * Skapade Test projekt och en unitest*
+## 2021-04-05
+* Vi diskuterade om att eventuellt använda någon form av projektorganiserings verktyg - clickup.com
+* Vi diskuterade logik om hur vi ska tänka kring pjäsernas position och dess uppdatering
+* Vi jobbade med metoder i GameRunner klassen:
+  * CreateNewMove - metod som skapar Move objekt som ska innehålla all information för att utföra steg
+  * ExecuteMove - metod 
+    * som utför ett Move och uppdaterar pjäsernas position
+    * uppdaterar Board tracks
+    * uppdaterar opponents pjäsen om det behövs
+    * kollar om det finns en vinnare.

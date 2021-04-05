@@ -90,8 +90,7 @@ namespace GameEngine
                         ChooseGamePiece();
                         if (Game.Moves.Last().GamePiece != null)
                             ExecuteLastMove();
-                        else
-                            Thread.Sleep(100);
+                        UppdateGameInDbContext();
                         SetNextPlayer();
                         break;
 
@@ -125,15 +124,10 @@ namespace GameEngine
             var gameMove = new GameMove
             {
                 Player = Game.NextTurnPlayer,
-                //GamePiece = chosenGamePiece,
-                //OriginalPosition = chosenGamePiece.Possition,
                 DiceThrow = Dice.Result
             };
 
-            //UppdateBoardTrack(gameMove.GamePiece, oldPossition);
-
             Game.Moves.Add(gameMove);
-            //return gameMove
         }
 
         private void ChooseGamePiece()
@@ -148,13 +142,6 @@ namespace GameEngine
 
             if (availableGamePieces.Count == 0)
             {
-                var move = new GameMove()
-                {
-                    Player = Game.NextTurnPlayer,
-                    DiceThrow = Dice.Result
-                };
-                Game.Moves.Add(move);
-                UppdateGameInDbContext();
                 Console.WriteLine("Sorry, you need to throw 1 or 6 to move game piece from base to track");
                 Thread.Sleep(3000);
             }
@@ -241,7 +228,6 @@ namespace GameEngine
                 if (piecesAtFinish == 4)
                     Game.Winner = Game.Moves.Last().Player;
             }
-            UppdateGameInDbContext();
         }
 
         private void SetNextPlayer()

@@ -24,8 +24,9 @@ namespace GameEngine
             int playerAmmount = GetPlayerAmount();
 
             Game = new LudoGame();
+            Game.Players = new List<GamePlayer>();
 
-            Game.Players = GetPlayersProperties();
+            GetPlayersProperties(playerAmmount);
 
             Game.PieceSetup = GamePiece.GetGamePieceSetup();
 

@@ -88,50 +88,50 @@ namespace GameEngine.Models
 
         private void UppdateFinalTracksCells()
         {
-            BoardMap[9, 5] = (FinalTracks[0][0] == null) ? EmptyCells[0] : FinalTracks[0][0];
-            BoardMap[8, 5] = (FinalTracks[0][1] == null) ? EmptyCells[0] : FinalTracks[0][1];
-            BoardMap[7, 5] = (FinalTracks[0][2] == null) ? EmptyCells[0] : FinalTracks[0][2];
-            BoardMap[6, 5] = (FinalTracks[0][3] == null) ? EmptyCells[0] : FinalTracks[0][3];
-            BoardMap[5, 1] = (FinalTracks[1][0] == null) ? EmptyCells[1] : FinalTracks[1][0];
-            BoardMap[5, 2] = (FinalTracks[1][1] == null) ? EmptyCells[1] : FinalTracks[1][1];
-            BoardMap[5, 3] = (FinalTracks[1][2] == null) ? EmptyCells[1] : FinalTracks[1][2];
-            BoardMap[5, 4] = (FinalTracks[1][3] == null) ? EmptyCells[1] : FinalTracks[1][3];
-            BoardMap[1, 5] = (FinalTracks[2][0] == null) ? EmptyCells[2] : FinalTracks[2][0];
-            BoardMap[2, 5] = (FinalTracks[2][1] == null) ? EmptyCells[2] : FinalTracks[2][1];
-            BoardMap[3, 5] = (FinalTracks[2][2] == null) ? EmptyCells[2] : FinalTracks[2][2];
-            BoardMap[4, 5] = (FinalTracks[2][3] == null) ? EmptyCells[2] : FinalTracks[2][3];
-            BoardMap[5, 9] = (FinalTracks[3][0] == null) ? EmptyCells[3] : FinalTracks[3][0];
-            BoardMap[5, 8] = (FinalTracks[3][1] == null) ? EmptyCells[3] : FinalTracks[3][1];
-            BoardMap[5, 7] = (FinalTracks[3][2] == null) ? EmptyCells[3] : FinalTracks[3][2];
-            BoardMap[5, 6] = (FinalTracks[3][3] == null) ? EmptyCells[3] : FinalTracks[3][3];
+            //BoardMap[9, 5] = (FinalTracks[0][0] == null) ? EmptyCells[0] : FinalTracks[0][0];
+            //BoardMap[8, 5] = (FinalTracks[0][1] == null) ? EmptyCells[0] : FinalTracks[0][1];
+            //BoardMap[7, 5] = (FinalTracks[0][2] == null) ? EmptyCells[0] : FinalTracks[0][2];
+            //BoardMap[6, 5] = (FinalTracks[0][3] == null) ? EmptyCells[0] : FinalTracks[0][3];
+            //BoardMap[5, 1] = (FinalTracks[1][0] == null) ? EmptyCells[1] : FinalTracks[1][0];
+            //BoardMap[5, 2] = (FinalTracks[1][1] == null) ? EmptyCells[1] : FinalTracks[1][1];
+            //BoardMap[5, 3] = (FinalTracks[1][2] == null) ? EmptyCells[1] : FinalTracks[1][2];
+            //BoardMap[5, 4] = (FinalTracks[1][3] == null) ? EmptyCells[1] : FinalTracks[1][3];
+            //BoardMap[1, 5] = (FinalTracks[2][0] == null) ? EmptyCells[2] : FinalTracks[2][0];
+            //BoardMap[2, 5] = (FinalTracks[2][1] == null) ? EmptyCells[2] : FinalTracks[2][1];
+            //BoardMap[3, 5] = (FinalTracks[2][2] == null) ? EmptyCells[2] : FinalTracks[2][2];
+            //BoardMap[4, 5] = (FinalTracks[2][3] == null) ? EmptyCells[2] : FinalTracks[2][3];
+            //BoardMap[5, 9] = (FinalTracks[3][0] == null) ? EmptyCells[3] : FinalTracks[3][0];
+            //BoardMap[5, 8] = (FinalTracks[3][1] == null) ? EmptyCells[3] : FinalTracks[3][1];
+            //BoardMap[5, 7] = (FinalTracks[3][2] == null) ? EmptyCells[3] : FinalTracks[3][2];
+            //BoardMap[5, 6] = (FinalTracks[3][3] == null) ? EmptyCells[3] : FinalTracks[3][3];
 
-            //for (int n = 0; n < 4; n++)
-            //{
-            //    if (n == 0)
-            //        for (int i = 0; i < 4; i++)
-            //            if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
-            //                BoardMap[9 - i, 5] = FinalTracks[n][i];
-            //            else
-            //                BoardMap[9 - i, 5] = EmptyCells[n];
-            //    if (n == 1)
-            //        for (int i = 0; i < 4; i++)
-            //            if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
-            //                BoardMap[5, 1 + i] = FinalTracks[n][i];
-            //            else
-            //                BoardMap[5, 1 + i] = EmptyCells[n];
-            //    if (n == 2)
-            //        for (int i = 0; i < 4; i++)
-            //            if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
-            //                BoardMap[1 + i, 5] = FinalTracks[n][i];
-            //            else
-            //                BoardMap[1 + i, 5] = EmptyCells[n];
-            //    if (n == 3)
-            //        for (int i = 0; i < 4; i++)
-            //            if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
-            //                BoardMap[5, 9 - i] = FinalTracks[n][i];
-            //            else
-            //                BoardMap[5, 9 - i] = EmptyCells[n];
-            //}
+            for (int n = 0; n < 4; n++)
+            {
+                if (n == 0)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
+                            BoardMap[9 - i, 5] = FinalTracks[n][i];
+                        else
+                            BoardMap[9 - i, 5] = EmptyCells[n];
+                if (n == 1)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
+                            BoardMap[5, 1 + i] = FinalTracks[n][i];
+                        else
+                            BoardMap[5, 1 + i] = EmptyCells[n];
+                if (n == 2)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
+                            BoardMap[1 + i, 5] = FinalTracks[n][i];
+                        else
+                            BoardMap[1 + i, 5] = EmptyCells[n];
+                if (n == 3)
+                    for (int i = 0; i < 4; i++)
+                        if (FinalTracks[n][i] != null && FinalTracks[n][i].TrackPosition == 40 + i)
+                            BoardMap[5, 9 - i] = FinalTracks[n][i];
+                        else
+                            BoardMap[5, 9 - i] = EmptyCells[n];
+            }
         }
 
         private void UpdateBoardBasesCells(List<GamePiece> gamePeaceSetUp)
@@ -195,7 +195,6 @@ namespace GameEngine.Models
 
         public string PrintBoard()
         {
-            Console.Clear();
             BoardAsString = new StringBuilder();
             Console.WriteLine();
             BoardAsString.Append("\n");

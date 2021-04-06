@@ -59,7 +59,8 @@ namespace GameEngine
                 {
                     case "1":
                         Dice.ThrowDice();
-                        CreateNewMove();
+                        var gamePieceToMove = GetGamePieceToMove();
+                        CreateNewMove(gamePieceToMove);
                         if (Game.Moves.Last().Piece != null)
                             ExecuteLastMove();
                         break;
@@ -142,62 +143,68 @@ namespace GameEngine
             return newPosition;
         }
 
-        private void CreateNewMove()
+        private GamePiece GetGamePieceToMove()
         {
+            GamePiece gamePieceToMove = null;
             List<GamePiece> movablePieces = GetMovableGamePieces();
-
-            if (movablePieces.Count == 0)
+            Console.WriteLine("Choose your game piece:");
+            if (movablePieces != null)
             {
-                var currentMove = new GameMove()
-                {
-                    Player = Game.NextTurnPlayer,
-                    Piece = null,
-                    OriginalPosition = null,
-                };
-                Game.Moves.Add(currentMove);
-            }
-            else
-            {
-                Console.WriteLine("Choose your game piece:");
                 foreach (var gamePiece in movablePieces)
                 {
                     Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
                 }
                 var chosenPieceIndex = int.Parse(Console.ReadLine());
+                gamePieceToMove = movablePieces[chosenPieceIndex];
+            }
+            return gamePieceToMove;
+        }
 
-                var currentMove = new GameMove()
-                {
-                    Player = Game.NextTurnPlayer,
-                    Piece = movablePieces[chosenPieceIndex],
-                    OriginalPosition = movablePieces[chosenPieceIndex].TrackPosition,
-                    DiceThrowResult = Dice.LastResult
-                };
-                Game.Moves.Add(currentMove);
+        private void CreateNewMove(GamePiece pieceToMove)
+        {
+            var currentMove = new GameMove()
+            {
+                Player = Game.NextTurnPlayer,
+                Piece = null,
+                OriginalPosition = null,
+                DiceThrowResult = Dice.LastResult
+            };
+
+            if (pieceToMove != null)
+            {
+                currentMove.Piece = pieceToMove;
+                currentMove.OriginalPosition = pieceToMove.TrackPosition;
             }
         }
 
         public List<GamePiece> GetMovableGamePieces()
         {
-            var playersPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
+            //List of Pieces of same color
+            var playerPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
             var movablePieces = new List<GamePiece>();
+
             if (Dice.LastResult != 1 && Dice.LastResult != 6)
             {
-                playersPieces = playersPieces.Where(p => p.TrackPosition != null).ToList();
+                //List of Pieces of same color that are not att null (base)
+                playerPieces = playerPieces.Where(p => p.TrackPosition != null).ToList();
             }
 
-            for (int i = 0; i < playersPieces.Count(); i++)
+            for (int i = 0; i < playerPieces.Count(); i++)
             {
-                var originalPosition = playersPieces[i].TrackPosition;
+                //iteration throe available pieces to se if specifik piece can be moved to target position
+                //piece can not be places att position witch already contains piece of same color
+                //piece can not jump over another piece of same color
+                var originalPosition = playerPieces[i].TrackPosition;
                 var positionAhead = originalPosition;
                 var potencialTrackPosition = CalculateNewPositon(originalPosition, Dice.LastResult);
                 while (positionAhead <= potencialTrackPosition)
                 {
                     positionAhead++;
-                    if (playersPieces.FindAll(p => p.TrackPosition == positionAhead).Count > 0)
+                    if (playerPieces.FindAll(p => p.TrackPosition == positionAhead).Count > 0)
                         break;
 
-                    if (playersPieces.FindAll(p => p.TrackPosition == potencialTrackPosition).Count == 0 && positionAhead == potencialTrackPosition)
-                        movablePieces.Add(playersPieces[i]);
+                    if (playerPieces.FindAll(p => p.TrackPosition == potencialTrackPosition).Count == 0 && positionAhead == potencialTrackPosition)
+                        movablePieces.Add(playerPieces[i]);
                 }
             }
 

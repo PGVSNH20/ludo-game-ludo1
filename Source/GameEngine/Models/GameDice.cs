@@ -18,7 +18,6 @@ namespace GameEngine.Models
         {
             LastResult = Random.Next(1, 7);
             Console.WriteLine($"You got {LastResult}");
-            Console.ReadKey();
         }
     }
 }

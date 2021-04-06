@@ -21,20 +21,19 @@ namespace GameEngine
         public void CreateNewGame()
         {
             // Player chooses amount of players
-            int playerAmmount = GetPlayerAmount();
 
             Game = new LudoGame();
             Game.Players = new List<GamePlayer>();
+            Game.Moves = new List<GameMove>();
 
+            int playerAmmount = GetPlayerAmount();
             GetPlayersProperties(playerAmmount);
-
-            Game.PieceSetup = GamePiece.GetGamePieceSetup();
-
+            Game.Players.OrderBy(p => p.GamePlayerColour);
             int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
-
             Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
 
-            Game.Moves = new List<GameMove>();
+            Game.PieceSetup = GamePiece.GetGamePieceSetup();
+            Board.UpdateBoardBases(Game.PieceSetup);
         }
 
         private void GetPlayersProperties(int playerAmmount)
@@ -55,7 +54,7 @@ namespace GameEngine
                 }
 
                 // Player chooses color
-                Console.WriteLine($"Player {i + 1} choose a color:");
+                Console.WriteLine($"{playerNameInput} choose a color:");
 
                 for (int y = 0; y < availableColors.Count; y++)
                 {
@@ -66,9 +65,7 @@ namespace GameEngine
                 {
                     var input = Console.ReadLine();
                     if (input == "")
-                    {
-                        break;
-                    }
+                        input = "1";
                     playerColorInput = (int)((GameColor)Convert.ToInt32(input) - 1);
                     availableColors.Remove(availableColors[playerColorInput]);
                 }
@@ -92,9 +89,14 @@ namespace GameEngine
             while (playerAmmount < 2 || playerAmmount > 4)
             {
                 Console.WriteLine("Choose how many players: ");
-                try { playerAmmount = Convert.ToInt32(Console.ReadLine().Trim()); }
+                try
+                {
+                    playerAmmount = Convert.ToInt32(Console.ReadLine().Trim());
+                    if (playerAmmount < 2 || playerAmmount > 4)
+                        Console.WriteLine("Choose between 2 and 4");
+                    Console.WriteLine($"{playerAmmount} players will play!");
+                }
                 catch { Console.WriteLine("Input not accepted. Choose between 2 and 4"); }
-                Console.WriteLine($"{playerAmmount} players will play!");
             }
             return playerAmmount;
         }
@@ -108,12 +110,14 @@ namespace GameEngine
         {
             while (Game.Winner == null)
             {
-                Board.PrintBoard();
+                Console.Clear();
+                Board.PrintBoard(Game.PieceSetup);
                 Console.WriteLine($"Now it's {Game.NextTurnPlayer.GamePlayerName} turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
 
                 var input = Console.ReadLine();
+                input = (input == "") ? "1" : input;
 
                 switch (input)
                 {
@@ -154,7 +158,7 @@ namespace GameEngine
             {
                 //remove from track
                 var originalBoardTrackCellIndex = (int)originalPosition + 10 * (int)currentGameColor % 40;
-                Board.Track[originalBoardTrackCellIndex] = null;
+                Board.MainTrack[originalBoardTrackCellIndex] = null;
             }
             else if (originalPosition >= 40 && originalPosition < 44)
             {
@@ -169,14 +173,14 @@ namespace GameEngine
             {
                 //add to track
                 var targetBoardTrackCellIndex = (int)newPosition + 10 * (int)currentGameColor % 40;
-                var tmpCell = Board.Track[targetBoardTrackCellIndex];
+                var tmpCell = Board.MainTrack[targetBoardTrackCellIndex];
                 if (tmpCell != null)
                 {
                     //update position av opponents piece
                     if (tmpCell.Color != currentGameColor)
                         tmpCell.TrackPosition = null;
                 }
-                Board.Track[targetBoardTrackCellIndex] = currentGamePiece;
+                Board.MainTrack[targetBoardTrackCellIndex] = currentGamePiece;
             }
             else if (newPosition >= 40 && newPosition < 44)
             {
@@ -199,7 +203,7 @@ namespace GameEngine
 
         private int CalculateNewPositon(int? originalPosition, int diceValue)
         {
-            var newPosition = (originalPosition == null) ? diceValue : (int)originalPosition + diceValue;
+            var newPosition = (originalPosition == null) ? diceValue - 1 : (int)originalPosition + diceValue;
             newPosition = (newPosition > 44) ? 88 - newPosition : newPosition;
             return newPosition;
         }
@@ -213,7 +217,7 @@ namespace GameEngine
                 Console.WriteLine("Choose your game piece:");
                 for (int i = 0; i < movablePieces.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) Piece number: {movablePieces[i].Number} at position {movablePieces[i].TrackPosition}");
+                    Console.WriteLine($"{i + 1}) Piece number: {movablePieces[i].Number} at position {movablePieces[i].TrackPosition + 1}");
                 }
                 // TODO: Input check
                 var chosenPieceIndex = int.Parse(Console.ReadLine()) - 1;
@@ -222,6 +226,7 @@ namespace GameEngine
             else
             {
                 Console.WriteLine($"You don't have available moves based on dice result");
+                Console.ReadKey();
             }
             return gamePieceToMove;
         }

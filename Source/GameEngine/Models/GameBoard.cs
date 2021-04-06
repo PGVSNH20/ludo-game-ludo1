@@ -7,7 +7,7 @@ namespace GameEngine.Models
 {
     public class GameBoard
     {
-        public GamePiece[] Track { get; set; }
+        public GamePiece[] MainTrack { get; set; }
         public GamePiece[][] FinalTracks { get; set; }
         public GamePiece[,] BoardMap { get; set; }
         public GamePiece[] EmptyCells { get; set; }
@@ -15,7 +15,7 @@ namespace GameEngine.Models
 
         public GameBoard()
         {
-            Track = new GamePiece[40];
+            MainTrack = new GamePiece[40];
             FinalTracks = new GamePiece[4][];
             BoardMap = new GamePiece[11, 11];
             EmptyCells = new GamePiece[5]{
@@ -30,63 +30,84 @@ namespace GameEngine.Models
                 FinalTracks[i] = new GamePiece[4];
             }
 
-            UppdateBoardTrackCells();
-            UppdateFinalTracksCells();
+            UppdateMapMainTrackCells();
+            UppdateMapFinalTracksCells();
         }
 
-        public void UpdateBoardCells(List<GamePiece> gamePeaceSetUp)
+        public void UpdateTracks(List<GamePiece> gamePieceSetUp)
         {
-            UppdateBoardTrackCells();
-            UppdateFinalTracksCells();
-            UpdateBoardBasesCells(gamePeaceSetUp);
+            foreach (var piece in gamePieceSetUp)
+            {
+                var position = piece.TrackPosition;
+                var color = piece.Color;
+                if (position < 40)
+                {
+                    //add to track
+                    var targetBoardTrackCellIndex = (int)position + 10 * (int)color % 40;
+                    MainTrack[targetBoardTrackCellIndex] = piece;
+                }
+                else if (position >= 40 && position < 44)
+                {
+                    //add to final track
+                    var targetFinalTrackCellIndex = (int)position - 40;
+                    FinalTracks[(int)color][targetFinalTrackCellIndex] = piece;
+                }
+            }
         }
 
-        private void UppdateBoardTrackCells()
+        public void UpdateMapCells(List<GamePiece> gamePeaceSetUp)
+        {
+            UppdateMapMainTrackCells();
+            UppdateMapFinalTracksCells();
+            UpdateBoardBases(gamePeaceSetUp);
+        }
+
+        private void UppdateMapMainTrackCells()
         {
             //track
-            BoardMap[10, 4] = (Track[0] == null) ? EmptyCells[4] : Track[0];
-            BoardMap[9, 4] = (Track[1] == null) ? EmptyCells[4] : Track[1];
-            BoardMap[8, 4] = (Track[2] == null) ? EmptyCells[4] : Track[2];
-            BoardMap[7, 4] = (Track[3] == null) ? EmptyCells[4] : Track[3];
-            BoardMap[6, 4] = (Track[4] == null) ? EmptyCells[4] : Track[4];
-            BoardMap[6, 3] = (Track[5] == null) ? EmptyCells[4] : Track[5];
-            BoardMap[6, 2] = (Track[6] == null) ? EmptyCells[4] : Track[6];
-            BoardMap[6, 1] = (Track[7] == null) ? EmptyCells[4] : Track[7];
-            BoardMap[6, 0] = (Track[8] == null) ? EmptyCells[4] : Track[8];
-            BoardMap[5, 0] = (Track[9] == null) ? EmptyCells[4] : Track[9];
-            BoardMap[4, 0] = (Track[10] == null) ? EmptyCells[4] : Track[10];
-            BoardMap[4, 1] = (Track[11] == null) ? EmptyCells[4] : Track[11];
-            BoardMap[4, 2] = (Track[12] == null) ? EmptyCells[4] : Track[12];
-            BoardMap[4, 3] = (Track[13] == null) ? EmptyCells[4] : Track[13];
-            BoardMap[4, 4] = (Track[14] == null) ? EmptyCells[4] : Track[14];
-            BoardMap[3, 4] = (Track[15] == null) ? EmptyCells[4] : Track[15];
-            BoardMap[2, 4] = (Track[16] == null) ? EmptyCells[4] : Track[16];
-            BoardMap[1, 4] = (Track[17] == null) ? EmptyCells[4] : Track[17];
-            BoardMap[0, 4] = (Track[18] == null) ? EmptyCells[4] : Track[18];
-            BoardMap[0, 5] = (Track[19] == null) ? EmptyCells[4] : Track[19];
-            BoardMap[0, 6] = (Track[20] == null) ? EmptyCells[4] : Track[20];
-            BoardMap[1, 6] = (Track[21] == null) ? EmptyCells[4] : Track[21];
-            BoardMap[2, 6] = (Track[22] == null) ? EmptyCells[4] : Track[22];
-            BoardMap[3, 6] = (Track[23] == null) ? EmptyCells[4] : Track[23];
-            BoardMap[4, 6] = (Track[24] == null) ? EmptyCells[4] : Track[24];
-            BoardMap[4, 7] = (Track[25] == null) ? EmptyCells[4] : Track[25];
-            BoardMap[4, 8] = (Track[26] == null) ? EmptyCells[4] : Track[26];
-            BoardMap[4, 9] = (Track[27] == null) ? EmptyCells[4] : Track[27];
-            BoardMap[4, 10] = (Track[28] == null) ? EmptyCells[4] : Track[28];
-            BoardMap[5, 10] = (Track[29] == null) ? EmptyCells[4] : Track[29];
-            BoardMap[6, 10] = (Track[30] == null) ? EmptyCells[4] : Track[30];
-            BoardMap[6, 9] = (Track[31] == null) ? EmptyCells[4] : Track[31];
-            BoardMap[6, 8] = (Track[32] == null) ? EmptyCells[4] : Track[32];
-            BoardMap[6, 7] = (Track[33] == null) ? EmptyCells[4] : Track[33];
-            BoardMap[6, 6] = (Track[34] == null) ? EmptyCells[4] : Track[34];
-            BoardMap[7, 6] = (Track[35] == null) ? EmptyCells[4] : Track[35];
-            BoardMap[8, 6] = (Track[36] == null) ? EmptyCells[4] : Track[36];
-            BoardMap[9, 6] = (Track[37] == null) ? EmptyCells[4] : Track[37];
-            BoardMap[10, 6] = (Track[38] == null) ? EmptyCells[4] : Track[38];
-            BoardMap[10, 5] = (Track[39] == null) ? EmptyCells[4] : Track[39];
+            BoardMap[10, 4] = (MainTrack[0] == null) ? EmptyCells[0] : MainTrack[0];
+            BoardMap[9, 4] = (MainTrack[1] == null) ? EmptyCells[4] : MainTrack[1];
+            BoardMap[8, 4] = (MainTrack[2] == null) ? EmptyCells[4] : MainTrack[2];
+            BoardMap[7, 4] = (MainTrack[3] == null) ? EmptyCells[4] : MainTrack[3];
+            BoardMap[6, 4] = (MainTrack[4] == null) ? EmptyCells[4] : MainTrack[4];
+            BoardMap[6, 3] = (MainTrack[5] == null) ? EmptyCells[4] : MainTrack[5];
+            BoardMap[6, 2] = (MainTrack[6] == null) ? EmptyCells[4] : MainTrack[6];
+            BoardMap[6, 1] = (MainTrack[7] == null) ? EmptyCells[4] : MainTrack[7];
+            BoardMap[6, 0] = (MainTrack[8] == null) ? EmptyCells[4] : MainTrack[8];
+            BoardMap[5, 0] = (MainTrack[9] == null) ? EmptyCells[4] : MainTrack[9];
+            BoardMap[4, 0] = (MainTrack[10] == null) ? EmptyCells[1] : MainTrack[10];
+            BoardMap[4, 1] = (MainTrack[11] == null) ? EmptyCells[4] : MainTrack[11];
+            BoardMap[4, 2] = (MainTrack[12] == null) ? EmptyCells[4] : MainTrack[12];
+            BoardMap[4, 3] = (MainTrack[13] == null) ? EmptyCells[4] : MainTrack[13];
+            BoardMap[4, 4] = (MainTrack[14] == null) ? EmptyCells[4] : MainTrack[14];
+            BoardMap[3, 4] = (MainTrack[15] == null) ? EmptyCells[4] : MainTrack[15];
+            BoardMap[2, 4] = (MainTrack[16] == null) ? EmptyCells[4] : MainTrack[16];
+            BoardMap[1, 4] = (MainTrack[17] == null) ? EmptyCells[4] : MainTrack[17];
+            BoardMap[0, 4] = (MainTrack[18] == null) ? EmptyCells[4] : MainTrack[18];
+            BoardMap[0, 5] = (MainTrack[19] == null) ? EmptyCells[4] : MainTrack[19];
+            BoardMap[0, 6] = (MainTrack[20] == null) ? EmptyCells[2] : MainTrack[20];
+            BoardMap[1, 6] = (MainTrack[21] == null) ? EmptyCells[4] : MainTrack[21];
+            BoardMap[2, 6] = (MainTrack[22] == null) ? EmptyCells[4] : MainTrack[22];
+            BoardMap[3, 6] = (MainTrack[23] == null) ? EmptyCells[4] : MainTrack[23];
+            BoardMap[4, 6] = (MainTrack[24] == null) ? EmptyCells[4] : MainTrack[24];
+            BoardMap[4, 7] = (MainTrack[25] == null) ? EmptyCells[4] : MainTrack[25];
+            BoardMap[4, 8] = (MainTrack[26] == null) ? EmptyCells[4] : MainTrack[26];
+            BoardMap[4, 9] = (MainTrack[27] == null) ? EmptyCells[4] : MainTrack[27];
+            BoardMap[4, 10] = (MainTrack[28] == null) ? EmptyCells[4] : MainTrack[28];
+            BoardMap[5, 10] = (MainTrack[29] == null) ? EmptyCells[4] : MainTrack[29];
+            BoardMap[6, 10] = (MainTrack[30] == null) ? EmptyCells[3] : MainTrack[30];
+            BoardMap[6, 9] = (MainTrack[31] == null) ? EmptyCells[4] : MainTrack[31];
+            BoardMap[6, 8] = (MainTrack[32] == null) ? EmptyCells[4] : MainTrack[32];
+            BoardMap[6, 7] = (MainTrack[33] == null) ? EmptyCells[4] : MainTrack[33];
+            BoardMap[6, 6] = (MainTrack[34] == null) ? EmptyCells[4] : MainTrack[34];
+            BoardMap[7, 6] = (MainTrack[35] == null) ? EmptyCells[4] : MainTrack[35];
+            BoardMap[8, 6] = (MainTrack[36] == null) ? EmptyCells[4] : MainTrack[36];
+            BoardMap[9, 6] = (MainTrack[37] == null) ? EmptyCells[4] : MainTrack[37];
+            BoardMap[10, 6] = (MainTrack[38] == null) ? EmptyCells[4] : MainTrack[38];
+            BoardMap[10, 5] = (MainTrack[39] == null) ? EmptyCells[4] : MainTrack[39];
         }
 
-        private void UppdateFinalTracksCells()
+        private void UppdateMapFinalTracksCells()
         {
             //BoardMap[9, 5] = (FinalTracks[0][0] == null) ? EmptyCells[0] : FinalTracks[0][0];
             //BoardMap[8, 5] = (FinalTracks[0][1] == null) ? EmptyCells[0] : FinalTracks[0][1];
@@ -134,7 +155,7 @@ namespace GameEngine.Models
             }
         }
 
-        private void UpdateBoardBasesCells(List<GamePiece> gamePeaceSetUp)
+        public void UpdateBoardBases(List<GamePiece> gamePieceSetUp)
         {
             //BoardMap[8, 1] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 1).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 1).Single() : EmptyCells[0];
             //BoardMap[8, 2] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 2).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 2).Single() : EmptyCells[0];
@@ -154,10 +175,10 @@ namespace GameEngine.Models
             //BoardMap[9, 9] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single() : EmptyCells[3];
             //base
             //for (int n = 0; n < gamePeaceSetUp.GroupBy(p => p.Color).Count(); n++)
-            foreach (var piece in gamePeaceSetUp.GroupBy(p => p.Color).ToList()[0])
+            foreach (var pieceGroup in gamePieceSetUp.GroupBy(p => p.Color).ToList())
             {
-                var color = (int)piece.Color;
-                var oneColorAtBasePieceSetup = gamePeaceSetUp.Where(p => p.Color == (GameColor)color).ToList();
+                var color = (int)pieceGroup.First().Color;
+                var oneColorAtBasePieceSetup = gamePieceSetUp.Where(p => p.Color == (GameColor)color).ToList();
                 int indexVer = 0;
                 int indexHor = 0;
                 if (color == 0)
@@ -193,8 +214,9 @@ namespace GameEngine.Models
             }
         }
 
-        public string PrintBoard()
+        public string PrintBoard(List<GamePiece> gamePieceSetUp)
         {
+            UpdateMapCells(gamePieceSetUp);
             BoardAsString = new StringBuilder();
             Console.WriteLine();
             BoardAsString.Append("\n");
@@ -249,6 +271,8 @@ namespace GameEngine.Models
                 Console.Write("\n");
                 BoardAsString.Append("\n");
             }
+            Console.Write("\n");
+            BoardAsString.Append("\n");
             return BoardAsString.ToString();
         }
 

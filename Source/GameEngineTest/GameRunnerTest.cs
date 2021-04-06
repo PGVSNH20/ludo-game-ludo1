@@ -62,7 +62,7 @@ namespace GameEngineTest
             };
 
             var board = new GameBoard();
-            board.Track[10] = gameMove.Piece;
+            board.MainTrack[10] = gameMove.Piece;
 
             var game = new LudoGame();
             game.Moves.Add(gameMove);
@@ -79,8 +79,8 @@ namespace GameEngineTest
 
             //Assert
 
-            Assert.Null(board.Track[10]);
-            Assert.Equal((GameColor)0, board.Track[15].Color);
+            Assert.Null(board.MainTrack[10]);
+            Assert.Equal((GameColor)0, board.MainTrack[15].Color);
         }
 
         [Fact]
@@ -101,8 +101,8 @@ namespace GameEngineTest
             };
 
             var board = new GameBoard();
-            board.Track[10] = gamePieceBlue;
-            board.Track[15] = gamePieceRed;
+            board.MainTrack[10] = gamePieceBlue;
+            board.MainTrack[15] = gamePieceRed;
 
             var game = new LudoGame()
             {
@@ -125,7 +125,7 @@ namespace GameEngineTest
 
             //Assert
             Assert.Null(gamePieceRed.TrackPosition);
-            Assert.Equal((GameColor)0, board.Track[15].Color);
+            Assert.Equal((GameColor)0, board.MainTrack[15].Color);
         }
 
         [Fact]

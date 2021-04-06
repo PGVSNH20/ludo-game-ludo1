@@ -20,29 +20,30 @@ namespace GameEngine
 
         public void CreateNewGame()
         {
-            // Player chooses ammount of players
-            int playerAmmount = 0;
-            while (playerAmmount < 2 || playerAmmount > 4)
-            {
-                Console.WriteLine("Choose how many players: ");
-                try
-                {
-                    playerAmmount = Convert.ToInt32(Console.ReadLine().Trim());
-                }
-                catch
-                {
-                    Console.WriteLine("Input not accepted. Choose beteween 2 and 4");
-                }
-                Console.WriteLine($"{playerAmmount} players will play!");
-            }
+            // Player chooses amount of players
+            int playerAmmount = GetPlayerAmount();
 
             Game = new LudoGame();
-            Game.Players = new List<GamePlayer>();
+
+            Game.Players = GetPlayersProperties();
+
+            Game.PieceSetup = GamePiece.GetGamePieceSetup();
+
+            int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
+
+            Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
+
+            Game.Moves = new List<GameMove>();
+        }
+
+        private void GetPlayersProperties(int playerAmmount)
+        {
             var availableColors = new List<GameColor>() { 0, (GameColor)1, (GameColor)2, (GameColor)3 };
 
             for (int i = 0; i < playerAmmount; i++)
             {
                 // Player chooses name
+
                 var playerName = $"Player {i + 1}";
                 Console.WriteLine($"Player {i + 1} choose a name: ");
                 var playerNameInput = Console.ReadLine();
@@ -59,47 +60,42 @@ namespace GameEngine
                 {
                     Console.WriteLine($"{y + 1}) {availableColors[y]}");
                 }
-
-                var playerColorInput = -1;
-                while (!availableColors.Contains((GameColor)playerColorInput))
+                var playerColorInput = 0;
+                try
                 {
-                    try
+                    var input = Console.ReadLine();
+                    if (input == "")
                     {
-                        var input = Console.ReadLine();
-                        if (input == "")
-                        {
-                            playerColorInput = 0;
-                            break;
-                        }
-                        playerColorInput = Convert.ToInt32(input) - 1;
+                        break;
                     }
-                    catch
-                    {
-                        Console.WriteLine("Input not accepted, choose an available color");
-                    }
-
-                    if (!availableColors.Contains((GameColor)playerColorInput))
-                    {
-                        Console.WriteLine("Try again");
-                    }
+                    playerColorInput = (int)((GameColor)Convert.ToInt32(input) - 1);
+                    availableColors.Remove(availableColors[playerColorInput]);
                 }
-                availableColors.Remove(availableColors[playerColorInput]);
+                catch
+                {
+                    Console.WriteLine("Input not accepted, choose an available color");
+                }
 
-                // Player choices gets registered
+                // Create player
                 Game.Players.Add(new GamePlayer()
                 {
                     GamePlayerName = playerNameInput,
                     GamePlayerColour = (GameColor)(playerColorInput)
                 });
             }
+        }
 
-            Game.PieceSetup = GamePiece.GetGamePieceSetup();
-
-            int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
-
-            Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
-
-            Game.Moves = new List<GameMove>();
+        private int GetPlayerAmount()
+        {
+            int playerAmmount = 0;
+            while (playerAmmount < 2 || playerAmmount > 4)
+            {
+                Console.WriteLine("Choose how many players: ");
+                try { playerAmmount = Convert.ToInt32(Console.ReadLine().Trim()); }
+                catch { Console.WriteLine("Input not accepted. Choose between 2 and 4"); }
+                Console.WriteLine($"{playerAmmount} players will play!");
+            }
+            return playerAmmount;
         }
 
         public void LoadGame()
@@ -121,7 +117,7 @@ namespace GameEngine
                 switch (input)
                 {
                     case "1":
-                        
+
                         Dice.ThrowDice();
                         var gamePieceToMove = GetGamePieceToMove();
                         CreateNewMove(gamePieceToMove);

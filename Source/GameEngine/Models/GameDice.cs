@@ -17,6 +17,7 @@ namespace GameEngine.Models
         public void ThrowDice()
         {
             LastResult = Random.Next(1, 7);
+            Console.WriteLine($"You got {LastResult}");
         }
     }
 }

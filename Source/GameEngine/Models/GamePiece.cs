@@ -6,7 +6,7 @@ namespace GameEngine.Models
 {
     public class GamePiece
     {
-        public GameColor Color { get; set; }
+        public GameColor? Color { get; set; }
         public int Number { get; set; }
         public int? TrackPosition { get; set; }
 
@@ -31,6 +31,6 @@ namespace GameEngine.Models
 
     public enum GameColor
     {
-        Red, Blue, Green, Yellow
+        Blue, Red, Yellow, Green
     }
 }

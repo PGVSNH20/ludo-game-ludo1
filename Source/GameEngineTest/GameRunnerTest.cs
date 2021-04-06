@@ -197,5 +197,73 @@ namespace GameEngineTest
             Assert.Equal(gamePieces[0], movableGamePieces[0]);
             Assert.Equal(gamePieces[3], movableGamePieces[1]);
         }
+
+        [Fact]
+        public void Given_4PiecesAtBase_DiceIs6_Excpect_ListWith4Pieces()
+        {
+            //Arrange
+
+            var gamePieces = new List<GamePiece>()
+            {
+                new GamePiece(){Color = 0, Number = 1, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 2, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 3, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 4, TrackPosition = null}
+            };
+            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gameDice = new GameDice() { LastResult = 6 };
+            var game = new LudoGame()
+            {
+                PieceSetup = gamePieces,
+                NextTurnPlayer = gamePlayer,
+            };
+
+            var gameRunner = new GameRunner()
+            {
+                Game = game,
+                Dice = gameDice
+            };
+
+            //Act
+
+            var movableGamePieces = gameRunner.GetMovableGamePieces();
+
+            //Assert
+            Assert.Equal(4, movableGamePieces.Count());
+        }
+
+        [Fact]
+        public void Given_4PiecesAtBase_DiceIs2_Excpect_ListWith0Pieces()
+        {
+            //Arrange
+
+            var gamePieces = new List<GamePiece>()
+            {
+                new GamePiece(){Color = 0, Number = 1, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 2, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 3, TrackPosition = null},
+                new GamePiece(){Color = 0, Number = 4, TrackPosition = null}
+            };
+            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gameDice = new GameDice() { LastResult = 2 };
+            var game = new LudoGame()
+            {
+                PieceSetup = gamePieces,
+                NextTurnPlayer = gamePlayer,
+            };
+
+            var gameRunner = new GameRunner()
+            {
+                Game = game,
+                Dice = gameDice
+            };
+
+            //Act
+
+            var movableGamePieces = gameRunner.GetMovableGamePieces();
+
+            //Assert
+            Assert.Empty(movableGamePieces);
+        }
     }
 }

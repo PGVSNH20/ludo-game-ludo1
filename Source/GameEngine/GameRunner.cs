@@ -22,7 +22,7 @@ namespace GameEngine
         {
             // Player chooses ammount of players
             int playerAmmount = 0;
-            while(playerAmmount < 2 || playerAmmount > 4)
+            while (playerAmmount < 2 || playerAmmount > 4)
             {
                 Console.WriteLine("Choose how many players: ");
                 try
@@ -38,8 +38,8 @@ namespace GameEngine
 
             Game = new LudoGame();
             Game.Players = new List<GamePlayer>();
-            var availableColors = new List<GameColor>() {0, (GameColor)1, (GameColor)2, (GameColor)3 };
-            
+            var availableColors = new List<GameColor>() { 0, (GameColor)1, (GameColor)2, (GameColor)3 };
+
             for (int i = 0; i < playerAmmount; i++)
             {
                 // Player chooses name
@@ -47,14 +47,13 @@ namespace GameEngine
                 Console.WriteLine($"Player {i + 1} choose a name: ");
                 var playerNameInput = Console.ReadLine();
 
-                if(playerNameInput == "")
+                if (playerNameInput == "")
                 {
                     playerNameInput = playerName;
                 }
 
                 // Player chooses color
                 Console.WriteLine($"Player {i + 1} choose a color:");
-                
 
                 for (int y = 0; y < availableColors.Count; y++)
                 {
@@ -79,7 +78,8 @@ namespace GameEngine
                         Console.WriteLine("Input not accepted, choose an available color");
                     }
 
-                    if (!availableColors.Contains((GameColor)playerColorInput)){
+                    if (!availableColors.Contains((GameColor)playerColorInput))
+                    {
                         Console.WriteLine("Try again");
                     }
                 }
@@ -111,6 +111,7 @@ namespace GameEngine
         {
             while (Game.Winner == null)
             {
+                Board.PrintBoard();
                 Console.WriteLine($"Now it's {Game.NextTurnPlayer.GamePlayerName} turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
@@ -120,6 +121,7 @@ namespace GameEngine
                 switch (input)
                 {
                     case "1":
+                        
                         Dice.ThrowDice();
                         var gamePieceToMove = GetGamePieceToMove();
                         CreateNewMove(gamePieceToMove);
@@ -209,15 +211,19 @@ namespace GameEngine
         {
             GamePiece gamePieceToMove = null;
             List<GamePiece> movablePieces = GetMovableGamePieces();
-            Console.WriteLine("Choose your game piece:");
-            if (movablePieces != null)
+            if (movablePieces.Count != 0)
             {
+                Console.WriteLine("Choose your game piece:");
                 foreach (var gamePiece in movablePieces)
                 {
                     Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
                 }
                 var chosenPieceIndex = int.Parse(Console.ReadLine());
                 gamePieceToMove = movablePieces[chosenPieceIndex];
+            }
+            else
+            {
+                Console.WriteLine($"You don't have available moves based on dice result");
             }
             return gamePieceToMove;
         }
@@ -237,6 +243,7 @@ namespace GameEngine
                 currentMove.Piece = pieceToMove;
                 currentMove.OriginalPosition = pieceToMove.TrackPosition;
             }
+            Game.Moves.Add(currentMove);
         }
 
         public List<GamePiece> GetMovableGamePieces()
@@ -244,29 +251,31 @@ namespace GameEngine
             //List of Pieces of same color
             var playerPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
             var movablePieces = new List<GamePiece>();
-
             if (Dice.LastResult != 1 && Dice.LastResult != 6)
             {
                 //List of Pieces of same color that are not att null (base)
                 playerPieces = playerPieces.Where(p => p.TrackPosition != null).ToList();
             }
 
-            for (int i = 0; i < playerPieces.Count(); i++)
+            if (playerPieces.Count > 0)
             {
-                //iteration throe available pieces to se if specifik piece can be moved to target position
-                //piece can not be places att position witch already contains piece of same color
-                //piece can not jump over another piece of same color
-                var originalPosition = playerPieces[i].TrackPosition;
-                var positionAhead = originalPosition;
-                var potencialTrackPosition = CalculateNewPositon(originalPosition, Dice.LastResult);
-                while (positionAhead <= potencialTrackPosition)
+                for (int i = 0; i < playerPieces.Count(); i++)
                 {
-                    positionAhead++;
-                    if (playerPieces.FindAll(p => p.TrackPosition == positionAhead).Count > 0)
-                        break;
+                    //iteration throe available pieces to se if specifik piece can be moved to target position
+                    //piece can not be places att position witch already contains piece of same color
+                    //piece can not jump over another piece of same color
+                    var originalPosition = playerPieces[i].TrackPosition;
+                    var positionAhead = (originalPosition == null) ? -1 : originalPosition;
+                    var potencialTrackPosition = CalculateNewPositon(originalPosition, Dice.LastResult);
+                    while (positionAhead <= potencialTrackPosition)
+                    {
+                        positionAhead++;
+                        if (playerPieces.FindAll(p => p.TrackPosition == positionAhead).Count > 0)
+                            break;
 
-                    if (playerPieces.FindAll(p => p.TrackPosition == potencialTrackPosition).Count == 0 && positionAhead == potencialTrackPosition)
-                        movablePieces.Add(playerPieces[i]);
+                        if (playerPieces.FindAll(p => p.TrackPosition == potencialTrackPosition).Count == 0 && positionAhead == potencialTrackPosition)
+                            movablePieces.Add(playerPieces[i]);
+                    }
                 }
             }
 

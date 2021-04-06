@@ -10,6 +10,6 @@ namespace GameEngine.Models
         public GamePlayer Player { get; set; }
         public GamePiece Piece { get; set; }
         public int? OriginalPosition { get; set; }
-        public int DiceThrowValue { get; set; }
+        public int DiceThrowResult { get; set; }
     }
 }

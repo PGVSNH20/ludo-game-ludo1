@@ -5,14 +5,14 @@ using GameEngine.Models;
 
 namespace GameEngineTest
 {
-    public class UnitTest1
+    public class GameDiceTest
     {
         [Fact]
         public void When_ThrowDice_Expect_ValueBetween1And6()
         {
             // Arrange
             GameDice gameDice = new GameDice();
-            
+
             // Act
             int[] results = new int[100];
 
@@ -23,7 +23,7 @@ namespace GameEngineTest
             }
 
             // Assert
-            Assert.Collection(results, item => Assert.InRange(item, 0, 7));
+            Assert.All(results, item => Assert.InRange(item, 0, 7));
         }
     }
 }

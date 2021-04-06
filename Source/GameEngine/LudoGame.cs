@@ -14,5 +14,10 @@ namespace GameEngine
         public string Status { get; set; }
         public List<GamePiece> PieceSetup { get; set; }
         public GamePlayer NextTurnPlayer { get; set; }
+
+        public LudoGame()
+        {
+            Moves = new List<GameMove>();
+        }
     }
 }

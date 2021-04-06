@@ -60,21 +60,31 @@ namespace GameEngine
                     case "1":
                         Dice.ThrowDice();
                         CreateNewMove();
-                        ExecuteLastMove();
+                        if (Game.Moves.Last().Piece != null)
+                            ExecuteLastMove();
                         break;
+
+                    case "2":
+                        //Sparar spel
+                        break;
+                }
+                if (Dice.LastResult != 6)
+                {
+                    var currentPlayerIndex = Game.Players.IndexOf(Game.NextTurnPlayer);
+                    var nextTurnPlayerIndex = currentPlayerIndex + 1 % (Game.Players.Count() - 1);
+                    Game.NextTurnPlayer = Game.Players[nextTurnPlayerIndex];
                 }
             }
         }
 
-        private void ExecuteLastMove()
+        public void ExecuteLastMove()
         {
             var originalPosition = Game.Moves.Last().OriginalPosition;
             var currentGamePiece = Game.Moves.Last().Piece;
             var currentGameColor = Game.Moves.Last().Piece.Color;
             var currentPlayer = Game.Moves.Last().Player;
-            var diceValue = Game.Moves.Last().DiceThrowValue;
-            int newPosition = (originalPosition == null) ? diceValue : (int)originalPosition + diceValue;
-            newPosition = (newPosition > 44) ? 88 - newPosition : newPosition;
+            var diceValue = Game.Moves.Last().DiceThrowResult;
+            int newPosition = CalculateNewPositon(originalPosition, diceValue);
 
             //removes game piece from original cell
 
@@ -125,23 +135,73 @@ namespace GameEngine
             }
         }
 
+        private int CalculateNewPositon(int? originalPosition, int diceValue)
+        {
+            var newPosition = (originalPosition == null) ? diceValue : (int)originalPosition + diceValue;
+            newPosition = (newPosition > 44) ? 88 - newPosition : newPosition;
+            return newPosition;
+        }
+
         private void CreateNewMove()
         {
-            var playersPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
-            Console.WriteLine("Choose your game piece:");
-            foreach (var gamePiece in playersPieces)
+            List<GamePiece> movablePieces = GetMovableGamePieces();
+
+            if (movablePieces.Count == 0)
             {
-                Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
+                var currentMove = new GameMove()
+                {
+                    Player = Game.NextTurnPlayer,
+                    Piece = null,
+                    OriginalPosition = null,
+                };
+                Game.Moves.Add(currentMove);
             }
-            var chosenPieceIndex = int.Parse(Console.ReadLine());
-            var currentMove = new GameMove()
+            else
             {
-                Player = Game.NextTurnPlayer,
-                Piece = playersPieces[chosenPieceIndex],
-                OriginalPosition = playersPieces[chosenPieceIndex].TrackPosition,
-                DiceThrowValue = Dice.LastResult
-            };
-            Game.Moves.Add(currentMove);
+                Console.WriteLine("Choose your game piece:");
+                foreach (var gamePiece in movablePieces)
+                {
+                    Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
+                }
+                var chosenPieceIndex = int.Parse(Console.ReadLine());
+
+                var currentMove = new GameMove()
+                {
+                    Player = Game.NextTurnPlayer,
+                    Piece = movablePieces[chosenPieceIndex],
+                    OriginalPosition = movablePieces[chosenPieceIndex].TrackPosition,
+                    DiceThrowResult = Dice.LastResult
+                };
+                Game.Moves.Add(currentMove);
+            }
+        }
+
+        public List<GamePiece> GetMovableGamePieces()
+        {
+            var playersPieces = Game.PieceSetup.Where(p => p.Color == Game.NextTurnPlayer.GamePlayerColour).ToList();
+            var movablePieces = new List<GamePiece>();
+            if (Dice.LastResult != 1 && Dice.LastResult != 6)
+            {
+                playersPieces = playersPieces.Where(p => p.TrackPosition != null).ToList();
+            }
+
+            for (int i = 0; i < playersPieces.Count(); i++)
+            {
+                var originalPosition = playersPieces[i].TrackPosition;
+                var positionAhead = originalPosition;
+                var potencialTrackPosition = CalculateNewPositon(originalPosition, Dice.LastResult);
+                while (positionAhead <= potencialTrackPosition)
+                {
+                    positionAhead++;
+                    if (playersPieces.FindAll(p => p.TrackPosition == positionAhead).Count > 0)
+                        break;
+
+                    if (playersPieces.FindAll(p => p.TrackPosition == potencialTrackPosition).Count == 0 && positionAhead == potencialTrackPosition)
+                        movablePieces.Add(playersPieces[i]);
+                }
+            }
+
+            return movablePieces;
         }
     }
 }

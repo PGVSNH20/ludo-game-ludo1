@@ -133,7 +133,7 @@ namespace GameEngine
                 if (Dice.LastResult != 6)
                 {
                     var currentPlayerIndex = Game.Players.IndexOf(Game.NextTurnPlayer);
-                    var nextTurnPlayerIndex = currentPlayerIndex + 1 % (Game.Players.Count() - 1);
+                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.Players.Count());
                     Game.NextTurnPlayer = Game.Players[nextTurnPlayerIndex];
                 }
             }
@@ -211,11 +211,12 @@ namespace GameEngine
             if (movablePieces.Count != 0)
             {
                 Console.WriteLine("Choose your game piece:");
-                foreach (var gamePiece in movablePieces)
+                for (int i = 0; i < movablePieces.Count; i++)
                 {
-                    Console.WriteLine($"Piece number: {gamePiece.Number} at position {gamePiece.TrackPosition}");
+                    Console.WriteLine($"{i + 1}) Piece number: {movablePieces[i].Number} at position {movablePieces[i].TrackPosition}");
                 }
-                var chosenPieceIndex = int.Parse(Console.ReadLine());
+                // TODO: Input check
+                var chosenPieceIndex = int.Parse(Console.ReadLine()) - 1;
                 gamePieceToMove = movablePieces[chosenPieceIndex];
             }
             else

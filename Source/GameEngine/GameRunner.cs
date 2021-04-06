@@ -20,14 +20,76 @@ namespace GameEngine
 
         public void CreateNewGame()
         {
+            // Player chooses ammount of players
+            int playerAmmount = 0;
+            while(playerAmmount < 2 || playerAmmount > 4)
+            {
+                Console.WriteLine("Choose how many players: ");
+                try
+                {
+                    playerAmmount = Convert.ToInt32(Console.ReadLine().Trim());
+                }
+                catch
+                {
+                    Console.WriteLine("Input not accepted. Choose beteween 2 and 4");
+                }
+                Console.WriteLine($"{playerAmmount} players will play!");
+            }
+
             Game = new LudoGame();
             Game.Players = new List<GamePlayer>();
-            for (int i = 0; i < 3; i++)
+            var availableColors = new List<GameColor>() {0, (GameColor)1, (GameColor)2, (GameColor)3 };
+            
+            for (int i = 0; i < playerAmmount; i++)
             {
+                // Player chooses name
+                var playerName = $"Player {i + 1}";
+                Console.WriteLine($"Player {i + 1} choose a name: ");
+                var playerNameInput = Console.ReadLine();
+
+                if(playerNameInput == "")
+                {
+                    playerNameInput = playerName;
+                }
+
+                // Player chooses color
+                Console.WriteLine($"Player {i + 1} choose a color:");
+                
+
+                for (int y = 0; y < availableColors.Count; y++)
+                {
+                    Console.WriteLine($"{y + 1}) {availableColors[y]}");
+                }
+
+                var playerColorInput = -1;
+                while (!availableColors.Contains((GameColor)playerColorInput))
+                {
+                    try
+                    {
+                        var input = Console.ReadLine();
+                        if (input == "")
+                        {
+                            playerColorInput = 0;
+                            break;
+                        }
+                        playerColorInput = Convert.ToInt32(input) - 1;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Input not accepted, choose an available color");
+                    }
+
+                    if (!availableColors.Contains((GameColor)playerColorInput)){
+                        Console.WriteLine("Try again");
+                    }
+                }
+                availableColors.Remove(availableColors[playerColorInput]);
+
+                // Player choices gets registered
                 Game.Players.Add(new GamePlayer()
                 {
-                    GamePlayerName = $"Player {i + 1}",
-                    GamePlayerColour = (GameColor)i
+                    GamePlayerName = playerNameInput,
+                    GamePlayerColour = (GameColor)(playerColorInput)
                 });
             }
 

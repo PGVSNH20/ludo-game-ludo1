@@ -18,7 +18,7 @@ namespace GameEngine
             Board = new GameBoard();
         }
 
-        public void CreateNewGame()
+        public GameRunner CreateNewGame()
         {
             // Player chooses amount of players
 
@@ -28,12 +28,13 @@ namespace GameEngine
 
             int playerAmmount = GetPlayerAmount();
             GetPlayersProperties(playerAmmount);
-            Game.Players.OrderBy(p => p.GamePlayerColour);
+            Game.Players = Game.Players.OrderBy(p => p.GamePlayerColour).ToList();
             int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
             Game.NextTurnPlayer = Game.Players[startingPlayerIndex];
 
-            Game.PieceSetup = GamePiece.GetGamePieceSetup();
+            Game.PieceSetup = GamePiece.GetGamePieceSetup(Game.Players);
             Board.UpdateBoardBases(Game.PieceSetup);
+            return this;
         }
 
         private void GetPlayersProperties(int playerAmmount)
@@ -42,44 +43,44 @@ namespace GameEngine
 
             for (int i = 0; i < playerAmmount; i++)
             {
+                var newPlayer = new GamePlayer();
+
                 // Player chooses name
 
                 var playerName = $"Player {i + 1}";
                 Console.WriteLine($"Player {i + 1} choose a name: ");
-                var playerNameInput = Console.ReadLine();
+                newPlayer.GamePlayerName = Console.ReadLine();
 
-                if (playerNameInput == "")
+                if (newPlayer.GamePlayerName == "")
                 {
-                    playerNameInput = playerName;
+                    newPlayer.GamePlayerName = playerName;
                 }
 
                 // Player chooses color
-                Console.WriteLine($"{playerNameInput} choose a color:");
+                Console.WriteLine($"{newPlayer.GamePlayerName} choose a color:");
 
                 for (int y = 0; y < availableColors.Count; y++)
                 {
                     Console.WriteLine($"{y + 1}) {availableColors[y]}");
                 }
-                var playerColorInput = 0;
-                try
-                {
-                    var input = Console.ReadLine();
-                    if (input == "")
-                        input = "1";
-                    playerColorInput = (int)((GameColor)Convert.ToInt32(input) - 1);
-                    availableColors.Remove(availableColors[playerColorInput]);
-                }
-                catch
-                {
-                    Console.WriteLine("Input not accepted, choose an available color");
-                }
+                var colorsLeft = availableColors.Count;
+                while (colorsLeft == availableColors.Count)
+                    try
+                    {
+                        var input = Console.ReadLine();
+                        if (input == "")
+                            input = "1";
+                        var playerColorInput = Convert.ToInt32(input) - 1;
+                        newPlayer.GamePlayerColour = availableColors[playerColorInput];
+                        availableColors.Remove(availableColors[playerColorInput]);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Input not accepted, choose an available color");
+                    }
 
-                // Create player
-                Game.Players.Add(new GamePlayer()
-                {
-                    GamePlayerName = playerNameInput,
-                    GamePlayerColour = (GameColor)(playerColorInput)
-                });
+                // Add player to game players
+                Game.Players.Add(newPlayer);
             }
         }
 
@@ -101,9 +102,10 @@ namespace GameEngine
             return playerAmmount;
         }
 
-        public void LoadGame()
+        public GameRunner LoadGame()
         {
             //get game from db
+            return this;
         }
 
         public void PlayGame()

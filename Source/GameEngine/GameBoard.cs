@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GameEngine.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameEngine.Models
+namespace GameEngine
 {
     public class GameBoard
     {
@@ -173,8 +174,8 @@ namespace GameEngine.Models
             //BoardMap[8, 9] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 2).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 2).Single() : EmptyCells[3];
             //BoardMap[9, 8] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 3).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 3).Single() : EmptyCells[3];
             //BoardMap[9, 9] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single() : EmptyCells[3];
+
             //base
-            //for (int n = 0; n < gamePeaceSetUp.GroupBy(p => p.Color).Count(); n++)
             foreach (var pieceGroup in gamePieceSetUp.GroupBy(p => p.Color).ToList())
             {
                 var color = (int)pieceGroup.First().Color;

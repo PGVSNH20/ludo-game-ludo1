@@ -10,17 +10,17 @@ namespace GameEngine.Models
         public int Number { get; set; }
         public int? TrackPosition { get; set; }
 
-        public static List<GamePiece> GetGamePieceSetup()
+        public static List<GamePiece> GetGamePieceSetup(List<GamePlayer> gamePlayers)
         {
             var gamePieceSetup = new List<GamePiece>();
-            for (int i = 0; i < 4; i++)
+            foreach (var player in gamePlayers)
             {
-                for (int y = 0; y < 4; y++)
+                for (int i = 0; i < 4; i++)
                 {
                     var gamePiece = new GamePiece()
                     {
-                        Color = (GameColor)i,
-                        Number = y + 1
+                        Color = player.GamePlayerColour,
+                        Number = i + 1
                     };
                     gamePieceSetup.Add(gamePiece);
                 }

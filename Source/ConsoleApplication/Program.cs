@@ -3,9 +3,9 @@ using System;
 
 namespace ConsoleApplication
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             GameRunner game = new GameRunner();
             Console.WriteLine("Welcome to Ludo!");
@@ -20,19 +20,21 @@ namespace ConsoleApplication
             switch (input)
             {
                 case "1":
-                    game.CreateNewGame();
-                    game.PlayGame();
+                    game.CreateNewGame().PlayGame();
                     break;
+
                 case "2":
-                    
+
                     break;
+
                 case "3":
 
                     break;
+
                 default:
 
                     break;
             }
-        }    
+        }
     }
 }

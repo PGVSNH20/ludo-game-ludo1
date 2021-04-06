@@ -28,3 +28,10 @@
     * uppdaterar Board tracks
     * uppdaterar opponents pjäsen om det behövs
     * kollar om det finns en vinnare.
+## 2021-04-06
+* Vi jobbade på med GameRunner klassen
+  * Skrev logik som kollar och tar fram pjäser som går att flytta (pjäs för inte stå på samma plats som annan pjäs av samma färg och pjäs för inte hoppa över någon annan pjäs av samma färg)
+* Vi påbörjade consolapp och fick göra små fixar och buggrättningar i GameRunner och andra klasser
+* Vi gjorde enhetstester för GameBoard, GameRunner, GamePiece
+* Vi uppgraderade GameBoard klassen med GUI bräda
+* Vi uppgraderade GameDice med grafiskt simulering av tärningskast

@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using GameEngine;
 using GameEngine.Models;
+using GameEngine.Assets;
 
 namespace GameEngineTest
 {

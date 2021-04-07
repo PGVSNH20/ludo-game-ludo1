@@ -61,7 +61,7 @@ namespace GameEngine
                     case "1":
 
                         Dice.ThrowDice();
-                        var gamePieceToMove = Tools.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Colour, Dice.Result);
+                        var gamePieceToMove = Tools.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
                         CreateMove(gamePieceToMove);
                         if (Game.Moves.Last().Piece != null)
                             ExecuteMove();

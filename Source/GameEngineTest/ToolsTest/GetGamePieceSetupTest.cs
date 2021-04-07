@@ -17,12 +17,11 @@ namespace GameEngineTest.ToolsTest
             //Arrange
             var gamePlayers = new List<GamePlayer>()
             {
-                new GamePlayer() { Colour = 0 },
-                new GamePlayer() { Colour = (GameColor)1 },
-                new GamePlayer() { Colour = (GameColor)2 },
-                new GamePlayer() { Colour = (GameColor)3 }
+                new GamePlayer() { Color = 0 },
+                new GamePlayer() { Color = (GameColor)1 },
+                new GamePlayer() { Color = (GameColor)2 },
+                new GamePlayer() { Color = (GameColor)3 }
             };
-
             //Act
 
             var gamePieceSetUp = Tools.GetGamePieceSetup(gamePlayers);
@@ -38,10 +37,9 @@ namespace GameEngineTest.ToolsTest
             //Arrange
             var gamePlayers = new List<GamePlayer>()
             {
-                new GamePlayer() { Colour = (GameColor)1 },
-                new GamePlayer() { Colour = (GameColor)3 }
+                new GamePlayer() { Color = (GameColor)1 },
+                new GamePlayer() { Color = (GameColor)3 }
             };
-
             //Act
 
             var gamePieceSetUp = Tools.GetGamePieceSetup(gamePlayers);

@@ -17,7 +17,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 10 };
-            var gamePlayer = new GamePlayer() { Colour = 0 };
+            var gamePlayer = new GamePlayer() { Color = 0 };
             var diceThrowResult = 5;
             var board = new GameBoard();
             var game = new LudoGame();
@@ -51,7 +51,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 10 };
-            var gamePlayer = new GamePlayer() { Colour = 0 };
+            var gamePlayer = new GamePlayer() { Color = 0 };
             var diceThrowResult = 5;
 
             var gameMove = new GameMove()
@@ -90,7 +90,7 @@ namespace GameEngineTest
             //Arrange
             var gamePieceBlue = new GamePiece() { Color = 0, TrackPosition = 10 };
             var gamePieceRed = new GamePiece() { Color = (GameColor)1, TrackPosition = 15 };
-            var gamePlayer = new GamePlayer() { Colour = 0 };
+            var gamePlayer = new GamePlayer() { Color = 0 };
             var diceThrowResult = 5;
 
             var gameMove = new GameMove()
@@ -134,7 +134,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 43 };
-            var gamePlayer = new GamePlayer() { Colour = 0 };
+            var gamePlayer = new GamePlayer() { Color = 0 };
             var diceThrowResult = 6;
             var board = new GameBoard();
             var game = new LudoGame();

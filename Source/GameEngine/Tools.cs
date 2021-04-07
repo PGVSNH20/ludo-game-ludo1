@@ -17,9 +17,10 @@ namespace GameEngine
                 try
                 {
                     playerAmmount = Convert.ToInt32(Console.ReadLine().Trim());
-                    if (playerAmmount < 2 || playerAmmount > 4)
+                    if (playerAmmount >= 2 && playerAmmount <= 4)
+                        Console.WriteLine($"{playerAmmount} players will play!");
+                    else
                         Console.WriteLine("Choose between 2 and 4");
-                    Console.WriteLine($"{playerAmmount} players will play!");
                 }
                 catch { Console.WriteLine("Input not accepted. Choose between 2 and 4"); }
             }
@@ -60,7 +61,7 @@ namespace GameEngine
                         if (input == "")
                             input = "1";
                         var playerColorInput = Convert.ToInt32(input) - 1;
-                        newPlayer.Colour = availableColors[playerColorInput];
+                        newPlayer.Color = availableColors[playerColorInput];
                         availableColors.Remove(availableColors[playerColorInput]);
                     }
                     catch
@@ -71,7 +72,7 @@ namespace GameEngine
                 // Add player to game players
                 players.Add(newPlayer);
             }
-            players = players.OrderBy(p => p.Colour).ToList();
+            players = players.OrderBy(p => p.Color).ToList();
             return players;
         }
 
@@ -84,7 +85,7 @@ namespace GameEngine
                 {
                     var gamePiece = new GamePiece()
                     {
-                        Color = player.Colour,
+                        Color = player.Color,
                         Number = i + 1
                     };
                     gamePieceSetup.Add(gamePiece);
@@ -145,7 +146,9 @@ namespace GameEngine
                 Console.WriteLine("Choose your game piece:");
                 for (int i = 0; i < movablePieces.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) Piece number: {movablePieces[i].Number} at position {movablePieces[i].TrackPosition + 1}");
+                    string trackPosition = (movablePieces[i].TrackPosition == null) ? "base" : "position " + (movablePieces[i].TrackPosition + 1).ToString();
+                    Console.WriteLine(
+                        $"{i + 1}) Piece number: {movablePieces[i].Number} at {trackPosition}");
                 }
                 // TODO: Input check
                 var chosenPieceIndex = int.Parse(Console.ReadLine()) - 1;

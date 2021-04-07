@@ -9,6 +9,10 @@ namespace GameEngine.DatabaseContext
     internal class LudoGameDbContext : DbContext
     {
         public DbSet<GamePlayer> Players { get; set; }
+        public DbSet<GamePlayers> PlayersInGame { get; set; }
+        public DbSet<LudoGame> Games { get; set; }
+        public DbSet<GameMove> GameMoves { get; set; }
+        public DbSet<GamePiece> GamePieces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

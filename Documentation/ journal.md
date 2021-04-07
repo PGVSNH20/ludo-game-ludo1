@@ -35,3 +35,9 @@
 * Vi gjorde enhetstester för GameBoard, GameRunner, GamePiece
 * Vi uppgraderade GameBoard klassen med GUI bräda
 * Vi uppgraderade GameDice med grafiskt simulering av tärningskast
+## 2021-04-07
+* Vi jobbade med GameRunner och kastade om lite metoder.
+* Skapade ny namespace "Assets" där vi la en del metoder på klassen Tools från GameRunner för att göra den lättare att förstå
+* Vi gjorde en hel del unit tester och provade Xunit ramverk samt Nunit som har ganska enkelt sätt att testa Console.ReadLine och Console.WriteLine stängar.
+* Vi fortsatte med tidigare skapad DbContext och lade upp code first datamodel i migreringen
+* Vi skapade metoder som lagrar ny spel och lagrar Moves i databasen samt gjorde lite manuella tester.

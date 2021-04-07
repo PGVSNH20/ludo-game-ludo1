@@ -131,6 +131,7 @@ namespace GameEngine.Assets
         }
 
         public static int CalculateNewPositon(int? originalPosition, int diceValue)
+
         {
             var newPosition = (originalPosition == null) ? diceValue - 1 : (int)originalPosition + diceValue;
             newPosition = (newPosition > 44) ? 88 - newPosition : newPosition;
@@ -151,7 +152,10 @@ namespace GameEngine.Assets
                         $"{i + 1}) Piece number: {movablePieces[i].Number} at {trackPosition}");
                 }
                 // TODO: Input check
-                var chosenPieceIndex = int.Parse(Console.ReadLine()) - 1;
+
+                var chosenPieceIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;
+                if (chosenPieceIndex < 0 || chosenPieceIndex > movablePieces.Count - 1)
+                    chosenPieceIndex = 0;
                 gamePieceToMove = movablePieces[chosenPieceIndex];
             }
             else

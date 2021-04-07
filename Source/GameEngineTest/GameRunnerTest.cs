@@ -86,6 +86,44 @@ namespace GameEngineTest
         }
 
         [Fact]
+        public void Given_NextTurnGreen_And_GreenAtPos8_DiceIs5_Expect_Track38IsNull_And_Track3IsGreen()
+        {
+            //Arrange
+            var gamePiece = new GamePiece() { Color = (GameColor)3, TrackPosition = 8 };
+            var gamePlayer = new GamePlayer() { Color = (GameColor)3 };
+            var diceThrowResult = 5;
+
+            var gameMove = new GameMove()
+            {
+                Player = gamePlayer,
+                Piece = gamePiece,
+                OriginalPosition = gamePiece.TrackPosition,
+                DiceThrowResult = diceThrowResult
+            };
+
+            var board = new GameBoard();
+            board.MainTrack[38] = gameMove.Piece;
+
+            var game = new LudoGame();
+            game.Moves.Add(gameMove);
+
+            var gameRunner = new GameRunner()
+            {
+                Game = game,
+                Board = board
+            };
+
+            //Act
+
+            gameRunner.ExecuteMove();
+
+            //Assert
+
+            Assert.Null(board.MainTrack[38]);
+            Assert.Equal((GameColor)3, board.MainTrack[3].Color);
+        }
+
+        [Fact]
         public void Given_NextTurnBlue_And_BlueAtPos10_And_RedAtPos15_DiceResult5_Expect_BlueAtPos15_And_RedAtPosNull()
         {
             //Arrange
@@ -163,52 +201,5 @@ namespace GameEngineTest
 
             Assert.Equal(39, gamePiece.TrackPosition);
         }
-
-        //[Fact]
-        //public void Given_InputForNewGameWith4Players_Excpect_NewGameWith4Players()
-        //{
-        //    //Arrange
-
-        //    var gameRunner = new GameRunner();
-        //    var playerAmount = 4;
-        //    var players = new List<string>() { "Bob", "Rob", "Bil", "Ted" };
-        //    var colors = new List<string>() { "3", "1", "2", "1" };
-
-        //    //Act
-
-        //    gameRunner.CreateNewGame();
-        //    var input = new StringReader(playerAmount.ToString());
-        //    Console.SetIn(input);
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        input = new StringReader(players[i]);
-        //        Console.SetIn(input);
-        //        input = new StringReader(colors[i]);
-        //        Console.SetIn(input);
-        //    }
-
-        //    //Assert
-        //    Assert.Equal(4, gameRunner.Game.Players.Count);
-        //}
-
-        //public static void Test(string[] args)
-        //{
-        //    Console.WriteLine("What's your name?");
-        //    var name = Console.ReadLine();
-        //    Console.WriteLine(string.Format("Hello {0}!!", name));
-        //}
-
-        //[Test]
-        //public void something()
-        //{
-        //    var output = new StringWriter();
-        //    Console.SetOut(output);
-
-        //    var input = new StringReader("Somebody");
-        //    Console.SetIn(input);
-
-        //    Program.Main(new string[] { });
-
-        //    Assert.That(output.ToString(), Is.EqualTo(string.Format("What's your name?{0}Hello Somebody!!{0}", Environment.NewLine)));
     }
 }

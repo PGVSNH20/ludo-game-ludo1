@@ -1,5 +1,7 @@
 ﻿using GameEngine.Assets;
+using GameEngine.DatabaseContext;
 using GameEngine.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace GameEngine
         public LudoGame Game { get; set; }
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
+        private GamePiece OponentsGamePiece { get; set; }
 
         public GameRunner()
         {
@@ -24,18 +27,26 @@ namespace GameEngine
             // Player chooses amount of players
 
             Game = new LudoGame();
-            Game.Players = new List<GamePlayer>();
+            Game.Players.Players = new List<GamePlayer>();
             Game.Moves = new List<GameMove>();
 
             int playerAmmount = Tools.GetPlayerAmount();
-            Game.Players = Tools.GetPlayers(playerAmmount);
+            Game.Players.Players = Tools.GetPlayers(playerAmmount);
 
-            int startingPlayerIndex = new Random().Next(0, Game.Players.Count);
-            Game.NextPlayer = Game.Players[startingPlayerIndex];
+            int startingPlayerIndex = new Random().Next(0, Game.Players.Players.Count);
+            Game.NextPlayer = Game.Players.Players[startingPlayerIndex];
 
-            Game.PieceSetup = Tools.GetGamePieceSetup(Game.Players);
+            Game.PieceSetup = Tools.GetGamePieceSetup(Game.Players.Players);
             Board.UpdateBoardBases(Game.PieceSetup);
+            SaveGameToDataBase();
             return this;
+        }
+
+        private void SaveGameToDataBase()
+        {
+            var db = new LudoGameDbContext();
+            db.Games.Add(Game);
+            db.SaveChanges();
         }
 
         public GameRunner LoadGame()
@@ -74,11 +85,13 @@ namespace GameEngine
                 }
                 if (Dice.Result != 6)
                 {
-                    var currentPlayerIndex = Game.Players.IndexOf(Game.NextPlayer);
-                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.Players.Count());
-                    Game.NextPlayer = Game.Players[nextTurnPlayerIndex];
+                    var currentPlayerIndex = Game.Players.Players.IndexOf(Game.NextPlayer);
+                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.Players.Players.Count());
+                    Game.NextPlayer = Game.Players.Players[nextTurnPlayerIndex];
                 }
+                SaveMoveToDataBase();
             }
+            //spelet är slut grattis!!!
         }
 
         public void ExecuteMove()
@@ -95,7 +108,7 @@ namespace GameEngine
             if (originalPosition != null && originalPosition < 40)
             {
                 //remove from track
-                var originalBoardTrackCellIndex = (int)originalPosition + 10 * (int)currentGameColor % 40;
+                var originalBoardTrackCellIndex = ((int)originalPosition + 10 * (int)currentGameColor) % 40;
                 Board.MainTrack[originalBoardTrackCellIndex] = null;
             }
             else if (originalPosition >= 40 && originalPosition < 44)
@@ -110,13 +123,16 @@ namespace GameEngine
             if (newPosition < 40)
             {
                 //add to track
-                var targetBoardTrackCellIndex = (int)newPosition + 10 * (int)currentGameColor % 40;
+                var targetBoardTrackCellIndex = ((int)newPosition + 10 * (int)currentGameColor) % 40;
                 var tmpCell = Board.MainTrack[targetBoardTrackCellIndex];
                 if (tmpCell != null)
                 {
                     //update position av opponents piece
                     if (tmpCell.Color != currentGameColor)
+                    {
+                        OponentsGamePiece = tmpCell;
                         tmpCell.TrackPosition = null;
+                    }
                 }
                 Board.MainTrack[targetBoardTrackCellIndex] = currentGamePiece;
             }
@@ -131,7 +147,8 @@ namespace GameEngine
 
             if (newPosition == 44)
             {
-                var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 44).Count();
+                currentGamePiece.TrackPosition = 45;
+                var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 45).Count();
                 if (piecesAtFinish == 4)
                 {
                     Game.Winner = currentPlayer;
@@ -139,7 +156,39 @@ namespace GameEngine
             }
         }
 
-        private void CreateMove(GamePiece pieceToMove)
+        private void SaveMoveToDataBase()
+        {
+            var db = new LudoGameDbContext();
+            GamePiece gamePiece = null;
+
+            if (Game.Moves.Last().Piece != null)
+            {
+                gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().Piece).Single();
+                gamePiece.TrackPosition = Game.Moves.Last().Piece.TrackPosition;
+                db.GamePieces.Update(gamePiece);
+                db.SaveChanges();
+            }
+            if (OponentsGamePiece != null)
+            {
+                var oponentsGamePiece = db.GamePieces.Where(p => p.GamePieceId == OponentsGamePiece.GamePieceId).Single();
+                oponentsGamePiece.TrackPosition = OponentsGamePiece.TrackPosition;
+                OponentsGamePiece = null;
+                db.GamePieces.Update(oponentsGamePiece);
+                db.SaveChanges();
+            }
+
+            var player = db.Players.Where(p => p == Game.NextPlayer).Single();
+            var game = db.Games.Where(g => g == Game).Include("Moves").Single();
+
+            game.Moves.Add(Game.Moves.Last());
+
+            game.Moves.Last().Player = player;
+            game.Moves.Last().Piece = gamePiece;
+            db.Games.Update(game);
+            db.SaveChanges();
+        }
+
+        private void CreateMove(GamePiece gamePieceToMove)
         {
             var currentMove = new GameMove()
             {
@@ -149,10 +198,10 @@ namespace GameEngine
                 DiceThrowResult = Dice.Result
             };
 
-            if (pieceToMove != null)
+            if (gamePieceToMove != null)
             {
-                currentMove.Piece = pieceToMove;
-                currentMove.OriginalPosition = pieceToMove.TrackPosition;
+                currentMove.Piece = gamePieceToMove;
+                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
             }
             Game.Moves.Add(currentMove);
         }

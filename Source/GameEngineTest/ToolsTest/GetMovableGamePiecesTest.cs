@@ -38,6 +38,52 @@ namespace GameEngineTest.ToolsTest
         }
 
         [Fact]
+        public void Given_4PiecesAtFinalTrack_DiceIs2_Excpect_ListWith0Pieces()
+        {
+            //Arrange
+
+            var gamePieces = new List<GamePiece>()
+            {
+                new GamePiece(){Color = 0, Number = 1, TrackPosition = 43},
+                new GamePiece(){Color = 0, Number = 2, TrackPosition = 42},
+                new GamePiece(){Color = 0, Number = 3, TrackPosition = 41},
+                new GamePiece(){Color = 0, Number = 4, TrackPosition = 40}
+            };
+            GameColor color = 0;
+            var diceResult = 2;
+
+            //Act
+
+            var movableGamePieces = Tools.GetMovableGamePieces(gamePieces, color, diceResult);
+
+            //Assert
+            Assert.Empty(movableGamePieces);
+        }
+
+        [Fact]
+        public void Given_4PiecesAtFinalTrack_DiceIs1_Excpect_ListWith1Pieces()
+        {
+            //Arrange
+
+            var gamePieces = new List<GamePiece>()
+            {
+                new GamePiece(){Color = 0, Number = 1, TrackPosition = 43},
+                new GamePiece(){Color = 0, Number = 2, TrackPosition = 42},
+                new GamePiece(){Color = 0, Number = 3, TrackPosition = 41},
+                new GamePiece(){Color = 0, Number = 4, TrackPosition = 40}
+            };
+            GameColor color = 0;
+            var diceResult = 1;
+
+            //Act
+
+            var movableGamePieces = Tools.GetMovableGamePieces(gamePieces, color, diceResult);
+
+            //Assert
+            Assert.Single(movableGamePieces);
+        }
+
+        [Fact]
         public void Given_4PiecesAtBase_DiceIs6_Excpect_ListWith4Pieces()
         {
             //Arrange

@@ -15,7 +15,7 @@ namespace GameEngine.Assets
             Random = new Random();
         }
 
-        public void ThrowDice(bool animation = true)
+        public void ThrowDice(bool animation = false)
         {
             Result = Random.Next(1, 7);
             if (animation)

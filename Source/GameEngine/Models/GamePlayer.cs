@@ -7,7 +7,7 @@ namespace GameEngine.Models
     public class GamePlayer
     {
         public int GamePlayerID { get; set; }
-        public string GamePlayerName { get; set; }
-        public GameColor GamePlayerColour { get; set; }
+        public string Name { get; set; }
+        public GameColor Colour { get; set; }
     }
 }

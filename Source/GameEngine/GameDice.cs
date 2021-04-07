@@ -8,18 +8,19 @@ namespace GameEngine
     public class GameDice
     {
         public Random Random { get; set; }
-        public int LastResult { get; set; }
+        public int Result { get; set; }
 
         public GameDice()
         {
             Random = new Random();
         }
 
-        public void ThrowDice()
+        public void ThrowDice(bool animation = true)
         {
-            LastResult = Random.Next(1, 7);
-            RenderDiceTrow(LastResult);
-            Console.WriteLine($"You got {LastResult}");
+            Result = Random.Next(1, 7);
+            if (animation)
+                RenderDiceTrow(Result);
+            Console.WriteLine($"You got {Result}");
         }
 
         public void RenderDiceTrow(int value)

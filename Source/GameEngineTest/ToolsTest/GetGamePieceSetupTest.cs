@@ -1,4 +1,5 @@
-﻿using GameEngine.Models;
+﻿using GameEngine;
+using GameEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace GameEngineTest
+namespace GameEngineTest.ToolsTest
 {
-    public class GamePieceTest
+    public class GetGamePieceSetupTest
     {
         [Fact]
         public void Given_4GamePlayers_Expect_16GamePieces()
@@ -16,15 +17,15 @@ namespace GameEngineTest
             //Arrange
             var gamePlayers = new List<GamePlayer>()
             {
-                new GamePlayer() { GamePlayerColour = 0 },
-                new GamePlayer() { GamePlayerColour = (GameColor)1 },
-                new GamePlayer() { GamePlayerColour = (GameColor)2 },
-                new GamePlayer() { GamePlayerColour = (GameColor)3 }
+                new GamePlayer() { Colour = 0 },
+                new GamePlayer() { Colour = (GameColor)1 },
+                new GamePlayer() { Colour = (GameColor)2 },
+                new GamePlayer() { Colour = (GameColor)3 }
             };
 
             //Act
 
-            var gamePieceSetUp = GamePiece.GetGamePieceSetup(gamePlayers);
+            var gamePieceSetUp = Tools.GetGamePieceSetup(gamePlayers);
 
             //Assert
 
@@ -37,13 +38,13 @@ namespace GameEngineTest
             //Arrange
             var gamePlayers = new List<GamePlayer>()
             {
-                new GamePlayer() { GamePlayerColour = (GameColor)1 },
-                new GamePlayer() { GamePlayerColour = (GameColor)3 }
+                new GamePlayer() { Colour = (GameColor)1 },
+                new GamePlayer() { Colour = (GameColor)3 }
             };
 
             //Act
 
-            var gamePieceSetUp = GamePiece.GetGamePieceSetup(gamePlayers);
+            var gamePieceSetUp = Tools.GetGamePieceSetup(gamePlayers);
 
             //Assert
 

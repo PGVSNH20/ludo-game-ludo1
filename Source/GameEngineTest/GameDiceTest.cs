@@ -18,8 +18,8 @@ namespace GameEngineTest
 
             for (int i = 0; i < 100; i++)
             {
-                gameDice.ThrowDice();
-                results[i] = gameDice.LastResult;
+                gameDice.ThrowDice(false);
+                results[i] = gameDice.Result;
             }
 
             // Assert

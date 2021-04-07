@@ -13,7 +13,7 @@ namespace GameEngine.Models
         public GamePlayer Winner { get; set; }
         public string Status { get; set; }
         public List<GamePiece> PieceSetup { get; set; }
-        public GamePlayer NextTurnPlayer { get; set; }
+        public GamePlayer NextPlayer { get; set; }
 
         public LudoGame()
         {

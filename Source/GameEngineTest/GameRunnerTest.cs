@@ -2,6 +2,7 @@
 using GameEngine.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 10 };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gamePlayer = new GamePlayer() { Colour = 0 };
             var diceThrowResult = 5;
             var board = new GameBoard();
             var game = new LudoGame();
@@ -38,7 +39,7 @@ namespace GameEngineTest
 
             //Act
 
-            gameRunner.ExecuteLastMove();
+            gameRunner.ExecuteMove();
 
             //Assert
 
@@ -50,7 +51,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 10 };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gamePlayer = new GamePlayer() { Colour = 0 };
             var diceThrowResult = 5;
 
             var gameMove = new GameMove()
@@ -75,7 +76,7 @@ namespace GameEngineTest
 
             //Act
 
-            gameRunner.ExecuteLastMove();
+            gameRunner.ExecuteMove();
 
             //Assert
 
@@ -89,7 +90,7 @@ namespace GameEngineTest
             //Arrange
             var gamePieceBlue = new GamePiece() { Color = 0, TrackPosition = 10 };
             var gamePieceRed = new GamePiece() { Color = (GameColor)1, TrackPosition = 15 };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gamePlayer = new GamePlayer() { Colour = 0 };
             var diceThrowResult = 5;
 
             var gameMove = new GameMove()
@@ -121,7 +122,7 @@ namespace GameEngineTest
 
             //Act
 
-            gameRunner.ExecuteLastMove();
+            gameRunner.ExecuteMove();
 
             //Assert
             Assert.Null(gamePieceRed.TrackPosition);
@@ -133,7 +134,7 @@ namespace GameEngineTest
         {
             //Arrange
             var gamePiece = new GamePiece() { Color = 0, TrackPosition = 43 };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
+            var gamePlayer = new GamePlayer() { Colour = 0 };
             var diceThrowResult = 6;
             var board = new GameBoard();
             var game = new LudoGame();
@@ -155,115 +156,58 @@ namespace GameEngineTest
 
             //Act
 
-            gameRunner.ExecuteLastMove();
+            gameRunner.ExecuteMove();
 
             //Assert
 
             Assert.Equal(39, gamePiece.TrackPosition);
         }
 
-        [Fact]
-        public void Given_4PiecesAtDifferentPositions_DiceIs3_Excpect_ListWith2Pieces()
-        {
-            //Arrange
+        //[Fact]
+        //public void Given_InputForNewGameWith4Players_Excpect_NewGameWith4Players()
+        //{
+        //    //Arrange
 
-            var gamePieces = new List<GamePiece>()
-            {
-                new GamePiece(){Color = 0, Number = 1, TrackPosition = 1},
-                new GamePiece(){Color = 0, Number = 2, TrackPosition = 5},
-                new GamePiece(){Color = 0, Number = 3, TrackPosition = 7},
-                new GamePiece(){Color = 0, Number = 4, TrackPosition = 8}
-            };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
-            var gameDice = new GameDice() { LastResult = 3 };
-            var game = new LudoGame()
-            {
-                PieceSetup = gamePieces,
-                NextTurnPlayer = gamePlayer,
-            };
+        //    var gameRunner = new GameRunner();
+        //    var playerAmount = 4;
+        //    var players = new List<string>() { "Bob", "Rob", "Bil", "Ted" };
+        //    var colors = new List<string>() { "3", "1", "2", "1" };
 
-            var gameRunner = new GameRunner()
-            {
-                Game = game,
-                Dice = gameDice
-            };
+        //    //Act
 
-            //Act
+        //    gameRunner.CreateNewGame();
+        //    var input = new StringReader(playerAmount.ToString());
+        //    Console.SetIn(input);
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        input = new StringReader(players[i]);
+        //        Console.SetIn(input);
+        //        input = new StringReader(colors[i]);
+        //        Console.SetIn(input);
+        //    }
 
-            var movableGamePieces = gameRunner.GetMovableGamePieces();
+        //    //Assert
+        //    Assert.Equal(4, gameRunner.Game.Players.Count);
+        //}
 
-            //Assert
-            Assert.Equal(2, movableGamePieces.Count());
-            Assert.Equal(gamePieces[0], movableGamePieces[0]);
-            Assert.Equal(gamePieces[3], movableGamePieces[1]);
-        }
+        //public static void Test(string[] args)
+        //{
+        //    Console.WriteLine("What's your name?");
+        //    var name = Console.ReadLine();
+        //    Console.WriteLine(string.Format("Hello {0}!!", name));
+        //}
 
-        [Fact]
-        public void Given_4PiecesAtBase_DiceIs6_Excpect_ListWith4Pieces()
-        {
-            //Arrange
+        //[Test]
+        //public void something()
+        //{
+        //    var output = new StringWriter();
+        //    Console.SetOut(output);
 
-            var gamePieces = new List<GamePiece>()
-            {
-                new GamePiece(){Color = 0, Number = 1, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 2, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 3, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 4, TrackPosition = null}
-            };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
-            var gameDice = new GameDice() { LastResult = 6 };
-            var game = new LudoGame()
-            {
-                PieceSetup = gamePieces,
-                NextTurnPlayer = gamePlayer,
-            };
+        //    var input = new StringReader("Somebody");
+        //    Console.SetIn(input);
 
-            var gameRunner = new GameRunner()
-            {
-                Game = game,
-                Dice = gameDice
-            };
+        //    Program.Main(new string[] { });
 
-            //Act
-
-            var movableGamePieces = gameRunner.GetMovableGamePieces();
-
-            //Assert
-            Assert.Equal(4, movableGamePieces.Count());
-        }
-
-        [Fact]
-        public void Given_4PiecesAtBase_DiceIs2_Excpect_ListWith0Pieces()
-        {
-            //Arrange
-
-            var gamePieces = new List<GamePiece>()
-            {
-                new GamePiece(){Color = 0, Number = 1, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 2, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 3, TrackPosition = null},
-                new GamePiece(){Color = 0, Number = 4, TrackPosition = null}
-            };
-            var gamePlayer = new GamePlayer() { GamePlayerColour = 0 };
-            var gameDice = new GameDice() { LastResult = 2 };
-            var game = new LudoGame()
-            {
-                PieceSetup = gamePieces,
-                NextTurnPlayer = gamePlayer,
-            };
-
-            var gameRunner = new GameRunner()
-            {
-                Game = game,
-                Dice = gameDice
-            };
-
-            //Act
-
-            var movableGamePieces = gameRunner.GetMovableGamePieces();
-
-            //Assert
-            Assert.Empty(movableGamePieces);
-        }
+        //    Assert.That(output.ToString(), Is.EqualTo(string.Format("What's your name?{0}Hello Somebody!!{0}", Environment.NewLine)));
     }
 }

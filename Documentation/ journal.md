@@ -41,3 +41,10 @@
 * Vi gjorde en hel del unit tester och provade Xunit ramverk samt Nunit som har ganska enkelt sätt att testa Console.ReadLine och Console.WriteLine stängar.
 * Vi fortsatte med tidigare skapad DbContext och lade upp code first datamodel i migreringen
 * Vi skapade metoder som lagrar ny spel och lagrar Moves i databasen samt gjorde lite manuella tester.
+## 2021-04-08
+* Vi försätta jobba med console-application
+* Vi skapade metoder för att ladda data från dbcontext och på så sätt kunna forstätta tidigare spel
+* Vi skapade några egenskaper (SpelNamn, AntalSpelare och Datum) på några db context klasser
+* Vi skapade och testade AI spelare som kan göra relativt smarta moves
+* Vi diskuterade upplägget med video inlämning och kom fram till att vi ska göra plan för scener och manuset
+* Diversa små fixar i koden

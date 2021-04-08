@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GameEngine.Assets
 {
@@ -21,33 +22,37 @@ namespace GameEngine.Assets
 
         public GamePiece ChoosePieceToMove(GameColor color, int diceResult)
         {
+            Thread.Sleep(100);
             var movablePieces = Tools.GetMovableGamePieces(GamePeaceSetUp, color, diceResult);
 
-            //Prio list (Dictionary<GamePiece, PrioInt)
-            var prioGamePieces = new Dictionary<GamePiece, int>();
-            foreach (var piece in movablePieces)
+            if (movablePieces.Count > 0)
             {
-                prioGamePieces.Add(piece, 0);
+                //Prio list (Dictionary<GamePiece, PrioInt)
+                var prioGamePieces = new Dictionary<GamePiece, int>();
+                foreach (var piece in movablePieces)
+                {
+                    prioGamePieces.Add(piece, 0);
 
-                if (GamePieceCanKick(piece))
-                    prioGamePieces[piece] += 2;
+                    if (GamePieceCanKick(piece))
+                        prioGamePieces[piece] += 2;
 
-                if (piece.TrackPosition == null)
-                    prioGamePieces[piece] += 1;
-                if (PieceIsThreatenedAtOriginPos(piece))
-                    prioGamePieces[piece] += 2;
+                    if (piece.TrackPosition == null)
+                        prioGamePieces[piece] += 2;
+                    if (PieceIsThreatenedAtOriginPos(piece))
+                        prioGamePieces[piece] += 2;
+                    if (PieceIsThreatenedAtTargetPos(piece))
+                        prioGamePieces[piece] -= 1;
+                }
+
+                return prioGamePieces.OrderByDescending(p => p.Value).First().Key;
             }
-
-            var maxPosition = prioGamePieces.Keys.Max(p => p.TrackPosition);
-            var maxPositionPiece = prioGamePieces.Where(k => k.Key.TrackPosition == maxPosition).ToList();
-
-            //Thread.Sleep(100);
-            return prioGamePieces.First().Key;
+            return null;
         }
 
         public bool PieceIsThreatenedAtOriginPos(GamePiece piece)
         {
-            var boardTrackCellIndex = ((int)piece.TrackPosition + 10 * (int)piece.Color) % 40;
+            var tmpPosition = (piece.TrackPosition == null) ? -1 : piece.TrackPosition;
+            var boardTrackCellIndex = ((int)tmpPosition + 10 * (int)piece.Color) % 40;
             var maxThreatRangeIndex = (boardTrackCellIndex + 34) % 40;
 
             var boardTrackCellIndexBehind = boardTrackCellIndex;
@@ -70,9 +75,9 @@ namespace GameEngine.Assets
 
             var boardTrackCellIndexBehind = boardTrackCellIndex;
             boardTrackCellIndexBehind = (boardTrackCellIndexBehind > maxThreatRangeIndex) ? boardTrackCellIndexBehind : boardTrackCellIndexBehind + 40;
-            while (boardTrackCellIndexBehind >= maxThreatRangeIndex)
+            while (boardTrackCellIndexBehind >= maxThreatRangeIndex )
             {
-                boardTrackCellIndexBehind--;
+                boardTrackCellIndexBehind--; //TODO får inte vara noll
                 var tmpBoardTrackCellIndex = boardTrackCellIndexBehind % 40;
                 if (Board.MainTrack[tmpBoardTrackCellIndex] != null && Board.MainTrack[tmpBoardTrackCellIndex].Color != piece.Color)
                     return true;

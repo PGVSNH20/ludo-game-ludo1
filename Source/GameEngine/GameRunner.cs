@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GameEngine
 {
@@ -15,6 +16,7 @@ namespace GameEngine
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
         private GamePiece OponentsGamePiece { get; set; }
+        private AIPlayer AIPlayer { get; set; }
 
         public GameRunner()
         {
@@ -52,7 +54,10 @@ namespace GameEngine
         }
 
         public void PlayGame()
+
         {
+            if (Game.GamePlayers.Players.FindAll(p => p.Name == "ai").Count > 0)
+                AIPlayer = new AIPlayer(Board, Game.PieceSetup, Dice);
             Board.UppdateMapMainTrackCells();
             Board.UppdateMapFinalTracksCells();
             while (Game.Winner == null)
@@ -66,16 +71,27 @@ namespace GameEngine
                 Console.WriteLine(" turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
-
-                var input = Console.ReadLine();
-                input = (input == "") ? "1" : input;
+                string input = string.Empty;
+                if (Game.NextPlayer.Name == "ai")
+                    input = "1";
+                else
+                {
+                    input = Console.ReadLine();
+                    input = (input == "") ? "1" : input;
+                }
 
                 switch (input)
                 {
                     case "1":
 
                         Dice.ThrowDice();
-                        var gamePieceToMove = Tools.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
+                        GamePiece gamePieceToMove = null;
+
+                        if (Game.NextPlayer.Name == "ai")
+                            gamePieceToMove = AIPlayer.ChoosePieceToMove(Game.NextPlayer.Color, Dice.Result);
+                        else
+                            gamePieceToMove = Tools.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
+
                         CreateMove(gamePieceToMove);
                         if (Game.Moves.Last().Piece != null)
                             ExecuteMove();
@@ -94,7 +110,10 @@ namespace GameEngine
                 else
                 {
                     Console.WriteLine("Congratulations you can roll again!");
-                    Console.ReadKey();
+                    if (Game.NextPlayer.Name == "ai")
+                        Thread.Sleep(1000);
+                    else
+                        Console.ReadKey();
                 }
                 SaveMoveToDataBase();
             }
@@ -140,7 +159,10 @@ namespace GameEngine
                         OponentsGamePiece = tmpCell;
                         tmpCell.TrackPosition = null;
                         Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} kicked out {OponentsGamePiece.Color} {OponentsGamePiece.Number}!");
-                        Console.ReadKey();
+                        if (Game.NextPlayer.Name == "ai")
+                            Thread.Sleep(1000);
+                        else
+                            Console.ReadKey();
                     }
                 }
                 Board.MainTrack[targetBoardTrackCellIndex] = currentGamePiece;
@@ -158,7 +180,10 @@ namespace GameEngine
             {
                 currentGamePiece.TrackPosition = 45;
                 Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} finished!");
-                Console.ReadKey();
+                if (Game.NextPlayer.Name == "ai")
+                    Thread.Sleep(1000);
+                else
+                    Console.ReadKey();
 
                 var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 45).Count();
                 if (piecesAtFinish == 4)

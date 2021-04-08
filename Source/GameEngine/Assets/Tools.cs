@@ -12,7 +12,7 @@ namespace GameEngine.Assets
             int playerAmount = 0;
             while (playerAmount < 2 || playerAmount > 4)
             {
-                Console.WriteLine("Choose how many players (2-4): ");
+                Console.WriteLine("Choose how many players (2, 3 or 4): ");
                 try
                 {
                     playerAmount = Convert.ToInt32(Console.ReadLine().Trim());

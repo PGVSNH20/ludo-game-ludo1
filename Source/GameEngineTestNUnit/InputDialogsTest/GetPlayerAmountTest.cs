@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GameEngineTestNUnit.ToolsTest
+namespace GameEngineTestNUnit.InputDialogsTest
 {
     internal class GetPlayerAmountTest
     {
@@ -19,9 +19,9 @@ namespace GameEngineTestNUnit.ToolsTest
             var output = new StringWriter();
             Console.SetOut(output);
 
-            var playerAmount = Tools.GetPlayerAmount();
+            var playerAmount = InputDialogs.GetPlayerAmount();
             Assert.AreEqual(2, playerAmount);
-            Assert.AreEqual("Choose how many players: \r\n2 players will play!\r\n", output.ToString());
+            Assert.AreEqual("Choose how many players (2, 3 or 4): \r\n2 players will play!\r\n", output.ToString());
         }
 
         [Test]
@@ -33,9 +33,9 @@ namespace GameEngineTestNUnit.ToolsTest
             var output = new StringWriter();
             Console.SetOut(output);
 
-            var playerAmount = Tools.GetPlayerAmount();
+            var playerAmount = InputDialogs.GetPlayerAmount();
             Assert.AreEqual(3, playerAmount);
-            Assert.AreEqual("Choose how many players: \r\n3 players will play!\r\n", output.ToString());
+            Assert.AreEqual("Choose how many players (2, 3 or 4): \r\n3 players will play!\r\n", output.ToString());
         }
 
         [Test]
@@ -47,9 +47,9 @@ namespace GameEngineTestNUnit.ToolsTest
             var output = new StringWriter();
             Console.SetOut(output);
 
-            var playerAmount = Tools.GetPlayerAmount();
+            var playerAmount = InputDialogs.GetPlayerAmount();
             Assert.AreEqual(4, playerAmount);
-            Assert.AreEqual("Choose how many players: \r\n4 players will play!\r\n", output.ToString());
+            Assert.AreEqual("Choose how many players (2, 3 or 4): \r\n4 players will play!\r\n", output.ToString());
         }
 
         [Test]
@@ -66,16 +66,16 @@ namespace GameEngineTestNUnit.ToolsTest
             Console.SetOut(output);
 
             var expectedOutput =
-                $"Choose how many players: \r\n" +
+                $"Choose how many players (2, 3 or 4): \r\n" +
                 $"Choose between 2 and 4\r\n" +
-                $"Choose how many players: \r\n" +
+                $"Choose how many players (2, 3 or 4): \r\n" +
                 $"Choose between 2 and 4\r\n" +
-                $"Choose how many players: \r\n" +
+                $"Choose how many players (2, 3 or 4): \r\n" +
                 $"Input not accepted. Choose between 2 and 4\r\n" +
-                $"Choose how many players: \r\n" +
+                $"Choose how many players (2, 3 or 4): \r\n" +
                 $"3 players will play!\r\n";
 
-            var playerAmount = Tools.GetPlayerAmount();
+            var playerAmount = InputDialogs.GetPlayerAmount();
             Assert.AreEqual(expectedOutput, output.ToString());
             Assert.AreEqual(3, playerAmount);
         }

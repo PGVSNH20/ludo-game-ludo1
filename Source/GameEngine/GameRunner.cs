@@ -28,12 +28,16 @@ namespace GameEngine
         {
             // Player chooses amount of players
 
-            Game = new LudoGame();
+            Game = new LudoGame()
+            {
+                Created = DateTime.Now
+            };
             Game.GamePlayers.Players = new List<GamePlayer>();
             Game.Moves = new List<GameMove>();
-
-            int playerAmount = Tools.GetPlayerAmount();
-            Game.GamePlayers.Players = Tools.GetPlayers(playerAmount);
+            Game.Status = "Created";
+            Game.GameName = InputDialogs.GetGameName();
+            int playerAmount = InputDialogs.GetPlayerAmount();
+            Game.GamePlayers.Players = InputDialogs.GetPlayers(playerAmount);
 
             int startingPlayerIndex = new Random().Next(0, Game.GamePlayers.Players.Count);
             Game.NextPlayer = Game.GamePlayers.Players[startingPlayerIndex];
@@ -47,32 +51,32 @@ namespace GameEngine
         public GameRunner LoadGame()
         {
             var allGames = LoadAllGamesFromDataBase();
-            var oneLudoGame = Tools.GetLudoGame(allGames);
+            var oneLudoGame = InputDialogs.GetLudoGame(allGames);
             LoadGameFromDatabase(oneLudoGame);
-
+            Board.UpdateTracks(Game.PieceSetup);
             return this;
         }
 
         public void PlayGame()
 
         {
-            if (Game.GamePlayers.Players.FindAll(p => p.Name == "ai").Count > 0)
+            if (Game.GamePlayers.Players.FindAll(p => p.Type == (PlayerType)1).Count > 0)
                 AIPlayer = new AIPlayer(Board, Game.PieceSetup, Dice);
-            Board.UppdateMapMainTrackCells();
-            Board.UppdateMapFinalTracksCells();
-            while (Game.Winner == null)
+
+            while (Game.Winer == null)
             {
                 Console.Clear();
                 Board.PrintBoard(Game.PieceSetup);
                 Console.Write($"Now it's ");
-                Console.ForegroundColor = (ConsoleColor)Game.NextPlayer.Color;
+                //Console.ForegroundColor = (ConsoleColor)Game.NextPlayer.Color;
+                Tools.SetConsoleColor(Game.NextPlayer.Color);
                 Console.Write(Game.NextPlayer.Name);
                 Console.ResetColor();
                 Console.WriteLine(" turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
                 string input = string.Empty;
-                if (Game.NextPlayer.Name == "ai")
+                if (Game.NextPlayer.Type == (PlayerType)1)
                     input = "1";
                 else
                 {
@@ -84,13 +88,13 @@ namespace GameEngine
                 {
                     case "1":
 
-                        Dice.ThrowDice();
+                        Dice.ThrowDice(Game.NextPlayer.Color); //animation (true if color param)
                         GamePiece gamePieceToMove = null;
 
-                        if (Game.NextPlayer.Name == "ai")
+                        if (Game.NextPlayer.Type == (PlayerType)1)
                             gamePieceToMove = AIPlayer.ChoosePieceToMove(Game.NextPlayer.Color, Dice.Result);
                         else
-                            gamePieceToMove = Tools.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
+                            gamePieceToMove = InputDialogs.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
 
                         CreateMove(gamePieceToMove);
                         if (Game.Moves.Last().Piece != null)
@@ -101,6 +105,7 @@ namespace GameEngine
                         //Sparar spel
                         break;
                 }
+
                 if (Dice.Result != 6)
                 {
                     var currentPlayerIndex = Game.GamePlayers.Players.IndexOf(Game.NextPlayer);
@@ -110,14 +115,15 @@ namespace GameEngine
                 else
                 {
                     Console.WriteLine("Congratulations you can roll again!");
-                    if (Game.NextPlayer.Name == "ai")
+                    if (Game.NextPlayer.Type == (PlayerType)1)
                         Thread.Sleep(1000);
                     else
                         Console.ReadKey();
                 }
                 SaveMoveToDataBase();
             }
-            //spelet är slut grattis!!!
+            Console.WriteLine($"{Game.Winer} wins!");
+            Console.ReadKey();
         }
 
         public void ExecuteMove()
@@ -159,10 +165,8 @@ namespace GameEngine
                         OponentsGamePiece = tmpCell;
                         tmpCell.TrackPosition = null;
                         Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} kicked out {OponentsGamePiece.Color} {OponentsGamePiece.Number}!");
-                        if (Game.NextPlayer.Name == "ai")
-                            Thread.Sleep(1000);
-                        else
-                            Console.ReadKey();
+
+                        Thread.Sleep(1000);
                     }
                 }
                 Board.MainTrack[targetBoardTrackCellIndex] = currentGamePiece;
@@ -175,12 +179,13 @@ namespace GameEngine
             }
             //update piece position
             currentGamePiece.TrackPosition = newPosition;
+            Game.Status = $"In progress (moves {Game.Moves.Count})";
 
             if (newPosition == 44)
             {
                 currentGamePiece.TrackPosition = 45;
                 Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} finished!");
-                if (Game.NextPlayer.Name == "ai")
+                if (Game.NextPlayer.Type == (PlayerType)1)
                     Thread.Sleep(1000);
                 else
                     Console.ReadKey();
@@ -188,9 +193,8 @@ namespace GameEngine
                 var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 45).Count();
                 if (piecesAtFinish == 4)
                 {
-                    Game.Winner = currentPlayer;
-                    Console.WriteLine($"{currentPlayer.Name} wins!");
-                    Console.ReadKey();
+                    Game.Winer = currentPlayer;
+                    Game.Status = $"Finished";
                 }
             }
         }
@@ -202,7 +206,8 @@ namespace GameEngine
                 Player = Game.NextPlayer,
                 Piece = null,
                 OriginalPosition = null,
-                DiceThrowResult = Dice.Result
+                DiceThrowResult = Dice.Result,
+                Created = DateTime.Now
             };
 
             if (gamePieceToMove != null)
@@ -233,16 +238,30 @@ namespace GameEngine
                 db.GamePieces.Update(oponentsGamePiece);
                 db.SaveChanges();
             }
+            if (db.GameMoves.Where(m => m == Game.Moves.Last()).ToList().Count == 0)
+            {
+                var nextPlayer = db.Players.Where(p => p == Game.NextPlayer).Single();
+                var moveOwnerPlayer = db.Players.Where(p => p == Game.Moves.Last().Player).Single();
 
-            var player = db.Players.Where(p => p == Game.NextPlayer).Single();
-            var game = db.Games.Where(g => g == Game).Include("Moves").Single();
+                var game = db.Games.Where(g => g == Game).Include("Moves").Single();
 
-            game.Moves.Add(Game.Moves.Last());
-
-            game.Moves.Last().Player = player;
-            game.Moves.Last().Piece = gamePiece;
-            db.Games.Update(game);
-            db.SaveChanges();
+                game.Moves.Add(Game.Moves.Last());
+                game.NextPlayer = nextPlayer;
+                game.Status = Game.Status;
+                game.LastPlayed = DateTime.Now;
+                if (Game.Winer != null)
+                {
+                    var winer = db.Players.Where(p => p == Game.Winer).Single();
+                    game.Winer = winer;
+                }
+                game.Moves.Last().Player = moveOwnerPlayer;
+                game.Moves.Last().Piece = gamePiece;
+                db.Games.Update(game);
+                db.SaveChanges();
+            }
+            else
+            {
+            }
         }
 
         private void SaveGameToDataBase()
@@ -274,7 +293,7 @@ namespace GameEngine
         private List<LudoGame> LoadAllGamesFromDataBase()
         {
             var db = new LudoGameDbContext();
-            List<LudoGame> ludoGames = db.Games.Where(g => g.Winner == null).ToList();
+            List<LudoGame> ludoGames = db.Games.Where(g => g.Winer == null).ToList();
             return ludoGames;
         }
     }

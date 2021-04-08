@@ -11,5 +11,6 @@ namespace GameEngine.Models
         public GamePiece Piece { get; set; }
         public int? OriginalPosition { get; set; }
         public int DiceThrowResult { get; set; }
+        public DateTime Created { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -15,11 +16,18 @@ namespace GameEngine.Assets
             Random = new Random();
         }
 
-        public void ThrowDice(bool animation = false)
+        public void ThrowDice()
         {
             Result = Random.Next(1, 7);
-            if (animation)
-                RenderDiceTrow(Result);
+            Console.WriteLine($"You got {Result}");
+        }
+
+        public void ThrowDice(GameColor color)
+        {
+            Result = Random.Next(1, 7);
+            Tools.SetConsoleColor(color);
+            RenderDiceTrow(Result);
+            Console.ResetColor();
             Console.WriteLine($"You got {Result}");
         }
 

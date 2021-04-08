@@ -7,73 +7,6 @@ namespace GameEngine.Assets
 {
     public class Tools
     {
-        public static int GetPlayerAmount()
-        {
-            int playerAmount = 0;
-            while (playerAmount < 2 || playerAmount > 4)
-            {
-                Console.WriteLine("Choose how many players (2, 3 or 4): ");
-                try
-                {
-                    playerAmount = Convert.ToInt32(Console.ReadLine().Trim());
-                    if (playerAmount >= 2 && playerAmount <= 4)
-                        Console.WriteLine($"{playerAmount} players will play!");
-                    else
-                        Console.WriteLine("Choose between 2 and 4");
-                }
-                catch { Console.WriteLine("Input not accepted. Choose between 2 and 4"); }
-            }
-            return playerAmount;
-        }
-
-        public static List<GamePlayer> GetPlayers(int playerAmount)
-        {
-            var availableColors = new List<GameColor>() { 0, (GameColor)1, (GameColor)2, (GameColor)3 };
-            var players = new List<GamePlayer>();
-            for (int i = 0; i < playerAmount; i++)
-            {
-                var newPlayer = new GamePlayer();
-
-                // Player chooses name
-                var playerName = $"Player {i + 1}";
-                Console.WriteLine($"Player {i + 1} choose a name: ");
-                newPlayer.Name = Console.ReadLine();
-
-                if (newPlayer.Name == "")
-                {
-                    newPlayer.Name = playerName;
-                }
-
-                // Player chooses color
-                Console.WriteLine($"{newPlayer.Name} choose a color:");
-
-                for (int y = 0; y < availableColors.Count; y++)
-                {
-                    Console.WriteLine($"{y + 1}) {availableColors[y]}");
-                }
-                var colorsLeft = availableColors.Count;
-                while (colorsLeft == availableColors.Count)
-                    try
-                    {
-                        var input = Console.ReadLine();
-                        if (input == "")
-                            input = "1";
-                        var playerColorInput = Convert.ToInt32(input) - 1;
-                        newPlayer.Color = availableColors[playerColorInput];
-                        availableColors.Remove(availableColors[playerColorInput]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Input not accepted, choose an available color");
-                    }
-
-                // Add player to game players
-                players.Add(newPlayer);
-            }
-            players = players.OrderBy(p => p.Color).ToList();
-            return players;
-        }
-
         public static List<GamePiece> GetGamePieceSetup(List<GamePlayer> gamePlayers)
         {
             var gamePieceSetup = new List<GamePiece>();
@@ -138,46 +71,12 @@ namespace GameEngine.Assets
             return newPosition;
         }
 
-        public static GamePiece GetGamePieceToMove(List<GamePiece> gamePieceSetup, GameColor color, int diceResult)
+        public static void SetConsoleColor(GameColor gameColor)
         {
-            GamePiece gamePieceToMove = null;
-            List<GamePiece> movablePieces = GetMovableGamePieces(gamePieceSetup, color, diceResult);
-            if (movablePieces.Count != 0)
-            {
-                Console.WriteLine("Choose your game piece:");
-                for (int i = 0; i < movablePieces.Count; i++)
-                {
-                    string trackPosition = (movablePieces[i].TrackPosition == null) ? "base" : "position " + (movablePieces[i].TrackPosition + 1).ToString();
-                    Console.WriteLine(
-                        $"{i + 1}) Piece number: {movablePieces[i].Number} at {trackPosition}");
-                }
-                // TODO: Input check
-
-                var chosenPieceIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;
-                if (chosenPieceIndex < 0 || chosenPieceIndex > movablePieces.Count - 1)
-                    chosenPieceIndex = 0;
-                gamePieceToMove = movablePieces[chosenPieceIndex];
-            }
-            else
-            {
-                Console.WriteLine($"You don't have available moves based on dice result");
-                Console.ReadKey();
-            }
-            return gamePieceToMove;
-        }
-
-        public static LudoGame GetLudoGame(List<LudoGame> ludoGames)
-        {
-            Console.WriteLine("Choose game from list:");
-            for (int i = 0; i < ludoGames.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) Game id: {ludoGames[i].LudoGameId}");
-
-            }
-            var chosenGameIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;
-            if (chosenGameIndex < 0 || chosenGameIndex > ludoGames.Count - 1)
-                chosenGameIndex = 0;
-            return ludoGames[chosenGameIndex];
+            if (gameColor == 0) Console.ForegroundColor = ConsoleColor.Blue;
+            else if (gameColor == (GameColor)1) Console.ForegroundColor = ConsoleColor.Red;
+            else if (gameColor == (GameColor)2) Console.ForegroundColor = ConsoleColor.Yellow;
+            else if (gameColor == (GameColor)3) Console.ForegroundColor = ConsoleColor.Green;
         }
     }
 }

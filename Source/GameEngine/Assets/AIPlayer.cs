@@ -51,36 +51,36 @@ namespace GameEngine.Assets
 
         public bool PieceIsThreatenedAtOriginPos(GamePiece piece)
         {
-            var tmpPosition = (piece.TrackPosition == null) ? -1 : piece.TrackPosition;
-            var boardTrackCellIndex = ((int)tmpPosition + 10 * (int)piece.Color) % 40;
-            var maxThreatRangeIndex = (boardTrackCellIndex + 34) % 40;
+            var pos = (piece.TrackPosition == null) ? -1 : piece.TrackPosition;
+            var index = ((int)pos + 10 * (int)piece.Color) % 40;
+            var minIndex = (index + 34) % 40;
 
-            var boardTrackCellIndexBehind = boardTrackCellIndex;
-            boardTrackCellIndexBehind = (boardTrackCellIndexBehind > maxThreatRangeIndex) ? boardTrackCellIndexBehind : boardTrackCellIndexBehind + 40;
-            while (boardTrackCellIndexBehind >= maxThreatRangeIndex)
+            var indexBehind = index - 1;
+            indexBehind = (indexBehind > minIndex) ? indexBehind : indexBehind + 40;
+            while (indexBehind >= minIndex)
             {
-                boardTrackCellIndexBehind--;
-                var tmpBoardTrackCellIndex = boardTrackCellIndexBehind % 40;
-                if (Board.MainTrack[tmpBoardTrackCellIndex] != null && Board.MainTrack[tmpBoardTrackCellIndex].Color != piece.Color)
+                var tmpIndex = indexBehind % 40;
+                if (Board.MainTrack[tmpIndex] != null && Board.MainTrack[tmpIndex].Color != piece.Color)
                     return true;
+                indexBehind--;
             }
             return false;
         }
 
         public bool PieceIsThreatenedAtTargetPos(GamePiece piece)
         {
-            var targetPosition = Tools.CalculateNewPositon(piece.TrackPosition, Dice.Result);
-            var boardTrackCellIndex = (targetPosition + 10 * (int)piece.Color) % 40;
-            var maxThreatRangeIndex = (boardTrackCellIndex + 34) % 40;
+            var pos = Tools.CalculateNewPositon(piece.TrackPosition, Dice.Result);
+            var index = (pos + 10 * (int)piece.Color) % 40;
+            var minIndex = (index + 34) % 40;
 
-            var boardTrackCellIndexBehind = boardTrackCellIndex;
-            boardTrackCellIndexBehind = (boardTrackCellIndexBehind > maxThreatRangeIndex) ? boardTrackCellIndexBehind : boardTrackCellIndexBehind + 40;
-            while (boardTrackCellIndexBehind >= maxThreatRangeIndex )
+            var indexBehind = index - 1;
+            indexBehind = (indexBehind > minIndex) ? indexBehind : indexBehind + 40;
+            while (indexBehind >= minIndex)
             {
-                boardTrackCellIndexBehind--; //TODO får inte vara noll
-                var tmpBoardTrackCellIndex = boardTrackCellIndexBehind % 40;
-                if (Board.MainTrack[tmpBoardTrackCellIndex] != null && Board.MainTrack[tmpBoardTrackCellIndex].Color != piece.Color)
+                var tmpIndex = indexBehind % 40;
+                if (Board.MainTrack[tmpIndex] != null && Board.MainTrack[tmpIndex].Color != piece.Color)
                     return true;
+                indexBehind--;
             }
             return false;
         }

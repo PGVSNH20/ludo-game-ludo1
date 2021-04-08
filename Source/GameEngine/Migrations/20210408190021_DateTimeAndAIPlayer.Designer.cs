@@ -4,14 +4,16 @@ using GameEngine.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameEngine.Migrations
 {
     [DbContext(typeof(LudoGameDbContext))]
-    partial class LudoGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210408190021_DateTimeAndAIPlayer")]
+    partial class DateTimeAndAIPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace GameEngine.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DiceThrowResult")
@@ -129,7 +131,7 @@ namespace GameEngine.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GameName")
@@ -137,9 +139,6 @@ namespace GameEngine.Migrations
 
                     b.Property<int?>("GamePlayersId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("LastPlayed")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("NextPlayerGamePlayerID")
                         .HasColumnType("int");

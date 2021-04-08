@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace GameEngineTestNUnit.ToolsTest
+namespace GameEngineTestNUnit.InputDialogsTest
 {
     internal class GetGamePieceToMoveTest
     {
@@ -55,7 +55,7 @@ namespace GameEngineTestNUnit.ToolsTest
                 $"2) Piece number: 3 at position 41\r\n" +
                 $"3) Piece number: 4 at base\r\n";
 
-            var gamePiece = Tools.GetGamePieceToMove(GamePieces, color, diceResult);
+            var gamePiece = InputDialogs.GetGamePieceToMove(GamePieces, color, diceResult);
             Assert.AreEqual(expectedOutput, output.ToString());
             Assert.AreEqual(GamePieces[12], gamePiece);
         }
@@ -77,7 +77,7 @@ namespace GameEngineTestNUnit.ToolsTest
                 $"1) Piece number: 1 at base\r\n" +
                 $"2) Piece number: 4 at position 16\r\n";
 
-            var gamePiece = Tools.GetGamePieceToMove(GamePieces, color, diceResult);
+            var gamePiece = InputDialogs.GetGamePieceToMove(GamePieces, color, diceResult);
             Assert.AreEqual(expectedOutput, output.ToString());
             Assert.AreEqual(GamePieces[3], gamePiece);
         }

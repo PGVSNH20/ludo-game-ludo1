@@ -212,7 +212,7 @@ namespace GameEngine
             game.Moves.Last().Player = player;
             game.Moves.Last().Piece = gamePiece;
             db.Games.Update(game);
-            // db.SaveChanges();
+            db.SaveChanges();
         }
 
         private void SaveGameToDataBase()

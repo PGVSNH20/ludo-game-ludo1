@@ -42,13 +42,6 @@ namespace GameEngine
             return this;
         }
 
-        private void SaveGameToDataBase()
-        {
-            var db = new LudoGameDbContext();
-            db.Games.Add(Game);
-            db.SaveChanges();
-        }
-
         public GameRunner LoadGame()
         {
             //get game from db
@@ -156,6 +149,24 @@ namespace GameEngine
             }
         }
 
+        private void CreateMove(GamePiece gamePieceToMove)
+        {
+            var currentMove = new GameMove()
+            {
+                Player = Game.NextPlayer,
+                Piece = null,
+                OriginalPosition = null,
+                DiceThrowResult = Dice.Result
+            };
+
+            if (gamePieceToMove != null)
+            {
+                currentMove.Piece = gamePieceToMove;
+                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
+            }
+            Game.Moves.Add(currentMove);
+        }
+
         private void SaveMoveToDataBase()
         {
             var db = new LudoGameDbContext();
@@ -188,22 +199,19 @@ namespace GameEngine
             db.SaveChanges();
         }
 
-        private void CreateMove(GamePiece gamePieceToMove)
+        private void SaveGameToDataBase()
         {
-            var currentMove = new GameMove()
-            {
-                Player = Game.NextPlayer,
-                Piece = null,
-                OriginalPosition = null,
-                DiceThrowResult = Dice.Result
-            };
+            var db = new LudoGameDbContext();
+            db.Games.Add(Game);
+            db.SaveChanges();
+        }
 
-            if (gamePieceToMove != null)
-            {
-                currentMove.Piece = gamePieceToMove;
-                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
-            }
-            Game.Moves.Add(currentMove);
+        private void LoadGameFromDatabase()
+        {
+            //TODO skapa dbcontext insatns
+            //TODO läsa in spel utifrån angiven LudoGameId
+            //TODO läsa in relaterad data - spelare, moves, pjäser
+            //TODO uppdatera GameRunner.Game med information från inläst data
         }
     }
 }

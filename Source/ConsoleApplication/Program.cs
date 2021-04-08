@@ -24,7 +24,9 @@ namespace ConsoleApplication
                     break;
 
                 case "2":
-
+                    //TODO Ladda alla spel som är inte klara
+                    //TODO Presentera spel och välj en från user input
+                    //TODO spela laddade spelet
                     break;
 
                 case "3":

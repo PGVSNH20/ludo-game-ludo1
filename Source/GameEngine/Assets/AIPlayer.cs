@@ -34,31 +34,61 @@ namespace GameEngine.Assets
 
                 if (piece.TrackPosition == null)
                     prioGamePieces[piece] += 1;
+                if (PieceIsThreatenedAtOriginPos(piece))
+                    prioGamePieces[piece] += 2;
             }
+
             var maxPosition = prioGamePieces.Keys.Max(p => p.TrackPosition);
             var maxPositionPiece = prioGamePieces.Where(k => k.Key.TrackPosition == maxPosition).ToList();
-
-            foreach (var piece in prioGamePieces.Keys)
-            {
-                if (piece.TrackPosition == null)
-                    prioGamePieces[piece]++;
-            }
 
             //Thread.Sleep(100);
             return prioGamePieces.First().Key;
         }
 
+        public bool PieceIsThreatenedAtOriginPos(GamePiece piece)
+        {
+            var boardTrackCellIndex = ((int)piece.TrackPosition + 10 * (int)piece.Color) % 40;
+            var maxThreatRangeIndex = (boardTrackCellIndex + 34) % 40;
+
+            var boardTrackCellIndexBehind = boardTrackCellIndex;
+            boardTrackCellIndexBehind = (boardTrackCellIndexBehind > maxThreatRangeIndex) ? boardTrackCellIndexBehind : boardTrackCellIndexBehind + 40;
+            while (boardTrackCellIndexBehind >= maxThreatRangeIndex)
+            {
+                boardTrackCellIndexBehind--;
+                var tmpBoardTrackCellIndex = boardTrackCellIndexBehind % 40;
+                if (Board.MainTrack[tmpBoardTrackCellIndex] != null && Board.MainTrack[tmpBoardTrackCellIndex].Color != piece.Color)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool PieceIsThreatenedAtTargetPos(GamePiece piece)
+        {
+            var targetPosition = Tools.CalculateNewPositon(piece.TrackPosition, Dice.Result);
+            var boardTrackCellIndex = (targetPosition + 10 * (int)piece.Color) % 40;
+            var maxThreatRangeIndex = (boardTrackCellIndex + 34) % 40;
+
+            var boardTrackCellIndexBehind = boardTrackCellIndex;
+            boardTrackCellIndexBehind = (boardTrackCellIndexBehind > maxThreatRangeIndex) ? boardTrackCellIndexBehind : boardTrackCellIndexBehind + 40;
+            while (boardTrackCellIndexBehind >= maxThreatRangeIndex)
+            {
+                boardTrackCellIndexBehind--;
+                var tmpBoardTrackCellIndex = boardTrackCellIndexBehind % 40;
+                if (Board.MainTrack[tmpBoardTrackCellIndex] != null && Board.MainTrack[tmpBoardTrackCellIndex].Color != piece.Color)
+                    return true;
+            }
+            return false;
+        }
+
         public bool GamePieceCanKick(GamePiece piece)
         {
             var originalPosition = piece.TrackPosition;
-
-            var positionAhead = (originalPosition == null) ? -1 : originalPosition;
             var potencialTrackPosition = Tools.CalculateNewPositon(originalPosition, Dice.Result);
 
             if (potencialTrackPosition < 40)
             {
                 var targetBoardTrackCellIndex = ((int)potencialTrackPosition + 10 * (int)piece.Color) % 40;
-                if (Board.MainTrack[targetBoardTrackCellIndex] != null)
+                if (Board.MainTrack[targetBoardTrackCellIndex] != null && Board.MainTrack[targetBoardTrackCellIndex].Color != piece.Color)
                     return true;
             }
             return false;

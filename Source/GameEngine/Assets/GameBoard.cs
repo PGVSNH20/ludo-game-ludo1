@@ -44,7 +44,7 @@ namespace GameEngine.Assets
                 if (position < 40)
                 {
                     //add to track
-                    var targetBoardTrackCellIndex = (int)position + 10 * (int)color % 40;
+                    var targetBoardTrackCellIndex = ((int)position + 10 * (int)color) % 40;
                     MainTrack[targetBoardTrackCellIndex] = piece;
                 }
                 else if (position >= 40 && position < 44)

@@ -143,5 +143,24 @@ namespace GameEngineTest
             Assert.Equal(gamePieces[13], board.FinalTracks[3][2]);
             Assert.Equal(gamePieces[14], board.FinalTracks[3][0]);
         }
+        [Fact]
+        public void Given_GamePieceSetupWith2Pieces_Expect_CorespondingTracks()
+        {
+            // Arrange
+            var gamePieces = new List<GamePiece>()
+            {
+                new GamePiece(){Color = (GameColor)1, Number = 1, TrackPosition = 35},
+                new GamePiece(){Color = (GameColor)3, Number = 1, TrackPosition = 12}
+            };
+
+            var board = new GameBoard();
+
+            // Act
+            board.UpdateTracks(gamePieces);
+
+            //Assert
+            Assert.Equal(gamePieces[0], board.MainTrack[5]);
+            Assert.Equal(gamePieces[1], board.MainTrack[2]);
+        }
     }
 }

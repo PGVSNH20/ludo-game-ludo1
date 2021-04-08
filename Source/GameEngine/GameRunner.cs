@@ -58,7 +58,7 @@ namespace GameEngine
                 Console.ForegroundColor = (ConsoleColor)Game.NextPlayer.Color;
                 Console.Write(Game.NextPlayer.Name);
                 Console.ResetColor();
-                Console.WriteLine(" turn\n" + 
+                Console.WriteLine(" turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
 
@@ -193,7 +193,7 @@ namespace GameEngine
                 gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().Piece).Single();
                 gamePiece.TrackPosition = Game.Moves.Last().Piece.TrackPosition;
                 db.GamePieces.Update(gamePiece);
-              db.SaveChanges();
+                db.SaveChanges();
             }
             if (OponentsGamePiece != null)
             {
@@ -201,7 +201,7 @@ namespace GameEngine
                 oponentsGamePiece.TrackPosition = OponentsGamePiece.TrackPosition;
                 OponentsGamePiece = null;
                 db.GamePieces.Update(oponentsGamePiece);
-               db.SaveChanges();
+                db.SaveChanges();
             }
 
             var player = db.Players.Where(p => p == Game.NextPlayer).Single();
@@ -231,14 +231,13 @@ namespace GameEngine
                 .Include(g => g.Moves)
                 .Include(g => g.PieceSetup)
                 .SingleOrDefault();
-            
         }
+
         private List<LudoGame> LoadAllGamesFromDataBase()
         {
             var db = new LudoGameDbContext();
-            List<LudoGame> ludoGames = db.Games.ToList();
+            List<LudoGame> ludoGames = db.Games.Where(g => g.Winner == null).ToList();
             return ludoGames;
         }
-
     }
 }

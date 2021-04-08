@@ -206,12 +206,23 @@ namespace GameEngine
             db.SaveChanges();
         }
 
-        private void LoadGameFromDatabase()
+        private void LoadGameFromDatabase(LudoGame ludoGame)
         {
-            //TODO skapa dbcontext insatns
-            //TODO läsa in spel utifrån angiven LudoGameId
-            //TODO läsa in relaterad data - spelare, moves, pjäser
-            //TODO uppdatera GameRunner.Game med information från inläst data
+            var db = new LudoGameDbContext();
+            Game = db.Games.Where(g => g == ludoGame)
+                .Include(g => g.Players)
+                .ThenInclude(p => p.Players)
+                .Include(g => g.Moves)
+                .Include(g => g.PieceSetup)
+                .SingleOrDefault();
+            
         }
+        private List<LudoGame> LoadAllGamesFromDataBase()
+        {
+            var db = new LudoGameDbContext();
+            List<LudoGame> ludoGames = db.Games.ToList();
+            return ludoGames;
+        }
+
     }
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GameEngine.Assets
 {
@@ -164,6 +163,20 @@ namespace GameEngine.Assets
                 Console.ReadKey();
             }
             return gamePieceToMove;
+        }
+
+        public LudoGame GetLudoGame(List<LudoGame> ludoGames)
+        {
+            Console.WriteLine("Choose game from list:");
+            for (int i = 0; i < ludoGames.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) Game id: {ludoGames[i]}");
+
+            }
+            var chosenGameIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;
+            if (chosenGameIndex < 0 || chosenGameIndex > ludoGames.Count - 1)
+                chosenGameIndex = 0;
+            return ludoGames[chosenGameIndex];
         }
     }
 }

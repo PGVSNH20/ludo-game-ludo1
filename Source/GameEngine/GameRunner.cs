@@ -42,13 +42,6 @@ namespace GameEngine
             return this;
         }
 
-        private void SaveGameToDataBase()
-        {
-            var db = new LudoGameDbContext();
-            db.Games.Add(Game);
-            //db.SaveChanges();
-        }
-
         public GameRunner LoadGame()
         {
             //get game from db
@@ -172,6 +165,24 @@ namespace GameEngine
             }
         }
 
+        private void CreateMove(GamePiece gamePieceToMove)
+        {
+            var currentMove = new GameMove()
+            {
+                Player = Game.NextPlayer,
+                Piece = null,
+                OriginalPosition = null,
+                DiceThrowResult = Dice.Result
+            };
+
+            if (gamePieceToMove != null)
+            {
+                currentMove.Piece = gamePieceToMove;
+                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
+            }
+            Game.Moves.Add(currentMove);
+        }
+
         private void SaveMoveToDataBase()
         {
             var db = new LudoGameDbContext();
@@ -204,22 +215,30 @@ namespace GameEngine
             // db.SaveChanges();
         }
 
-        private void CreateMove(GamePiece gamePieceToMove)
+        private void SaveGameToDataBase()
         {
-            var currentMove = new GameMove()
-            {
-                Player = Game.NextPlayer,
-                Piece = null,
-                OriginalPosition = null,
-                DiceThrowResult = Dice.Result
-            };
-
-            if (gamePieceToMove != null)
-            {
-                currentMove.Piece = gamePieceToMove;
-                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
-            }
-            Game.Moves.Add(currentMove);
+            var db = new LudoGameDbContext();
+            db.Games.Add(Game);
+            db.SaveChanges();
         }
+
+        private void LoadGameFromDatabase(LudoGame ludoGame)
+        {
+            var db = new LudoGameDbContext();
+            Game = db.Games.Where(g => g == ludoGame)
+                .Include(g => g.Players)
+                .ThenInclude(p => p.Players)
+                .Include(g => g.Moves)
+                .Include(g => g.PieceSetup)
+                .SingleOrDefault();
+            
+        }
+        private List<LudoGame> LoadAllGamesFromDataBase()
+        {
+            var db = new LudoGameDbContext();
+            List<LudoGame> ludoGames = db.Games.ToList();
+            return ludoGames;
+        }
+
     }
 }

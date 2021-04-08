@@ -10,35 +10,58 @@ namespace GameEngine.Assets
     {
         public GameBoard Board { get; set; }
         public List<GamePiece> GamePeaceSetUp { get; set; }
+        public GameDice Dice { get; set; }
 
-        public AIPlayer(GameBoard board, List<GamePiece> gamePeaceSetUp)
+        public AIPlayer(GameBoard board, List<GamePiece> gamePeaceSetUp, GameDice dice)
         {
             Board = board;
             GamePeaceSetUp = gamePeaceSetUp;
+            Dice = dice;
         }
 
-        //public string ChoosePieceToMove(GameColor color, int diceResult)
-        //{
-        //    var movablePieces = Tools.GetMovableGamePieces(GamePeaceSetUp, color, diceResult);
+        public GamePiece ChoosePieceToMove(GameColor color, int diceResult)
+        {
+            var movablePieces = Tools.GetMovableGamePieces(GamePeaceSetUp, color, diceResult);
 
-        //    //Prio list (Dictionary<GamePiece, PrioInt)
-        //    var prioGamePieces = new Dictionary<GamePiece, int>();
-        //    foreach (var piece in movablePieces)
-        //    {
-        //        prioGamePieces.Add(piece, 0);
-        //    }
-        //    var maxPosition = prioGamePieces.Keys.Max(p => p.TrackPosition);
-        //    var maxPositionPiece = prioGamePieces.Where(k => k.Key.TrackPosition == maxPosition).ToList();
+            //Prio list (Dictionary<GamePiece, PrioInt)
+            var prioGamePieces = new Dictionary<GamePiece, int>();
+            foreach (var piece in movablePieces)
+            {
+                prioGamePieces.Add(piece, 0);
 
-        //    foreach (var piece in prioGamePieces.Keys)
-        //    {
-        //        if (piece.TrackPosition == null)
-        //            prioGamePieces[piece]++;
-        //    }
-        //    int? minValue = null;
+                if (GamePieceCanKick(piece))
+                    prioGamePieces[piece] += 2;
 
-        //    //Thread.Sleep(100);
-        //    return availableGamePieces.Find(p => p.Possition == minValue).Number.ToString();
-        //}
+                if (piece.TrackPosition == null)
+                    prioGamePieces[piece] += 1;
+            }
+            var maxPosition = prioGamePieces.Keys.Max(p => p.TrackPosition);
+            var maxPositionPiece = prioGamePieces.Where(k => k.Key.TrackPosition == maxPosition).ToList();
+
+            foreach (var piece in prioGamePieces.Keys)
+            {
+                if (piece.TrackPosition == null)
+                    prioGamePieces[piece]++;
+            }
+
+            //Thread.Sleep(100);
+            return prioGamePieces.First().Key;
+        }
+
+        public bool GamePieceCanKick(GamePiece piece)
+        {
+            var originalPosition = piece.TrackPosition;
+
+            var positionAhead = (originalPosition == null) ? -1 : originalPosition;
+            var potencialTrackPosition = Tools.CalculateNewPositon(originalPosition, Dice.Result);
+
+            if (potencialTrackPosition < 40)
+            {
+                var targetBoardTrackCellIndex = ((int)potencialTrackPosition + 10 * (int)piece.Color) % 40;
+                if (Board.MainTrack[targetBoardTrackCellIndex] != null)
+                    return true;
+            }
+            return false;
+        }
     }
 }

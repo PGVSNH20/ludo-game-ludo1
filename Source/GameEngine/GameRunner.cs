@@ -27,16 +27,16 @@ namespace GameEngine
             // Player chooses amount of players
 
             Game = new LudoGame();
-            Game.Players.Players = new List<GamePlayer>();
+            Game.GamePlayers.Players = new List<GamePlayer>();
             Game.Moves = new List<GameMove>();
 
             int playerAmount = Tools.GetPlayerAmount();
-            Game.Players.Players = Tools.GetPlayers(playerAmount);
+            Game.GamePlayers.Players = Tools.GetPlayers(playerAmount);
 
-            int startingPlayerIndex = new Random().Next(0, Game.Players.Players.Count);
-            Game.NextPlayer = Game.Players.Players[startingPlayerIndex];
+            int startingPlayerIndex = new Random().Next(0, Game.GamePlayers.Players.Count);
+            Game.NextPlayer = Game.GamePlayers.Players[startingPlayerIndex];
 
-            Game.PieceSetup = Tools.GetGamePieceSetup(Game.Players.Players);
+            Game.PieceSetup = Tools.GetGamePieceSetup(Game.GamePlayers.Players);
             Board.UpdateBoardBases(Game.PieceSetup);
             SaveGameToDataBase();
             return this;
@@ -47,11 +47,14 @@ namespace GameEngine
             var allGames = LoadAllGamesFromDataBase();
             var oneLudoGame = Tools.GetLudoGame(allGames);
             LoadGameFromDatabase(oneLudoGame);
+
             return this;
         }
 
         public void PlayGame()
         {
+            Board.UppdateMapMainTrackCells();
+            Board.UppdateMapFinalTracksCells();
             while (Game.Winner == null)
             {
                 Console.Clear();
@@ -84,9 +87,9 @@ namespace GameEngine
                 }
                 if (Dice.Result != 6)
                 {
-                    var currentPlayerIndex = Game.Players.Players.IndexOf(Game.NextPlayer);
-                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.Players.Players.Count());
-                    Game.NextPlayer = Game.Players.Players[nextTurnPlayerIndex];
+                    var currentPlayerIndex = Game.GamePlayers.Players.IndexOf(Game.NextPlayer);
+                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.GamePlayers.Players.Count());
+                    Game.NextPlayer = Game.GamePlayers.Players[nextTurnPlayerIndex];
                 }
                 else
                 {
@@ -227,12 +230,20 @@ namespace GameEngine
         private void LoadGameFromDatabase(LudoGame ludoGame)
         {
             var db = new LudoGameDbContext();
-            Game = db.Games.Where(g => g == ludoGame)
-                .Include(g => g.Players)
-                .ThenInclude(p => p.Players)
+
+            Game = db.Games
+                .Where(g => g == ludoGame)
+                .Include(g => g.GamePlayers)
                 .Include(g => g.Moves)
                 .Include(g => g.PieceSetup)
                 .SingleOrDefault();
+
+            var gamePlayers = db.PlayersInGame
+                .Where(pig => pig.GamePlayersId == Game.LudoGameId)
+                .Include("Players")
+                .Single();
+            var id = Game.LudoGameId;
+            Game.GamePlayers = gamePlayers;
         }
 
         private List<LudoGame> LoadAllGamesFromDataBase()

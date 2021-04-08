@@ -4,14 +4,16 @@ using GameEngine.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameEngine.Migrations
 {
     [DbContext(typeof(LudoGameDbContext))]
-    partial class LudoGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210408123940_addedPlayersCountInGame")]
+    partial class addedPlayersCountInGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,10 +125,10 @@ namespace GameEngine.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("GamePlayersId")
+                    b.Property<int?>("NextPlayerGamePlayerID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NextPlayerGamePlayerID")
+                    b.Property<int?>("PlayersGamePlayersId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -137,9 +139,9 @@ namespace GameEngine.Migrations
 
                     b.HasKey("LudoGameId");
 
-                    b.HasIndex("GamePlayersId");
-
                     b.HasIndex("NextPlayerGamePlayerID");
+
+                    b.HasIndex("PlayersGamePlayersId");
 
                     b.HasIndex("WinnerGamePlayerID");
 
@@ -181,21 +183,21 @@ namespace GameEngine.Migrations
 
             modelBuilder.Entity("GameEngine.Models.LudoGame", b =>
                 {
-                    b.HasOne("GameEngine.Models.GamePlayers", "GamePlayers")
-                        .WithMany()
-                        .HasForeignKey("GamePlayersId");
-
                     b.HasOne("GameEngine.Models.GamePlayer", "NextPlayer")
                         .WithMany()
                         .HasForeignKey("NextPlayerGamePlayerID");
+
+                    b.HasOne("GameEngine.Models.GamePlayers", "Players")
+                        .WithMany()
+                        .HasForeignKey("PlayersGamePlayersId");
 
                     b.HasOne("GameEngine.Models.GamePlayer", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerGamePlayerID");
 
-                    b.Navigation("GamePlayers");
-
                     b.Navigation("NextPlayer");
+
+                    b.Navigation("Players");
 
                     b.Navigation("Winner");
                 });

@@ -31,8 +31,8 @@ namespace GameEngine.Assets
                 FinalTracks[i] = new GamePiece[4];
             }
 
-            UppdateMapMainTrackCells();
-            UppdateMapFinalTracksCells();
+            //UppdateMapMainTrackCells();
+            //UppdateMapFinalTracksCells();
         }
 
         public void UpdateTracks(List<GamePiece> gamePieceSetUp)
@@ -63,7 +63,7 @@ namespace GameEngine.Assets
             UpdateBoardBases(gamePeaceSetUp);
         }
 
-        private void UppdateMapMainTrackCells()
+        public void UppdateMapMainTrackCells()
         {
             //track
             BoardMap[10, 4] = (MainTrack[0] == null) ? EmptyCells[0] : MainTrack[0];
@@ -108,7 +108,7 @@ namespace GameEngine.Assets
             BoardMap[10, 5] = (MainTrack[39] == null) ? EmptyCells[4] : MainTrack[39];
         }
 
-        private void UppdateMapFinalTracksCells()
+        public void UppdateMapFinalTracksCells()
         {
             //BoardMap[9, 5] = (FinalTracks[0][0] == null) ? EmptyCells[0] : FinalTracks[0][0];
             //BoardMap[8, 5] = (FinalTracks[0][1] == null) ? EmptyCells[0] : FinalTracks[0][1];

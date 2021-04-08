@@ -8,7 +8,7 @@ namespace GameEngine.Models
     public class LudoGame
     {
         public int LudoGameId { get; set; }
-        public GamePlayers Players { get; set; }
+        public GamePlayers GamePlayers { get; set; }
         public List<GameMove> Moves { get; set; }
         public GamePlayer Winner { get; set; }
         public string Status { get; set; }
@@ -18,7 +18,7 @@ namespace GameEngine.Models
         public LudoGame()
         {
             Moves = new List<GameMove>();
-            Players = new GamePlayers();
+            GamePlayers = new GamePlayers();
         }
     }
 }

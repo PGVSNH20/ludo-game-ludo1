@@ -10,33 +10,32 @@ namespace GameEngine.Assets
     {
         public static int GetPlayerAmount()
         {
-            int playerAmmount = 0;
-            while (playerAmmount < 2 || playerAmmount > 4)
+            int playerAmount = 0;
+            while (playerAmount < 2 || playerAmount > 4)
             {
                 Console.WriteLine("Choose how many players: ");
                 try
                 {
-                    playerAmmount = Convert.ToInt32(Console.ReadLine().Trim());
-                    if (playerAmmount >= 2 && playerAmmount <= 4)
-                        Console.WriteLine($"{playerAmmount} players will play!");
+                    playerAmount = Convert.ToInt32(Console.ReadLine().Trim());
+                    if (playerAmount >= 2 && playerAmount <= 4)
+                        Console.WriteLine($"{playerAmount} players will play!");
                     else
                         Console.WriteLine("Choose between 2 and 4");
                 }
                 catch { Console.WriteLine("Input not accepted. Choose between 2 and 4"); }
             }
-            return playerAmmount;
+            return playerAmount;
         }
 
-        public static List<GamePlayer> GetPlayers(int playerAmmount)
+        public static List<GamePlayer> GetPlayers(int playerAmount)
         {
             var availableColors = new List<GameColor>() { 0, (GameColor)1, (GameColor)2, (GameColor)3 };
             var players = new List<GamePlayer>();
-            for (int i = 0; i < playerAmmount; i++)
+            for (int i = 0; i < playerAmount; i++)
             {
                 var newPlayer = new GamePlayer();
 
                 // Player chooses name
-
                 var playerName = $"Player {i + 1}";
                 Console.WriteLine($"Player {i + 1} choose a name: ");
                 newPlayer.Name = Console.ReadLine();
@@ -109,9 +108,11 @@ namespace GameEngine.Assets
             {
                 for (int i = 0; i < playerPieces.Count(); i++)
                 {
-                    //iteration throe available pieces to se if specifik piece can be moved to target position
-                    //piece can not be places att position witch already contains piece of same color
+                    //Iteration through available pieces to see if specific piece can be moved to target position
+                    //piece can not be places att position which already contains piece of same color
                     //piece can not jump over another piece of same color
+
+                    // TODO: Piece can jump over itself in finalTrack
                     var originalPosition = playerPieces[i].TrackPosition;
                     var positionAhead = (originalPosition == null) ? -1 : originalPosition;
                     var potencialTrackPosition = CalculateNewPositon(originalPosition, diceResult);

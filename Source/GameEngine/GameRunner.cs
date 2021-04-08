@@ -30,8 +30,8 @@ namespace GameEngine
             Game.Players.Players = new List<GamePlayer>();
             Game.Moves = new List<GameMove>();
 
-            int playerAmmount = Tools.GetPlayerAmount();
-            Game.Players.Players = Tools.GetPlayers(playerAmmount);
+            int playerAmount = Tools.GetPlayerAmount();
+            Game.Players.Players = Tools.GetPlayers(playerAmount);
 
             int startingPlayerIndex = new Random().Next(0, Game.Players.Players.Count);
             Game.NextPlayer = Game.Players.Players[startingPlayerIndex];
@@ -46,7 +46,7 @@ namespace GameEngine
         {
             var db = new LudoGameDbContext();
             db.Games.Add(Game);
-            db.SaveChanges();
+            //db.SaveChanges();
         }
 
         public GameRunner LoadGame()
@@ -61,7 +61,11 @@ namespace GameEngine
             {
                 Console.Clear();
                 Board.PrintBoard(Game.PieceSetup);
-                Console.WriteLine($"Now it's {Game.NextPlayer.Name} turn\n" +
+                Console.Write($"Now it's ");
+                Console.ForegroundColor = (ConsoleColor)Game.NextPlayer.Color;
+                Console.Write(Game.NextPlayer.Name);
+                Console.ResetColor();
+                Console.WriteLine(" turn\n" + 
                     $"1) Throw dice\n" +
                     $"2) Save game");
 
@@ -89,7 +93,12 @@ namespace GameEngine
                     var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.Players.Players.Count());
                     Game.NextPlayer = Game.Players.Players[nextTurnPlayerIndex];
                 }
-                SaveMoveToDataBase();
+                else
+                {
+                    Console.WriteLine("Congratulations you can roll again!");
+                    Console.ReadKey();
+                }
+                // SaveMoveToDataBase();
             }
             //spelet är slut grattis!!!
         }
@@ -132,6 +141,8 @@ namespace GameEngine
                     {
                         OponentsGamePiece = tmpCell;
                         tmpCell.TrackPosition = null;
+                        Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} kicked out {OponentsGamePiece.Color} {OponentsGamePiece.Number}!");
+                        Console.ReadKey();
                     }
                 }
                 Board.MainTrack[targetBoardTrackCellIndex] = currentGamePiece;
@@ -148,10 +159,15 @@ namespace GameEngine
             if (newPosition == 44)
             {
                 currentGamePiece.TrackPosition = 45;
+                Console.WriteLine($"{currentGameColor} {currentGamePiece.Number} finished!");
+                Console.ReadKey();
+
                 var piecesAtFinish = Game.PieceSetup.Where(p => p.Color == currentGameColor && p.TrackPosition == 45).Count();
                 if (piecesAtFinish == 4)
                 {
                     Game.Winner = currentPlayer;
+                    Console.WriteLine($"{currentPlayer.Name} wins!");
+                    Console.ReadKey();
                 }
             }
         }
@@ -166,7 +182,7 @@ namespace GameEngine
                 gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().Piece).Single();
                 gamePiece.TrackPosition = Game.Moves.Last().Piece.TrackPosition;
                 db.GamePieces.Update(gamePiece);
-                db.SaveChanges();
+              db.SaveChanges();
             }
             if (OponentsGamePiece != null)
             {
@@ -174,7 +190,7 @@ namespace GameEngine
                 oponentsGamePiece.TrackPosition = OponentsGamePiece.TrackPosition;
                 OponentsGamePiece = null;
                 db.GamePieces.Update(oponentsGamePiece);
-                db.SaveChanges();
+               db.SaveChanges();
             }
 
             var player = db.Players.Where(p => p == Game.NextPlayer).Single();
@@ -185,7 +201,7 @@ namespace GameEngine
             game.Moves.Last().Player = player;
             game.Moves.Last().Piece = gamePiece;
             db.Games.Update(game);
-            db.SaveChanges();
+            // db.SaveChanges();
         }
 
         private void CreateMove(GamePiece gamePieceToMove)

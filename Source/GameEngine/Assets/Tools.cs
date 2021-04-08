@@ -166,12 +166,12 @@ namespace GameEngine.Assets
             return gamePieceToMove;
         }
 
-        public LudoGame GetLudoGame(List<LudoGame> ludoGames)
+        public static LudoGame GetLudoGame(List<LudoGame> ludoGames)
         {
             Console.WriteLine("Choose game from list:");
             for (int i = 0; i < ludoGames.Count; i++)
             {
-                Console.WriteLine($"{i + 1}) Game id: {ludoGames[i]}");
+                Console.WriteLine($"{i + 1}) Game id: {ludoGames[i].LudoGameId}");
 
             }
             var chosenGameIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;

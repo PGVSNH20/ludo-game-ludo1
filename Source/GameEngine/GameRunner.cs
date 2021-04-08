@@ -44,7 +44,9 @@ namespace GameEngine
 
         public GameRunner LoadGame()
         {
-            //get game from db
+            var allGames = LoadAllGamesFromDataBase();
+            var oneLudoGame = Tools.GetLudoGame(allGames);
+            LoadGameFromDatabase(oneLudoGame);
             return this;
         }
 
@@ -91,7 +93,7 @@ namespace GameEngine
                     Console.WriteLine("Congratulations you can roll again!");
                     Console.ReadKey();
                 }
-                // SaveMoveToDataBase();
+                SaveMoveToDataBase();
             }
             //spelet är slut grattis!!!
         }

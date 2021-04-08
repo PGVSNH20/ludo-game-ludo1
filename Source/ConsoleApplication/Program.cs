@@ -24,6 +24,7 @@ namespace ConsoleApplication
                     break;
 
                 case "2":
+                    game.LoadGame().PlayGame();
                     //TODO Ladda alla spel som är inte klara
                     //TODO Presentera spel och välj en från user input
                     //TODO spela laddade spelet

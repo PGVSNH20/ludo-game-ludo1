@@ -67,8 +67,8 @@ namespace GameEngine
         {
             if (Game.GamePlayers.Players.FindAll(p => p.Type == (PlayerType)1).Count > 0)
                 AI = new GameAI(Board, Game.PieceSetup, Dice);
-
-            while (Game.Winer == null)
+            var alive = true;
+            while (alive && Game.Winer == null)
             {
                 Console.Clear();
                 Tools.PrintGameDetails(Game);
@@ -86,6 +86,7 @@ namespace GameEngine
                 else
                 {
                     input = Console.ReadLine();
+                    Console.WriteLine(input + input + input);
                     input = (input == "") ? "1" : input;
                 }
 
@@ -107,28 +108,53 @@ namespace GameEngine
                         break;
 
                     case "2":
-                        //Sparar spel
+                        //Spel är uppdaterat i basen
+                        alive = false;
                         break;
                 }
-
-                if (Dice.Result != 6)
+                if (alive)
                 {
-                    var currentPlayerIndex = Game.GamePlayers.Players.IndexOf(Game.NextPlayer);
-                    var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.GamePlayers.Players.Count());
-                    Game.NextPlayer = Game.GamePlayers.Players[nextTurnPlayerIndex];
-                }
-                else
-                {
-                    Console.WriteLine("Congratulations you can roll again!");
-                    if (Game.NextPlayer.Type == (PlayerType)1)
-                        Thread.Sleep(1000);
+                    if (Dice.Result != 6)
+                    {
+                        var currentPlayerIndex = Game.GamePlayers.Players.IndexOf(Game.NextPlayer);
+                        var nextTurnPlayerIndex = (currentPlayerIndex + 1) % (Game.GamePlayers.Players.Count());
+                        Game.NextPlayer = Game.GamePlayers.Players[nextTurnPlayerIndex];
+                    }
                     else
-                        Console.ReadKey();
+                    {
+                        Console.WriteLine("Congratulations you can roll again!");
+                        if (Game.NextPlayer.Type == (PlayerType)1)
+                            Thread.Sleep(1000);
+                        else
+                            Console.ReadKey();
+                    }
+                    SaveMoveToDataBase();
                 }
-                SaveMoveToDataBase();
             }
-            Console.WriteLine($"{Game.Winer} wins!");
-            Console.ReadKey();
+            if (Game.Winer != null)
+            {
+                Console.WriteLine($"{Game.Winer} wins!");
+                Console.ReadKey();
+            }
+        }
+
+        private void CreateMove(GamePiece gamePieceToMove)
+        {
+            var currentMove = new GameMove()
+            {
+                Player = Game.NextPlayer,
+                Piece = null,
+                OriginalPosition = null,
+                DiceThrowResult = Dice.Result,
+                Created = DateTime.Now
+            };
+
+            if (gamePieceToMove != null)
+            {
+                currentMove.Piece = gamePieceToMove;
+                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
+            }
+            Game.Moves.Add(currentMove);
         }
 
         public void ExecuteMove()
@@ -202,25 +228,6 @@ namespace GameEngine
                     Game.Status = $"Finished";
                 }
             }
-        }
-
-        private void CreateMove(GamePiece gamePieceToMove)
-        {
-            var currentMove = new GameMove()
-            {
-                Player = Game.NextPlayer,
-                Piece = null,
-                OriginalPosition = null,
-                DiceThrowResult = Dice.Result,
-                Created = DateTime.Now
-            };
-
-            if (gamePieceToMove != null)
-            {
-                currentMove.Piece = gamePieceToMove;
-                currentMove.OriginalPosition = gamePieceToMove.TrackPosition;
-            }
-            Game.Moves.Add(currentMove);
         }
 
         private void SaveMoveToDataBase()

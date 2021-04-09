@@ -7,35 +7,40 @@ namespace ConsoleApplication
     {
         private static void Main(string[] args)
         {
-            GameRunner game = new GameRunner();
-            PrintMenu(10, 5);
-
-            var input = Console.ReadLine();
-
-            switch (input)
+            bool alive = true;
+            while (alive)
             {
-                case "1":
-                    Console.Clear();
-                    game.CreateNewGame().PlayGame();
-                    break;
+                GameRunner game = new GameRunner();
+                PrintMenu(10, 5);
 
-                case "2":
-                    Console.Clear();
-                    game.LoadGame().PlayGame();
-                    break;
+                var input = Console.ReadLine();
 
-                case "3":
+                switch (input)
+                {
+                    case "1":
+                        Console.Clear();
+                        game.CreateNewGame().PlayGame();
+                        break;
 
-                    break;
+                    case "2":
+                        Console.Clear();
+                        game.LoadGame().PlayGame();
+                        break;
 
-                default:
+                    case "3":
+                        alive = false;
+                        break;
 
-                    break;
+                    default:
+
+                        break;
+                }
             }
         }
 
         private static void PrintMenu(int columnFaktor, int lineFaktor)
         {
+            Console.Clear();
             var column = columnFaktor;
             var line = lineFaktor;
 

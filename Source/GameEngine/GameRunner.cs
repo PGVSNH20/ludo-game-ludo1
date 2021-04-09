@@ -221,7 +221,7 @@ namespace GameEngine
         {
             var db = new LudoGameDbContext();
             GamePiece gamePiece = null;
-
+            using var transaction = db.Database.BeginTransaction();
             if (Game.Moves.Last().Piece != null)
             {
                 gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().Piece).Single();
@@ -229,6 +229,7 @@ namespace GameEngine
                 db.GamePieces.Update(gamePiece);
                 db.SaveChanges();
             }
+
             if (OponentsGamePiece != null)
             {
                 var oponentsGamePiece = db.GamePieces.Where(p => p.GamePieceId == OponentsGamePiece.GamePieceId).Single();
@@ -237,6 +238,7 @@ namespace GameEngine
                 db.GamePieces.Update(oponentsGamePiece);
                 db.SaveChanges();
             }
+
             if (db.GameMoves.Where(m => m == Game.Moves.Last()).ToList().Count == 0)
             {
                 var nextPlayer = db.Players.Where(p => p == Game.NextPlayer).Single();
@@ -258,16 +260,17 @@ namespace GameEngine
                 db.Games.Update(game);
                 db.SaveChanges();
             }
-            else
-            {
-            }
+
+            transaction.Commit();
         }
 
         private void SaveGameToDataBase()
         {
             var db = new LudoGameDbContext();
+            using var transaction = db.Database.BeginTransaction();
             db.Games.Add(Game);
             db.SaveChanges();
+            transaction.Commit();
         }
 
         private void LoadGameFromDatabase(LudoGame ludoGame)
@@ -275,16 +278,17 @@ namespace GameEngine
             var db = new LudoGameDbContext();
 
             Game = db.Games
-                .Where(g => g == ludoGame)
-                .Include(g => g.GamePlayers)
-                .Include(g => g.Moves)
-                .Include(g => g.PieceSetup)
-                .SingleOrDefault();
+                    .Where(g => g == ludoGame)
+                    .Include(g => g.GamePlayers)
+                    .Include(g => g.Moves)
+                    .Include(g => g.PieceSetup)
+                    .SingleOrDefault();
 
             var gamePlayers = db.PlayersInGame
-                .Where(pig => pig.GamePlayersId == Game.LudoGameId)
-                .Include("Players")
-                .Single();
+                    .Where(pig => pig.GamePlayersId == Game.LudoGameId)
+                    .Include("Players")
+                    .Single();
+
             var id = Game.LudoGameId;
             Game.GamePlayers = gamePlayers;
         }

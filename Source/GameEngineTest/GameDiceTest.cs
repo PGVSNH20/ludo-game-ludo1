@@ -19,7 +19,7 @@ namespace GameEngineTest
 
             for (int i = 0; i < 100; i++)
             {
-                gameDice.ThrowDice(false);
+                gameDice.ThrowDice();
                 results[i] = gameDice.Result;
             }
 

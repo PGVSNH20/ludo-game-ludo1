@@ -11,21 +11,21 @@ Use this file to fill in your documentation
 
 
 ## User stories
-* Som spelare vill jag slå tärning så att jag får ett antal steg för att gå med viss pjäs
-* Som spelare vill jag välja viss pjäs så den kan förflyttas
-* Som spelare vill jag kunna se allas spelares pjäser och dess position för att planera mitt nästa drag
-* Som spelare vill jag kunna knuffa ut annan spelare så att den måste börja om från start för att pjäserna hamnar på samma position
-* Som spelare vill jag få avslutnings rapport om spelet för att veta vem som vann
-* Som spelare vill jag kunna lägga ut en pjäs för att jag har kastat 1
-* Som spelare vill jag kunna lägga ut en pjäs och flytta 6 steg eller två pjäser och flytta 1 steg för att jag har kastat 6
-* Som spelare vill jag få ett extra kast för att jag har kastat 6
-* Som spelare vill jag kunna välja färg på mina pjäser för att bestämma vilken färg jag spelar med
-* Som spelare vill jag att mina pjäser flyttar sig medsols runt spelplanen för att komma i mål
-* Som spelare vill jag slå rätt siffra för kunna flytta mig till dess center efter ett varv på brädet
-* Som spelare vill jag att min pjäs flyttas bakåt om jag slår för många steg in i mål för att siffran  måste vara rätt
-* Som spelare vill jag ha alla mina pjäser i spelplanens center för att vinna
-* Som spelare vill jag kunna spara spelet för att kunna ta upp det igen efter paus
-* Som spelare vill jag kunna hämta tidigare spel för att kunna återuppta det
+* Som spelare vill jag slÃ¥ tÃ¤rning sÃ¥ att jag fÃ¥r ett antal steg fÃ¶r att gÃ¥ med viss pjÃ¤s
+* Som spelare vill jag vÃ¤lja viss pjÃ¤s sÃ¥ den kan fÃ¶rflyttas
+* Som spelare vill jag kunna se allas spelares pjÃ¤ser och dess position fÃ¶r att planera mitt nÃ¤sta drag
+* Som spelare vill jag kunna knuffa ut annan spelare sÃ¥ att den mÃ¥ste bÃ¶rja om frÃ¥n start fÃ¶r att pjÃ¤serna hamnar pÃ¥ samma position
+* Som spelare vill jag fÃ¥ avslutnings rapport om spelet fÃ¶r att veta vem som vann
+* Som spelare vill jag kunna lÃ¤gga ut en pjÃ¤s fÃ¶r att jag har kastat 1
+* Som spelare vill jag kunna lÃ¤gga ut en pjÃ¤s och flytta 6 steg eller tvÃ¥ pjÃ¤ser och flytta 1 steg fÃ¶r att jag har kastat 6
+* Som spelare vill jag fÃ¥ ett extra kast fÃ¶r att jag har kastat 6
+* Som spelare vill jag kunna vÃ¤lja fÃ¤rg pÃ¥ mina pjÃ¤ser fÃ¶r att bestÃ¤mma vilken fÃ¤rg jag spelar med
+* Som spelare vill jag att mina pjÃ¤ser flyttar sig medsols runt spelplanen fÃ¶r att komma i mÃ¥l
+* Som spelare vill jag slÃ¥ rÃ¤tt siffra fÃ¶r kunna flytta mig till dess center efter ett varv pÃ¥ brÃ¤det
+* Som spelare vill jag att min pjÃ¤s flyttas bakÃ¥t om jag slÃ¥r fÃ¶r mÃ¥nga steg in i mÃ¥l fÃ¶r att siffran  mÃ¥ste vara rÃ¤tt
+* Som spelare vill jag ha alla mina pjÃ¤ser i spelplanens center fÃ¶r att vinna
+* Som spelare vill jag kunna spara spelet fÃ¶r att kunna ta upp det igen efter paus
+* Som spelare vill jag kunna hÃ¤mta tidigare spel fÃ¶r att kunna Ã¥teruppta det
 
 ## Diagram
 * <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FCRCDiagram.drawio">CRC</a>
@@ -34,51 +34,51 @@ Use this file to fill in your documentation
 
 ## Klasser
 ### GameBoard
-* Håller information om:
-  * Vart pjäser befinner sig relativt till varandra
-  * Vart pjäser befinner sig relativt till virtuell 2D bräda
+* HÃ¥ller information om:
+  * Vart pjÃ¤ser befinner sig relativt till varandra
+  * Vart pjÃ¤ser befinner sig relativt till virtuell 2D brÃ¤da
 * Har metoder som kan:
-  * Beräkna olika positioner på banor och brädan utifrån pjäsernas position
-  * Skriva ut representation av 2D brädan i konsolen
+  * BerÃ¤kna olika positioner pÃ¥ banor och brÃ¤dan utifrÃ¥n pjÃ¤sernas position
+  * Skriva ut representation av 2D brÃ¤dan i konsolen
 ### GameDice
-* Håller referens till System.Random instans
-* Har metod som tar fram slumpmässigt siffra från 1 till 6
-* Har metod som simulerar grafiskt kastning av tärning i konsolen
+* HÃ¥ller referens till System.Random instans
+* Har metod som tar fram slumpmÃ¤ssigt siffra frÃ¥n 1 till 6
+* Har metod som simulerar grafiskt kastning av tÃ¤rning i konsolen
 ### GameMove
-* Håller information om:
-  * Spelare som äger "move"
-  * Pjäsen som används i "move"
-  * Pjäsens ursprungliga position
-  * Resultat från tärnings kast i aktuella "move"
+* HÃ¥ller information om:
+  * Spelare som Ã¤ger "move"
+  * PjÃ¤sen som anvÃ¤nds i "move"
+  * PjÃ¤sens ursprungliga position
+  * Resultat frÃ¥n tÃ¤rnings kast i aktuella "move"
 ### GamePiece
-* Håller information om:
-  * Vilken färg är det på pjäsen
-  * Vilken nummer pjäsen har
-  * Position pjäsen befinner sig relativt till start och slut av pjäsens bana.
+* HÃ¥ller information om:
+  * Vilken fÃ¤rg Ã¤r det pÃ¥ pjÃ¤sen
+  * Vilken nummer pjÃ¤sen har
+  * Position pjÃ¤sen befinner sig relativt till start och slut av pjÃ¤sens bana.
 ### LudoGame
-* Håller information om:
+* HÃ¥ller information om:
   * Vilka spelare som deltar i spelet
   * Alla "moves" som exekveras i spelet
-  * Referens till spelare som är vinnare
-  * Uppsättning av pjäser som används i spelet
-  * Referens till spelare som har nästa "move"
-  * Namn på spelet
-  * När spelet skapades
-  * När spelet sist ändrades
+  * Referens till spelare som Ã¤r vinnare
+  * UppsÃ¤ttning av pjÃ¤ser som anvÃ¤nds i spelet
+  * Referens till spelare som har nÃ¤sta "move"
+  * Namn pÃ¥ spelet
+  * NÃ¤r spelet skapades
+  * NÃ¤r spelet sist Ã¤ndrades
 ### GamePlayer
-* Håller information om:
+* HÃ¥ller information om:
   * Spelares namn
-  * Spelares spelfärg
-  * Spelares typ (människa eller robot)
+  * Spelares spelfÃ¤rg
+  * Spelares typ (mÃ¤nniska eller robot)
 ### GamePlayers
-* Håller information om:
-  * Upsetting av spelare som ingår i ett spel
-  * Antal spelare i uppsättningen
+* HÃ¥ller information om:
+  * Upsetting av spelare som ingÃ¥r i ett spel
+  * Antal spelare i uppsÃ¤ttningen
 ### GameRunner
-* Håller information om:
+* HÃ¥ller information om:
   * Referens till aktuella spel
-  * Referens till tärning
-  * Referens till bräda
+  * Referens till tÃ¤rning
+  * Referens till brÃ¤da
   * Referens till GameAI
 * Har metoder som kan:
   * Skapa och lagra ny spel
@@ -86,16 +86,19 @@ Use this file to fill in your documentation
   * Spela skapade eller laddade spel:
     * Skapa ny move
     * Exekvera move och lagra den
+      * Updatera pjÃ¤sens position
+      * Updatera eventeulla oponents pjÃ¤s position
+      * Updatera spel brÃ¤da 
 ### InputDialogs
 * Har metoder som kan:
-  * Starta konsol dialog för att skapa nytt spel*
-  * Starta konsol dialog för att ange antal spelare
-  * Starta konsol dialog för att skapa spelare*
-  * Starta konsol dialog för att välja vilken pjäs som ska flyttas
-  * Starta konsol dialog för att välja vilken spel som ska laddas upp
+  * Starta konsol dialog fÃ¶r att skapa nytt spel
+  * Starta konsol dialog fÃ¶r att ange antal spelare
+  * Starta konsol dialog fÃ¶r att skapa spelare*
+  * Starta konsol dialog fÃ¶r att vÃ¤lja vilken pjÃ¤s som ska flyttas
+  * Starta konsol dialog fÃ¶r att vÃ¤lja vilken spel som ska laddas upp
 ### Tools
 * Har metoder som kan:
-  * Skapa uppsättning av pjäs utifrån antal användare och dess färg
-  * Skapa lista med pjäs som gör att flytta i aktuell "move" enligt spel reglarna
-  * Beräkna nya pjäs position
-  * Sätta färgen på text utifrån spelfärgen
+  * Skapa uppsÃ¤ttning av pjÃ¤s utifrÃ¥n antal anvÃ¤ndare och dess fÃ¤rg
+  * Skapa lista med pjÃ¤s som gÃ¶r att flytta i aktuell "move" enligt spel reglarna
+  * BerÃ¤kna nya pjÃ¤s position
+  * SÃ¤tta fÃ¤rgen pÃ¥ text utifrÃ¥n spelfÃ¤rgen

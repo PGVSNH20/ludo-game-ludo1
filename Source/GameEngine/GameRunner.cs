@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace GameEngine
 {
@@ -17,6 +18,7 @@ namespace GameEngine
         public GameBoard Board { get; set; }
         private GamePiece OponentsGamePiece { get; set; }
         private GameAI AI { get; set; }
+        private Task SaveNewGameTask { get; set; }
 
         public GameRunner()
         {
@@ -44,7 +46,10 @@ namespace GameEngine
 
             Game.PieceSetup = Tools.GetGamePieceSetup(Game.GamePlayers.Players);
             Board.UpdateBoardBases(Game.PieceSetup);
-            SaveGameToDataBase();
+            //SaveGameToDataBase()
+
+            SaveNewGameTask = new Task(() => SaveGameToDataBase());
+            SaveNewGameTask.Start();
             return this;
         }
 
@@ -66,7 +71,7 @@ namespace GameEngine
             while (Game.Winer == null)
             {
                 Console.Clear();
-                Board.PrintBoard(Game.PieceSetup);
+                Tools.PrintGameDetails(Game);
                 Console.Write($"Now it's ");
                 Tools.SetConsoleColor(Game.NextPlayer.Color);
                 Console.Write(Game.NextPlayer.Name);
@@ -74,6 +79,7 @@ namespace GameEngine
                 Console.WriteLine(" turn\n" +
                     $"1) Throw dice\n" +
                     $"2) Save game");
+                Board.PrintBoard(Game.PieceSetup);
                 string input = string.Empty;
                 if (Game.NextPlayer.Type == (PlayerType)1)
                     input = "1";
@@ -219,6 +225,9 @@ namespace GameEngine
 
         private void SaveMoveToDataBase()
         {
+            if (SaveNewGameTask != null && SaveNewGameTask.Status == TaskStatus.Running)
+                SaveNewGameTask.Wait();
+
             var db = new LudoGameDbContext();
             GamePiece gamePiece = null;
             using var transaction = db.Database.BeginTransaction();

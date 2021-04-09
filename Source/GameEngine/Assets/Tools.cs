@@ -63,6 +63,18 @@ namespace GameEngine.Assets
             return movablePieces;
         }
 
+        public static void PrintGameDetails(LudoGame game)
+        {
+            Console.WriteLine($"{game.GameName} (id: {game.LudoGameId}) moves {game.Moves.Count}");
+            foreach (var player in game.GamePlayers.Players)
+            {
+                SetConsoleColor(player.Color);
+                Console.WriteLine($"{player.Name} ({player.Type}) ");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            Console.WriteLine();
+        }
+
         public static int CalculateNewPositon(int? originalPosition, int diceValue)
 
         {

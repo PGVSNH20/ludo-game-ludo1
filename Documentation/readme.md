@@ -9,6 +9,9 @@ Use this file to fill in your documentation
 | timer  | emil  | daniel  | edgar  | elsa  |
 | spy  | daniel  | emil  | elsa  |  edgar |
 
+## Projekt managment
+* <a href="https://share.clickup.com/b/h/4-8851288-2/0d65952681c886a">Kanban tavla</a>
+* <a href="https://share.clickup.com/l/h/4-8851288-1/c525cb63007e621">Att göra lista</a>
 
 ## User stories
 * Som spelare vill jag slå tärning så att jag får ett antal steg för att gå med viss pjäs

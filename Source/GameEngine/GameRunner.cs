@@ -68,7 +68,6 @@ namespace GameEngine
                 Console.Clear();
                 Board.PrintBoard(Game.PieceSetup);
                 Console.Write($"Now it's ");
-                //Console.ForegroundColor = (ConsoleColor)Game.NextPlayer.Color;
                 Tools.SetConsoleColor(Game.NextPlayer.Color);
                 Console.Write(Game.NextPlayer.Name);
                 Console.ResetColor();

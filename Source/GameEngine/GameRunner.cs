@@ -16,7 +16,7 @@ namespace GameEngine
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
         private GamePiece OponentsGamePiece { get; set; }
-        private GameAI AIPlayer { get; set; }
+        private GameAI AI { get; set; }
 
         public GameRunner()
         {
@@ -61,7 +61,7 @@ namespace GameEngine
 
         {
             if (Game.GamePlayers.Players.FindAll(p => p.Type == (PlayerType)1).Count > 0)
-                AIPlayer = new GameAI(Board, Game.PieceSetup, Dice);
+                AI = new GameAI(Board, Game.PieceSetup, Dice);
 
             while (Game.Winer == null)
             {
@@ -91,7 +91,7 @@ namespace GameEngine
                         GamePiece gamePieceToMove = null;
 
                         if (Game.NextPlayer.Type == (PlayerType)1)
-                            gamePieceToMove = AIPlayer.ChoosePieceToMove(Game.NextPlayer.Color, Dice.Result);
+                            gamePieceToMove = AI.ChoosePieceToMove(Game.NextPlayer.Color, Dice.Result);
                         else
                             gamePieceToMove = InputDialogs.GetGamePieceToMove(Game.PieceSetup, Game.NextPlayer.Color, Dice.Result);
 

@@ -29,36 +29,73 @@ Use this file to fill in your documentation
 
 ## Diagram
 * <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FCRCDiagram.drawio">CRC</a>
+* <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FCRCDiagram_final.drawio">CRC Final</a>
 * <a href="https://viewer.diagrams.net/?highlight=0000ff&edit=_blank&layers=1&nav=1&title=CRCDiagram.drawio#Uhttps%3A%2F%2Fraw.githack.com%2FPGVSNH20%2Fludo-game-ludo1%2Fmain%2FDocumentation%2FUseCaseDiagram.drawio">Use case</a>
 
 ## Klasser
-* GameBoard
-  * Track
-* GameDice
-  * ThrowValue
-* GameMove
-  * GameMoveId
-  * Player
-  * GamePiece
-  * OriginalPostion
-  * DiceThrowValue
-* GamePiece
-  * GamePieceId
-  * Color
-  * Number
-  * TrackPossition
-* LudoGame
-  * LudoGameId
-  * Players
-  * Moves
-  * Winner
-  * GamePieceSetUp
-* Player
-  * PlayerId
-  * Name
-  * Color
-* GameRunner
-  * LudoGame
-  * GameDice
-  * GameBoard
-  * CurrentPlayer
+### GameBoard
+* Håller information om:
+  * Vart pjäser befinner sig relativt till varandra
+  * Vart pjäser befinner sig relativt till virtuell 2D bräda
+* Har metoder som kan:
+  * Beräkna olika positioner på banor och brädan utifrån pjäsernas position
+  * Skriva ut representation av 2D brädan i konsolen
+### GameDice
+* Håller referens till System.Random instans
+* Har metod som tar fram slumpmässigt siffra från 1 till 6
+* Har metod som simulerar grafiskt kastning av tärning i konsolen
+### GameMove
+* Håller information om:
+  * Spelare som äger "move"
+  * Pjäsen som används i "move"
+  * Pjäsens ursprungliga position
+  * Resultat från tärnings kast i aktuella "move"
+### GamePiece
+* Håller information om:
+  * Vilken färg är det på pjäsen
+  * Vilken nummer pjäsen har
+  * Position pjäsen befinner sig relativt till start och slut av pjäsens bana.
+### LudoGame
+* Håller information om:
+  * Vilka spelare som deltar i spelet
+  * Alla "moves" som exekveras i spelet
+  * Referens till spelare som är vinnare
+  * Uppsättning av pjäser som används i spelet
+  * Referens till spelare som har nästa "move"
+  * Namn på spelet
+  * När spelet skapades
+  * När spelet sist ändrades
+### GamePlayer
+* Håller information om:
+  * Spelares namn
+  * Spelares spelfärg
+  * Spelares typ (människa eller robot)
+### GamePlayers
+* Håller information om:
+  * Upsetting av spelare som ingår i ett spel
+  * Antal spelare i uppsättningen
+### GameRunner
+* Håller information om:
+  * Referens till aktuella spel
+  * Referens till tärning
+  * Referens till bräda
+  * Referens till GameAI
+* Har metoder som kan:
+  * Skapa och lagra ny spel
+  * Ladda upp tidigare spel
+  * Spela skapade eller laddade spel:
+    * Skapa ny move
+    * Exekvera move och lagra den
+### InputDialogs
+* Har metoder som kan:
+  * Starta konsol dialog för att skapa nytt spel*
+  * Starta konsol dialog för att ange antal spelare
+  * Starta konsol dialog för att skapa spelare*
+  * Starta konsol dialog för att välja vilken pjäs som ska flyttas
+  * Starta konsol dialog för att välja vilken spel som ska laddas upp
+### Tools
+* Har metoder som kan:
+  * Skapa uppsättning av pjäs utifrån antal användare och dess färg
+  * Skapa lista med pjäs som gör att flytta i aktuell "move" enligt spel reglarna
+  * Beräkna nya pjäs position
+  * Sätta färgen på text utifrån spelfärgen

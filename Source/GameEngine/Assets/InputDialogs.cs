@@ -88,7 +88,7 @@ namespace GameEngine.Assets
 
         public static string GetGameName()
         {
-            Console.Write("Name The Game: ");
+            Console.WriteLine("Name The Game: ");
             return Console.ReadLine();
         }
 

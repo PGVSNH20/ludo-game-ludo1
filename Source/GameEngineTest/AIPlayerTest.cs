@@ -27,7 +27,7 @@ namespace GameEngineTest
             var dice = new GameDice();
             dice.Result = 6;
 
-            var aiPlayer = new AIPlayer(board, gamePieces, dice);
+            var aiPlayer = new GameAI(board, gamePieces, dice);
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -54,7 +54,7 @@ namespace GameEngineTest
             var dice = new GameDice();
             dice.Result = 5;
 
-            var aiPlayer = new AIPlayer(board, gamePieces, dice);
+            var aiPlayer = new GameAI(board, gamePieces, dice);
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -78,7 +78,7 @@ namespace GameEngineTest
             var board = new GameBoard();
             board.UpdateTracks(gamePieces);
 
-            var aiPlayer = new AIPlayer(board, gamePieces, new GameDice());
+            var aiPlayer = new GameAI(board, gamePieces, new GameDice());
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -102,7 +102,7 @@ namespace GameEngineTest
             var board = new GameBoard();
             board.UpdateTracks(gamePieces);
 
-            var aiPlayer = new AIPlayer(board, gamePieces, new GameDice());
+            var aiPlayer = new GameAI(board, gamePieces, new GameDice());
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -129,7 +129,7 @@ namespace GameEngineTest
             var dice = new GameDice();
             dice.Result = 2;
 
-            var aiPlayer = new AIPlayer(board, gamePieces, dice);
+            var aiPlayer = new GameAI(board, gamePieces, dice);
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -154,7 +154,7 @@ namespace GameEngineTest
             board.UpdateTracks(gamePieces);
             var dice = new GameDice();
             dice.Result = 2;
-            var aiPlayer = new AIPlayer(board, gamePieces, dice);
+            var aiPlayer = new GameAI(board, gamePieces, dice);
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -178,7 +178,7 @@ namespace GameEngineTest
             var board = new GameBoard();
             board.UpdateTracks(gamePieces);
 
-            var aiPlayer = new AIPlayer(board, gamePieces, new GameDice());
+            var aiPlayer = new GameAI(board, gamePieces, new GameDice());
 
             board.UpdateTracks(gamePieces);
             // Act
@@ -202,7 +202,7 @@ namespace GameEngineTest
             var board = new GameBoard();
             board.UpdateTracks(gamePieces);
 
-            var aiPlayer = new AIPlayer(board, gamePieces, new GameDice());
+            var aiPlayer = new GameAI(board, gamePieces, new GameDice());
 
             board.UpdateTracks(gamePieces);
             // Act

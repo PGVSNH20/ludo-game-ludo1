@@ -7,13 +7,13 @@ using System.Threading;
 
 namespace GameEngine.Assets
 {
-    public class AIPlayer
+    public class GameAI
     {
         public GameBoard Board { get; set; }
         public List<GamePiece> GamePeaceSetUp { get; set; }
         public GameDice Dice { get; set; }
 
-        public AIPlayer(GameBoard board, List<GamePiece> gamePeaceSetUp, GameDice dice)
+        public GameAI(GameBoard board, List<GamePiece> gamePeaceSetUp, GameDice dice)
         {
             Board = board;
             GamePeaceSetUp = gamePeaceSetUp;

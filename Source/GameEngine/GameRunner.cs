@@ -16,7 +16,7 @@ namespace GameEngine
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
         private GamePiece OponentsGamePiece { get; set; }
-        private AIPlayer AIPlayer { get; set; }
+        private GameAI AIPlayer { get; set; }
 
         public GameRunner()
         {
@@ -61,7 +61,7 @@ namespace GameEngine
 
         {
             if (Game.GamePlayers.Players.FindAll(p => p.Type == (PlayerType)1).Count > 0)
-                AIPlayer = new AIPlayer(Board, Game.PieceSetup, Dice);
+                AIPlayer = new GameAI(Board, Game.PieceSetup, Dice);
 
             while (Game.Winer == null)
             {

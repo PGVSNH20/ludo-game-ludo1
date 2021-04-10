@@ -43,8 +43,19 @@
 * Vi skapade metoder som lagrar ny spel och lagrar Moves i databasen samt gjorde lite manuella tester.
 ## 2021-04-08
 * Vi försätta jobba med console-application
-* Vi skapade metoder för att ladda data från dbcontext och på så sätt kunna forstätta tidigare spel
+* Vi skapade metoder för att ladda data från dbcontext och på så sätt kunna fortsätta tidigare spel
 * Vi skapade några egenskaper (SpelNamn, AntalSpelare och Datum) på några db context klasser
 * Vi skapade och testade AI spelare som kan göra relativt smarta moves
 * Vi diskuterade upplägget med video inlämning och kom fram till att vi ska göra plan för scener och manuset
 * Diversa små fixar i koden
+## 2021-04-09
+* Vi skapade övergripande struktur för video och vilka delar som ska presenteras och vem ska presentera dessa
+* Vi pimpade till lite välkomst meny
+* Vi lade till lite extra data om spelet i spelläge
+* Vi gjorde en loop som gör programmet körs tills man aktivt väljer stänga den.
+## 2021-04-10
+* Vi skapade funktionalitet för att lagra spel till json fil och ladda upp spel från json fil
+  * Det är en spel som lagras per fil
+  * Efter inläsning av spelet görs kontroll mot databasen om spelet finns lagrat där
+    * Om spel finns så fortsätter spelande på den
+    * Om inte spel finns görs en djupkloning av spel och ny spel lagras i databasen

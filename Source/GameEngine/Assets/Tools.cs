@@ -90,5 +90,64 @@ namespace GameEngine.Assets
             else if (gameColor == (GameColor)2) Console.ForegroundColor = ConsoleColor.Yellow;
             else if (gameColor == (GameColor)3) Console.ForegroundColor = ConsoleColor.Green;
         }
+
+        public static LudoGame DeepCloneGame(LudoGame originGame)
+        {
+            var newGame = new LudoGame();
+            newGame.PieceSetup = new List<GamePiece>();
+            newGame.Moves = new List<GameMove>();
+            foreach (var piece in originGame.PieceSetup)
+            {
+                newGame.PieceSetup.Add(new GamePiece()
+                {
+                    Number = piece.Number,
+                    Color = piece.Color
+                });
+            }
+            newGame.GamePlayers = new GamePlayers();
+            foreach (var player in originGame.GamePlayers.Players)
+            {
+                newGame.GamePlayers.Players.Add(new GamePlayer()
+                {
+                    Name = player.Name,
+                    Color = player.Color,
+                    Type = player.Type
+                });
+            }
+
+            foreach (var move in originGame.Moves)
+            {
+                var playerIndex = originGame.GamePlayers.Players.IndexOf(originGame.GamePlayers.Players.Find(p => p.GamePlayerID == move.Player.GamePlayerID));
+                newGame.Moves.Add(new GameMove()
+                {
+                    Player = newGame.GamePlayers.Players[playerIndex],
+                    DiceThrowResult = move.DiceThrowResult,
+                    Created = move.Created
+                });
+                if (move.Piece == null)
+                    newGame.Moves.Last().Piece = null;
+                else
+                {
+                    var pieceIndex = originGame.PieceSetup.IndexOf(originGame.PieceSetup.Find(p => p.GamePieceId == move.Piece.GamePieceId));
+                    newGame.Moves.Last().Piece = newGame.PieceSetup[pieceIndex];
+                    newGame.Moves.Last().OriginalPosition = move.OriginalPosition;
+                }
+            }
+            var nextPlayerIndex = originGame.GamePlayers.Players.IndexOf(originGame.GamePlayers.Players.Find(p => p.GamePlayerID == originGame.NextPlayer.GamePlayerID));
+            newGame.NextPlayer = newGame.GamePlayers.Players[nextPlayerIndex];
+            newGame.Status = originGame.Status;
+            newGame.LastPlayed = originGame.LastPlayed;
+            if (originGame.Winer == null)
+                newGame.Winer = null;
+            else
+            {
+                var winerPlayerIndex = originGame.GamePlayers.Players.IndexOf(originGame.GamePlayers.Players.Find(p => p.GamePlayerID == originGame.Winer.GamePlayerID));
+                newGame.Winer = newGame.GamePlayers.Players[winerPlayerIndex];
+            }
+
+            newGame.GameName = originGame.GameName;
+            newGame.Created = originGame.Created;
+            return newGame;
+        }
     }
 }

@@ -1,0 +1,1740 @@
+﻿{
+  "LudoGameId": 3017,
+  "GamePlayers": {
+    "GamePlayersId": 1017,
+    "Players": [
+      {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      }
+    ],
+    "PlayerCount": 4
+  },
+  "Moves": [
+    {
+      "GameMoveID": 2610,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T21:35:05.6117759"
+    },
+    {
+      "GameMoveID": 2611,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T21:35:06.142232"
+    },
+    {
+      "GameMoveID": 2612,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:46:43.2623517"
+    },
+    {
+      "GameMoveID": 2613,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:48:54.0278528"
+    },
+    {
+      "GameMoveID": 2614,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:48:56.8551874"
+    },
+    {
+      "GameMoveID": 2615,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:48:58.1359542"
+    },
+    {
+      "GameMoveID": 2616,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:49:09.1324151"
+    },
+    {
+      "GameMoveID": 2617,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:49:09.3258295"
+    },
+    {
+      "GameMoveID": 2618,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:49:09.5713908"
+    },
+    {
+      "GameMoveID": 2619,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T21:49:09.7720827"
+    },
+    {
+      "GameMoveID": 2620,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:49:10.9702048"
+    },
+    {
+      "GameMoveID": 2621,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:49:16.1520442"
+    },
+    {
+      "GameMoveID": 2622,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:49:16.3345565"
+    },
+    {
+      "GameMoveID": 2623,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T21:49:16.5661207"
+    },
+    {
+      "GameMoveID": 2624,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:49:16.7670281"
+    },
+    {
+      "GameMoveID": 2625,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:49:23.8362908"
+    },
+    {
+      "GameMoveID": 2626,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 4,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:49:24.0378634"
+    },
+    {
+      "GameMoveID": 2627,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:49:24.2380068"
+    },
+    {
+      "GameMoveID": 2628,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T21:49:24.4715721"
+    },
+    {
+      "GameMoveID": 2629,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:49:29.0585355"
+    },
+    {
+      "GameMoveID": 2630,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:49:29.2678235"
+    },
+    {
+      "GameMoveID": 2631,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 9,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:49:29.4688227"
+    },
+    {
+      "GameMoveID": 2632,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 8,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:49:29.6704771"
+    },
+    {
+      "GameMoveID": 2633,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 4,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T21:49:43.1073794"
+    },
+    {
+      "GameMoveID": 2634,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 10,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:49:54.9540507"
+    },
+    {
+      "GameMoveID": 2635,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 7,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T21:49:55.1574226"
+    },
+    {
+      "GameMoveID": 2636,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 3,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T21:49:56.4013435"
+    },
+    {
+      "GameMoveID": 2637,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 13,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:49:56.6041341"
+    },
+    {
+      "GameMoveID": 2638,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 11,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:49:56.838981"
+    },
+    {
+      "GameMoveID": 2639,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 12,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:50:02.6263921"
+    },
+    {
+      "GameMoveID": 2640,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 13,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T21:50:03.8646629"
+    },
+    {
+      "GameMoveID": 2641,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1238,
+        "Color": 2,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T21:50:04.0538652"
+    },
+    {
+      "GameMoveID": 2642,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 15,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T21:50:04.2545774"
+    },
+    {
+      "GameMoveID": 2643,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 20,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T21:57:18.8461568"
+    },
+    {
+      "GameMoveID": 2644,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 23,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:09:57.7773692"
+    },
+    {
+      "GameMoveID": 2645,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:10:06.5595134"
+    },
+    {
+      "GameMoveID": 2646,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:10:15.5013632"
+    },
+    {
+      "GameMoveID": 2647,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:10:15.707495"
+    },
+    {
+      "GameMoveID": 2648,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:10:17.9634888"
+    },
+    {
+      "GameMoveID": 2649,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 16,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T22:10:19.2402385"
+    },
+    {
+      "GameMoveID": 2650,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:10:19.4441092"
+    },
+    {
+      "GameMoveID": 2651,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 10,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:10:27.0104246"
+    },
+    {
+      "GameMoveID": 2652,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 10,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:10:27.2156623"
+    },
+    {
+      "GameMoveID": 2653,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 17,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T22:10:28.4148769"
+    },
+    {
+      "GameMoveID": 2654,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T22:10:28.6173391"
+    },
+    {
+      "GameMoveID": 2655,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 28,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:10:28.8354696"
+    },
+    {
+      "GameMoveID": 2656,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 13,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:10:35.7174029"
+    },
+    {
+      "GameMoveID": 2657,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 19,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-08T22:10:52.4710377"
+    },
+    {
+      "GameMoveID": 2658,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 16,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:10:52.6875717"
+    },
+    {
+      "GameMoveID": 2659,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:10:52.891006"
+    },
+    {
+      "GameMoveID": 2660,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 10,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T22:10:53.0821107"
+    },
+    {
+      "GameMoveID": 2661,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1230,
+        "Color": 0,
+        "Number": 2,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 24,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:10:58.8368689"
+    },
+    {
+      "GameMoveID": 2662,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 21,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:10:59.0320763"
+    },
+    {
+      "GameMoveID": 2663,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 19,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T22:11:00.2646268"
+    },
+    {
+      "GameMoveID": 2664,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:11:00.5155928"
+    },
+    {
+      "GameMoveID": 2665,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1243,
+        "Color": 3,
+        "Number": 3,
+        "TrackPosition": 10
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T22:11:00.7044848"
+    },
+    {
+      "GameMoveID": 2666,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T22:11:06.1849951"
+    },
+    {
+      "GameMoveID": 2667,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 23,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T22:11:06.3833596"
+    },
+    {
+      "GameMoveID": 2668,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-08T22:11:06.6318206"
+    },
+    {
+      "GameMoveID": 2669,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 12,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-08T22:11:06.8178587"
+    },
+    {
+      "GameMoveID": 2670,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:11:17.2769161"
+    },
+    {
+      "GameMoveID": 2671,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 27,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:11:18.486122"
+    },
+    {
+      "GameMoveID": 2672,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-08T22:11:18.6910923"
+    },
+    {
+      "GameMoveID": 2673,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T22:11:19.9327647"
+    },
+    {
+      "GameMoveID": 2674,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1243,
+        "Color": 3,
+        "Number": 3,
+        "TrackPosition": 10
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-08T22:11:21.157832"
+    },
+    {
+      "GameMoveID": 2675,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1243,
+        "Color": 3,
+        "Number": 3,
+        "TrackPosition": 10
+      },
+      "OriginalPosition": 2,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-08T22:11:55.6316238"
+    },
+    {
+      "GameMoveID": 4856,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1241,
+        "Color": 3,
+        "Number": 1,
+        "TrackPosition": null
+      },
+      "OriginalPosition": 33,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T21:51:01.98395"
+    },
+    {
+      "GameMoveID": 4857,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-09T21:51:06.02429"
+    },
+    {
+      "GameMoveID": 4858,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": 3,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T21:51:20.9403697"
+    },
+    {
+      "GameMoveID": 4859,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 30,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T21:51:23.7168252"
+    },
+    {
+      "GameMoveID": 4860,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 7,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-09T21:51:26.5702552"
+    },
+    {
+      "GameMoveID": 4861,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1243,
+        "Color": 3,
+        "Number": 3,
+        "TrackPosition": 10
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-09T21:51:30.3574825"
+    },
+    {
+      "GameMoveID": 4862,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": 7,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-09T21:52:53.2321176"
+    },
+    {
+      "GameMoveID": 4863,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 34,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-09T21:52:56.1466997"
+    },
+    {
+      "GameMoveID": 4864,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 9,
+      "DiceThrowResult": 5,
+      "Created": "2021-04-09T21:52:58.9351288"
+    },
+    {
+      "GameMoveID": 4865,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T21:53:01.734419"
+    },
+    {
+      "GameMoveID": 4866,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": 12,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-09T21:53:09.5871428"
+    },
+    {
+      "GameMoveID": 4867,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T21:53:12.3525659"
+    },
+    {
+      "GameMoveID": 4868,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": 5,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-09T21:53:16.1646736"
+    },
+    {
+      "GameMoveID": 4869,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": null,
+      "OriginalPosition": null,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T21:53:19.0018458"
+    },
+    {
+      "GameMoveID": 4870,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1243,
+        "Color": 3,
+        "Number": 3,
+        "TrackPosition": 10
+      },
+      "OriginalPosition": 7,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-09T21:53:21.8470334"
+    },
+    {
+      "GameMoveID": 4871,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1232,
+        "Color": 0,
+        "Number": 4,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T22:57:37.9416638"
+    },
+    {
+      "GameMoveID": 4872,
+      "Player": {
+        "GamePlayerID": 1058,
+        "Name": "Edgar",
+        "Color": 0,
+        "Type": 0
+      },
+      "Piece": {
+        "GamePieceId": 1229,
+        "Color": 0,
+        "Number": 1,
+        "TrackPosition": 18
+      },
+      "OriginalPosition": 14,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T22:57:48.7869516"
+    },
+    {
+      "GameMoveID": 4873,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 37,
+      "DiceThrowResult": 4,
+      "Created": "2021-04-09T22:57:52.6793041"
+    },
+    {
+      "GameMoveID": 4874,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-09T22:57:55.5642006"
+    },
+    {
+      "GameMoveID": 4875,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 4,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-09T22:57:58.4180105"
+    },
+    {
+      "GameMoveID": 4876,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1234,
+        "Color": 1,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T22:58:04.8142741"
+    },
+    {
+      "GameMoveID": 4877,
+      "Player": {
+        "GamePlayerID": 1059,
+        "Name": "Terminator",
+        "Color": 1,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1233,
+        "Color": 1,
+        "Number": 1,
+        "TrackPosition": 45
+      },
+      "OriginalPosition": 41,
+      "DiceThrowResult": 3,
+      "Created": "2021-04-09T22:58:08.6576653"
+    },
+    {
+      "GameMoveID": 4878,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1237,
+        "Color": 2,
+        "Number": 1,
+        "TrackPosition": 6
+      },
+      "OriginalPosition": 0,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T22:58:12.5155896"
+    },
+    {
+      "GameMoveID": 4879,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1238,
+        "Color": 2,
+        "Number": 2,
+        "TrackPosition": 5
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 6,
+      "Created": "2021-04-09T22:58:16.3774366"
+    },
+    {
+      "GameMoveID": 4880,
+      "Player": {
+        "GamePlayerID": 1060,
+        "Name": "Megatron",
+        "Color": 2,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1239,
+        "Color": 2,
+        "Number": 3,
+        "TrackPosition": 0
+      },
+      "OriginalPosition": null,
+      "DiceThrowResult": 1,
+      "Created": "2021-04-09T22:58:20.2221934"
+    },
+    {
+      "GameMoveID": 4881,
+      "Player": {
+        "GamePlayerID": 1061,
+        "Name": "Robocop",
+        "Color": 3,
+        "Type": 1
+      },
+      "Piece": {
+        "GamePieceId": 1242,
+        "Color": 3,
+        "Number": 2,
+        "TrackPosition": 8
+      },
+      "OriginalPosition": 6,
+      "DiceThrowResult": 2,
+      "Created": "2021-04-09T22:58:22.9990659"
+    }
+  ],
+  "Winer": null,
+  "Status": "In progress (moves 92)",
+  "PieceSetup": [
+    {
+      "GamePieceId": 1229,
+      "Color": 0,
+      "Number": 1,
+      "TrackPosition": 18
+    },
+    {
+      "GamePieceId": 1230,
+      "Color": 0,
+      "Number": 2,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1231,
+      "Color": 0,
+      "Number": 3,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1232,
+      "Color": 0,
+      "Number": 4,
+      "TrackPosition": 5
+    },
+    {
+      "GamePieceId": 1233,
+      "Color": 1,
+      "Number": 1,
+      "TrackPosition": 45
+    },
+    {
+      "GamePieceId": 1234,
+      "Color": 1,
+      "Number": 2,
+      "TrackPosition": 5
+    },
+    {
+      "GamePieceId": 1235,
+      "Color": 1,
+      "Number": 3,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1236,
+      "Color": 1,
+      "Number": 4,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1237,
+      "Color": 2,
+      "Number": 1,
+      "TrackPosition": 6
+    },
+    {
+      "GamePieceId": 1238,
+      "Color": 2,
+      "Number": 2,
+      "TrackPosition": 5
+    },
+    {
+      "GamePieceId": 1239,
+      "Color": 2,
+      "Number": 3,
+      "TrackPosition": 0
+    },
+    {
+      "GamePieceId": 1240,
+      "Color": 2,
+      "Number": 4,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1241,
+      "Color": 3,
+      "Number": 1,
+      "TrackPosition": null
+    },
+    {
+      "GamePieceId": 1242,
+      "Color": 3,
+      "Number": 2,
+      "TrackPosition": 8
+    },
+    {
+      "GamePieceId": 1243,
+      "Color": 3,
+      "Number": 3,
+      "TrackPosition": 10
+    },
+    {
+      "GamePieceId": 1244,
+      "Color": 3,
+      "Number": 4,
+      "TrackPosition": null
+    }
+  ],
+  "NextPlayer": {
+    "GamePlayerID": 1058,
+    "Name": "Edgar",
+    "Color": 0,
+    "Type": 0
+  },
+  "GameName": "war_fromJson",
+  "Created": "2021-04-08T21:34:08.8663903",
+  "LastPlayed": "2021-04-09T22:58:23.0547906"
+}

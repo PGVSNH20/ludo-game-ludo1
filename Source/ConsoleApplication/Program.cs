@@ -24,10 +24,17 @@ namespace ConsoleApplication
 
                     case "2":
                         Console.Clear();
-                        game.LoadGame().PlayGame();
+                        game.LoadGameFromDataBase().PlayGame();
                         break;
 
                     case "3":
+                        Console.Clear();
+                        Console.WriteLine("Provide filename");
+                        var fileName = Console.ReadLine();
+                        game.LoadGameFromFile(fileName).PlayGame();
+                        break;
+
+                    case "4":
                         alive = false;
                         break;
 
@@ -117,9 +124,11 @@ namespace ConsoleApplication
             Console.SetCursorPosition(column, line++);
             Console.WriteLine(@"1) Start new game");
             Console.SetCursorPosition(column, line++);
-            Console.WriteLine(@"2) Load game");
+            Console.WriteLine(@"2) Load game from database");
             Console.SetCursorPosition(column, line++);
-            Console.WriteLine(@"3) Exit game");
+            Console.WriteLine(@"3) Load game from file");
+            Console.SetCursorPosition(column, line++);
+            Console.WriteLine(@"4) Exit game");
         }
     }
 }

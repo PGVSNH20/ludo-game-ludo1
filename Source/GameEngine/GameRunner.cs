@@ -53,11 +53,24 @@ namespace GameEngine
             return this;
         }
 
-        public GameRunner LoadGame()
+        public GameRunner LoadGameFromDataBase()
         {
             var allGames = LoadAllGamesFromDataBase();
             var oneLudoGame = InputDialogs.GetLudoGame(allGames);
             LoadGameFromDatabase(oneLudoGame);
+            Board.UpdateTracks(Game.PieceSetup);
+            return this;
+        }
+
+        public GameRunner LoadGameFromFile(string fileName)
+        {
+            Game = FileHandler.ReadFromFile(fileName);
+            var db = new LudoGameDbContext();
+            if (!db.Games.Contains(Game))
+            {
+                Game = Tools.DeepCloneGame(Game);
+                SaveGameToDataBase();
+            }
             Board.UpdateTracks(Game.PieceSetup);
             return this;
         }
@@ -78,7 +91,8 @@ namespace GameEngine
                 Console.ResetColor();
                 Console.WriteLine(" turn\n" +
                     $"1) Throw dice\n" +
-                    $"2) Save game");
+                    $"2) Save game to file\n" +
+                    $"3) Exit game");
                 Board.PrintBoard(Game.PieceSetup);
                 string input = string.Empty;
                 if (Game.NextPlayer.Type == (PlayerType)1)
@@ -108,6 +122,12 @@ namespace GameEngine
                         break;
 
                     case "2":
+                        FileHandler.WriteToFile($"{Game.GameName}_{Game.LudoGameId}", Game);
+                        Console.WriteLine($"Game saved to file {Game.GameName}_{Game.LudoGameId}.json");
+                        Console.ReadKey();
+                        break;
+
+                    case "3":
                         //Spel är uppdaterat i basen
                         alive = false;
                         break;
@@ -234,9 +254,8 @@ namespace GameEngine
         {
             if (SaveNewGameTask != null && SaveNewGameTask.Status == TaskStatus.Running)
                 SaveNewGameTask.Wait();
-
-            var db = new LudoGameDbContext();
             GamePiece gamePiece = null;
+            var db = new LudoGameDbContext();
             using var transaction = db.Database.BeginTransaction();
             if (Game.Moves.Last().Piece != null)
             {
@@ -275,9 +294,9 @@ namespace GameEngine
                 game.Moves.Last().Piece = gamePiece;
                 db.Games.Update(game);
                 db.SaveChanges();
-            }
 
-            transaction.Commit();
+                transaction.Commit();
+            }
         }
 
         private void SaveGameToDataBase()

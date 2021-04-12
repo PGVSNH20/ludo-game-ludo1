@@ -93,9 +93,11 @@ namespace GameEngine.Assets
 
         public static LudoGame DeepCloneGame(LudoGame originGame)
         {
-            var newGame = new LudoGame();
-            newGame.PieceSetup = new List<GamePiece>();
-            newGame.Moves = new List<GameMove>();
+            var newGame = new LudoGame
+            {
+                PieceSetup = new List<GamePiece>(),
+                Moves = new List<GameMove>()
+            };
             foreach (var piece in originGame.PieceSetup)
             {
                 newGame.PieceSetup.Add(new GamePiece()

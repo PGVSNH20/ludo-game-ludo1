@@ -16,6 +16,7 @@ namespace GameEngine
         public LudoGame Game { get; set; }
         public GameDice Dice { get; set; }
         public GameBoard Board { get; set; }
+        public bool DbConnectionIsActive { get; set; }
         private GamePiece OponentsGamePiece { get; set; }
         private GameAI AI { get; set; }
         private Task SaveNewGameTask { get; set; }
@@ -24,6 +25,7 @@ namespace GameEngine
         {
             Dice = new GameDice();
             Board = new GameBoard();
+            DbConnectionIsActive = true;
         }
 
         public GameRunner CreateNewGame()
@@ -46,32 +48,50 @@ namespace GameEngine
 
             Game.PieceSetup = Tools.GetGamePieceSetup(Game.GamePlayers.Players);
             Board.UpdateBoardBases(Game.PieceSetup);
-            //SaveGameToDataBase()
 
-            SaveNewGameTask = new Task(() => SaveGameToDataBase());
-            SaveNewGameTask.Start();
+            if (DbConnectionIsActive)
+            {
+                SaveNewGameTask = new Task(() => SaveGameToDataBase());
+                SaveNewGameTask.Start();
+            }
+            
             return this;
         }
 
         public GameRunner LoadGameFromDataBase()
         {
-            var allGames = LoadAllGamesFromDataBase();
-            var oneLudoGame = InputDialogs.GetLudoGame(allGames);
-            LoadGameFromDatabase(oneLudoGame);
-            Board.UpdateTracks(Game.PieceSetup);
+            if (DbConnectionIsActive)
+            {
+                var allGames = LoadAllGamesFromDataBase();
+                var oneLudoGame = InputDialogs.GetLudoGame(allGames);
+                LoadGameFromDatabase(oneLudoGame);
+                Board.UpdateTracks(Game.PieceSetup);
+            }
+            else Console.WriteLine("Db connections is not active");
+                
             return this;
         }
 
         public GameRunner LoadGameFromFile(string fileName)
         {
             Game = FileHandler.ReadFromFile(fileName);
-            var db = new LudoGameDbContext();
-            if (!db.Games.Contains(Game))
+            if (DbConnectionIsActive)
             {
-                Game = Tools.DeepCloneGame(Game);
-                SaveGameToDataBase();
+                var db = new LudoGameDbContext();
+                if (!db.Games.Contains(Game))
+                {
+                    Game = Tools.DeepCloneGame(Game);
+                    SaveGameToDataBase();
+                }
             }
+                
             Board.UpdateTracks(Game.PieceSetup);
+            return this;
+        }
+
+        public GameRunner ToogleDbConnection(bool status)
+        {
+            DbConnectionIsActive = status;
             return this;
         }
 
@@ -83,28 +103,9 @@ namespace GameEngine
             var alive = true;
             while (alive && Game.Winer == null)
             {
-                Console.Clear();
-                Tools.PrintGameDetails(Game);
-                Console.Write($"Now it's ");
-                Tools.SetConsoleColor(Game.NextPlayer.Color);
-                Console.Write(Game.NextPlayer.Name);
-                Console.ResetColor();
-                Console.WriteLine(" turn\n" +
-                    $"1) Throw dice\n" +
-                    $"2) Save game to file\n" +
-                    $"3) Exit game");
-                Board.PrintBoard(Game.PieceSetup);
-                string input = string.Empty;
-                if (Game.NextPlayer.Type == (PlayerType)1)
-                    input = "1";
-                else
-                {
-                    input = Console.ReadLine();
-                    Console.WriteLine(input + input + input);
-                    input = (input == "") ? "1" : input;
-                }
-
-                switch (input)
+                var playerChoise = InputDialogs.GetPlayerMenuChoise(Game, Board);
+                
+                switch (playerChoise)
                 {
                     case "1":
 
@@ -148,7 +149,8 @@ namespace GameEngine
                         else
                             Console.ReadKey();
                     }
-                    SaveMoveToDataBase();
+                    if (DbConnectionIsActive)
+                        SaveMoveToDataBase();
                 }
             }
             if (Game.Winer != null)

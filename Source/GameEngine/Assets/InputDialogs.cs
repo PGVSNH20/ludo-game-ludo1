@@ -132,5 +132,29 @@ namespace GameEngine.Assets
                 chosenGameIndex = 0;
             return games[chosenGameIndex];
         }
+
+        public static string GetPlayerMenuChoise(LudoGame game, GameBoard board)
+        {
+            Console.Clear();
+            Tools.PrintGameDetails(game);
+            Console.Write($"Now it's ");
+            Tools.SetConsoleColor(game.NextPlayer.Color);
+            Console.Write(game.NextPlayer.Name);
+            Console.ResetColor();
+            Console.WriteLine(" turn\n" +
+                $"1) Throw dice\n" +
+                $"2) Save game to file\n" +
+                $"3) Exit game");
+            board.PrintBoard(game.PieceSetup);
+            string input;
+            if (game.NextPlayer.Type == (PlayerType)1)
+                input = "1";
+            else
+            {
+                input = Console.ReadLine();
+                input = (input == "") ? "1" : input;
+            }
+            return input;
+        }
     }
 }

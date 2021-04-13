@@ -133,6 +133,7 @@ Funktioner som sker "bakom kulisser":
   * Det hämtas bara nödvändiga data. Till exempel föra att ladda spel hämtas först lista med alla spel utan relaterad data. Sen när en specifikt spel har valts laddas också relaterade data.
   * Det lagras ingen extra data i databasen som går inte att beräkna i applikationen. Spel bräda och positionering av pjäser beräknas bara från pjäspositioner. Det lagras ingen information om själva brädan i databasen.
   * DcContext.Save() anrop är så minimalt som möjligt
+  * DbContext.AsNoTracking() anväds i anrop där lista med lagrade spel laddas för att sen presenteras till användare
 ## GameEngine extern anrop exempel
 ### Starta ny spel och spela den
 ```C#

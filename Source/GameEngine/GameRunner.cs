@@ -54,7 +54,7 @@ namespace GameEngine
                 SaveNewGameTask = new Task(() => SaveGameToDataBase());
                 SaveNewGameTask.Start();
             }
-            
+
             return this;
         }
 
@@ -68,7 +68,7 @@ namespace GameEngine
                 Board.UpdateTracks(Game.PieceSetup);
             }
             else Console.WriteLine("Db connections is not active");
-                
+
             return this;
         }
 
@@ -84,7 +84,7 @@ namespace GameEngine
                     SaveGameToDataBase();
                 }
             }
-                
+
             Board.UpdateTracks(Game.PieceSetup);
             return this;
         }
@@ -104,7 +104,7 @@ namespace GameEngine
             while (alive && Game.Winer == null)
             {
                 var playerChoise = InputDialogs.GetPlayerMenuChoise(Game, Board);
-                
+
                 switch (playerChoise)
                 {
                     case "1":
@@ -333,7 +333,7 @@ namespace GameEngine
         private List<LudoGame> LoadAllGamesFromDataBase()
         {
             var db = new LudoGameDbContext();
-            List<LudoGame> ludoGames = db.Games.Where(g => g.Winer == null).ToList();
+            List<LudoGame> ludoGames = db.Games.Where(g => g.Winer == null).AsNoTracking().ToList();
             return ludoGames;
         }
     }

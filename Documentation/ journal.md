@@ -59,3 +59,8 @@
   * Efter inläsning av spelet görs kontroll mot databasen om spelet finns lagrat där
     * Om spel finns så fortsätter spelande på den
     * Om inte spel finns görs en djupkloning av spel och ny spel lagras i databasen
+## 2021-04-12
+* Vi jobbade med inspelning av video
+## 2021-04-13
+* Vi satt ihop alla delar till en video och la upp den på stream
+* Vi la till en datatjänst projekt "LudoGameRESTApi" som kan ta fram lista med alla spel i databasen

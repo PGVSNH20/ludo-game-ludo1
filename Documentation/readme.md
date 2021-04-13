@@ -161,3 +161,6 @@ var fileName = "test_game"
 GameRunner game = new GameRunner();
 game.ToogleDbConnection(false).LoadGameFromFile(fileName).PlayGame();
 ```
+## Rest API
+Vår data kan anropas med rest API. En "get" anrop kan tas emot och den returnerar lista med alla spel i databasen.
+

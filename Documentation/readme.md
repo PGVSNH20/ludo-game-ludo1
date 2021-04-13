@@ -1,7 +1,6 @@
 # Documentation
-
-Use this file to fill in your documentation
-## Mob programmering schema
+## Projektets uplägg
+### Mob programmering schema
 |   |  1 |  2 | 3  |  4 |
 |---|---|---|---|---|
 | driver  | edgar  | elsa  | emil  |  daniel |
@@ -9,7 +8,7 @@ Use this file to fill in your documentation
 | timer  | emil  | daniel  | edgar  | elsa  |
 | spy  | daniel  | emil  | elsa  |  edgar |
 
-## Projekt managment
+### Projekt managment
 * <a href="https://share.clickup.com/b/h/4-8851288-2/0d65952681c886a">Kanban tavla</a>
 * <a href="https://share.clickup.com/l/h/4-8851288-1/c525cb63007e621">Att göra lista</a>
 
@@ -85,14 +84,13 @@ Use this file to fill in your documentation
   * Referens till GameAI
 * Har metoder som kan:
   * Skapa och lagra ny spel
-  * Ladda upp tidigare spel från databas
-  * Ladda upp tidigare spel från fil (json)
+  * Ladda upp tidigare spel
   * Spela skapade eller laddade spel:
     * Skapa ny move
     * Exekvera move och lagra den
-      * Uppdatera pjäsens position
-      * Uppdatera eventuella opponents pjäs position
-      * Uppdatera spel bräda 
+      * Updatera pjäsens position
+      * Updatera eventeulla oponents pjäs position
+      * Updatera spel bräda 
 ### InputDialogs
 * Har metoder som kan:
   * Starta konsol dialog för att skapa nytt spel
@@ -106,7 +104,58 @@ Use this file to fill in your documentation
   * Skapa lista med pjäs som gör att flytta i aktuell "move" enligt spel reglarna
   * Beräkna nya pjäs position
   * Sätta färgen på text utifrån spelfärgen
-### FileHandler
-* Har metoder som kan:
-  * Skriva en spel till json fil
-  * Läsa en spel från json fil
+## GameEngine beskrivning
+GameEngine api innehåller följande funktionalitet som kan anropas externt:
+* skapa ny ludo spel
+  * Konfigurerar antal spelare
+  * Konfigurerar spelares namn, färg, typ
+* Inte lagra spel och stänga av databaskoppling
+* Lagra spel i databasen
+* Lagra spel i fil (json)
+* Lada spel från databasen och forstätta spela den
+* Lada spel från fil och forstätta spela den (spel från fil lagras i databasen om den inte redans finns där)
+* Kan utföra spel enligt "Ludo med knuff" reglarna med vanliga spelare, AI spelare (robot) och båda
+
+Funktioner som sker "bakom kulliserna":
+* Spelare får urval av pjäser som för flyttas med spelets förutsättningar (pjäspositionering, tärningskast)
+* Spelare för grafiskt represantation av spelbräda med utpacerade pjäser
+* Robotspelare kan göra prioriteringar på vilka pjäser bor flyttas för att vinna spelet fårn olika faktorer:
+  * Kommer pjäsen knuffa annan pjäs
+  * Är pjäsen hotat av anna pjäs
+  * Blir pjäsen hotat av anna pjäs om flyttat
+  * Är pjäsen i basen och har chansen att flyttas på banan
+  * Är pjäsen längs fram så bor man använda den för att nå slutbanan snabbare
+* När ny spel är skapad och lagras i dataasen sker det asynkront och programmet körs vidare tills urval av nästa steg ska göras
+* Databas uppdateringar sker i transaktioner för att uppfylla ACID principen
+* För att öka prestanta:
+  * Databas sökningar sker på PK (primärnyckel)
+  * Det hämtas bara nödvädiga data. Tillexempel föra att ladda spel hämtas först lista med alla spel utan relaterad data. Sen sär viss specifikt spel har valsts laddas ochså relaterade data.
+  * Det lagras ingen extra data i databasen som går inte att beräkna i aplikatinen. Spel bräda och positionering av pjäser beräknas bara från pjäspositioner. Det lagras ingen information om själva brädan i databasen.
+  * DcContext.Save() anrop är så minimalt som möjligt
+## GameEngine extern anrop exempel
+### Starta ny spel och spela den
+```C#
+GameRunner game = new GameRunner();
+game.CreateNewGame().PlayGame();
+```
+### Ladda spel från databas och spela den
+```C#
+GameRunner game = new GameRunner();
+game.LoadGameFromDataBase().PlayGame();
+```
+### Ladda spel från fil och spela den
+```C#
+var fileName = "test_game"
+GameRunner game = new GameRunner();
+game.LoadGameFromFile(fileName).PlayGame();
+```
+### Spel utan databaskoppling
+```C#
+GameRunner game = new GameRunner();
+game.ToogleDbConnection(false).CreateNewGame().PlayGame();
+```
+```C#
+var fileName = "test_game"
+GameRunner game = new GameRunner();
+game.ToogleDbConnection(false).LoadGameFromFile(fileName).PlayGame();
+```

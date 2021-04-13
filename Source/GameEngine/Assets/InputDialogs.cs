@@ -36,6 +36,7 @@ namespace GameEngine.Assets
                 var newPlayer = new GamePlayer();
 
                 // Player chooses name
+
                 var playerName = $"Player {i + 1}";
                 Console.WriteLine($"Player {i + 1} choose a name: ");
                 newPlayer.Name = Console.ReadLine();
@@ -57,6 +58,7 @@ namespace GameEngine.Assets
                 newPlayer.Type = (PlayerType)typeInput;
 
                 // Player chooses color
+
                 Console.WriteLine($"{newPlayer.Name} choose a color:");
 
                 for (int y = 0; y < availableColors.Count; y++)
@@ -80,6 +82,7 @@ namespace GameEngine.Assets
                     }
 
                 // Add player to game players
+
                 players.Add(newPlayer);
             }
             players = players.OrderBy(p => p.Color).ToList();
@@ -105,7 +108,6 @@ namespace GameEngine.Assets
                     Console.WriteLine(
                         $"{i + 1}) Piece number: {movablePieces[i].Number} at {trackPosition}");
                 }
-                // TODO: Input check
 
                 var chosenPieceIndex = (int.TryParse(Console.ReadLine(), out var result)) ? result - 1 : 0;
                 if (chosenPieceIndex < 0 || chosenPieceIndex > movablePieces.Count - 1)

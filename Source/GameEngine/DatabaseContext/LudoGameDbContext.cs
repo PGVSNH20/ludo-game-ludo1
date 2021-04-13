@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine.DatabaseContext
 {
-    internal class LudoGameDbContext : DbContext
+    public class LudoGameDbContext : DbContext
     {
         public DbSet<GamePlayer> Players { get; set; }
         public DbSet<GamePlayers> PlayersInGame { get; set; }

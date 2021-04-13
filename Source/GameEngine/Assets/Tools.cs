@@ -44,7 +44,6 @@ namespace GameEngine.Assets
                     //piece can not be places att position which already contains piece of same color
                     //piece can not jump over another piece of same color
 
-                    // TODO: Piece can jump over itself in finalTrack
                     var originalPosition = playerPieces[i].TrackPosition;
                     var positionAhead = (originalPosition == null) ? -1 : originalPosition;
                     var potencialTrackPosition = CalculateNewPositon(originalPosition, diceResult);

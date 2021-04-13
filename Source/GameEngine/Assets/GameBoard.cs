@@ -110,6 +110,8 @@ namespace GameEngine.Assets
 
         public void UppdateMapFinalTracksCells()
         {
+            //Game board to board final tracks relations simple
+
             //BoardMap[9, 5] = (FinalTracks[0][0] == null) ? EmptyCells[0] : FinalTracks[0][0];
             //BoardMap[8, 5] = (FinalTracks[0][1] == null) ? EmptyCells[0] : FinalTracks[0][1];
             //BoardMap[7, 5] = (FinalTracks[0][2] == null) ? EmptyCells[0] : FinalTracks[0][2];
@@ -127,6 +129,7 @@ namespace GameEngine.Assets
             //BoardMap[5, 7] = (FinalTracks[3][2] == null) ? EmptyCells[3] : FinalTracks[3][2];
             //BoardMap[5, 6] = (FinalTracks[3][3] == null) ? EmptyCells[3] : FinalTracks[3][3];
 
+            //Game board to board final tracks relations advanced
             for (int n = 0; n < 4; n++)
             {
                 if (n == 0)
@@ -158,6 +161,8 @@ namespace GameEngine.Assets
 
         public void UpdateBoardBases(List<GamePiece> gamePieceSetUp)
         {
+            //Game board to game piece at base relations simple
+
             //BoardMap[8, 1] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 1).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 1).Single() : EmptyCells[0];
             //BoardMap[8, 2] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 2).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 2).Single() : EmptyCells[0];
             //BoardMap[9, 1] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 3).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)0 && p.Number == 3).Single() : EmptyCells[0];
@@ -175,7 +180,8 @@ namespace GameEngine.Assets
             //BoardMap[9, 8] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 3).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 3).Single() : EmptyCells[3];
             //BoardMap[9, 9] = (gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single().TrackPosition == null) ? gamePeaceSetUp.Where(p => p.Color == (GameColor)3 && p.Number == 4).Single() : EmptyCells[3];
 
-            //base
+            //Game board to game piece at base relations advanced
+
             foreach (var pieceGroup in gamePieceSetUp.GroupBy(p => p.Color).ToList())
             {
                 var color = (int)pieceGroup.First().Color;

@@ -20,7 +20,6 @@ namespace ConsoleApplication
                     case "1":
                         Console.Clear();
                         game.CreateNewGame().PlayGame();
-                        //game.ToogleDbConnection(false).CreateNewGame().PlayGame();
                         break;
 
                     case "2":
@@ -40,7 +39,6 @@ namespace ConsoleApplication
                         break;
 
                     default:
-
                         break;
                 }
             }

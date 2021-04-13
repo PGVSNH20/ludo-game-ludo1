@@ -10,8 +10,6 @@ namespace GameEngine.Models
 
         public List<GamePlayer> Players { get; set; }
 
-        //public LudoGame LudoGame { get; set; }
-
         public int PlayerCount
         {
             get { return Players.Count; }

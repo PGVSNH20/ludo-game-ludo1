@@ -11,7 +11,7 @@ namespace ConsoleApplication
             while (alive)
             {
                 GameRunner game = new GameRunner();
-                PrintMenu(10, 5);
+                PrintMenu(13, 4);
 
                 var input = Console.ReadLine();
 
@@ -117,7 +117,7 @@ namespace ConsoleApplication
             Console.SetCursorPosition(column, line++);
             Console.WriteLine(@" \____/");
 
-            column = columnFaktor + 5;
+            column = columnFaktor + 1;
             line = lineFaktor + 8;
 
             Console.ForegroundColor = ConsoleColor.White;

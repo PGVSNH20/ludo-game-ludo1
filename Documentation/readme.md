@@ -121,11 +121,11 @@ Funktioner som sker "bakom kulisser":
 * Spelare får urval av pjäser som för flyttas med spelets förutsättningar (pjäspositionering, tärningskast)
 * Spelare för grafiskt representation av spelbräda med utplacerade pjäser
 * Robotspelare kan göra prioriteringar på vilka pjäser bor flyttas för att vinna spelet från olika faktorer:
-  * Kommer pjäsen knuffa annan pjäs
-  * Är pjäsen hotat av annan pjäs
-  * Blir pjäsen hotat av annan pjäs om flyttat
-  * Är pjäsen i basen och har chansen att flyttas på banan
-  * Är pjäsen längs fram så bor man använda den för att nå slutbanan snabbare
+  * Kommer pjäsen knuffa motståndares pjäs
+  * Är pjäsen hotat av motståndares pjäs
+  * Blir pjäsen hotat av motståndares pjäs om flyttat
+  * Är pjäsen i basen och har chansen att flyttas ut på banan
+  * Är pjäsen längs fram så bor man använda den för att nå avsluta banan snabbare
 * När ny spel är skapad och lagras i databasen sker det asynkront och programmet körs vidare tills urval av nästa steg ska göras
 * Databas uppdateringar sker i transaktioner för att uppfylla ACID principen
 * För att öka prestanda:

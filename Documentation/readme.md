@@ -89,9 +89,9 @@
   * Spela skapade eller laddade spel:
     * Skapa ny move
     * Exekvera move och lagra den
-      * Updatera pjäsens position
-      * Updatera eventeulla oponents pjäs position
-      * Updatera spel bräda 
+      * Uppdatera pjäsens position
+      * Uppdatera eventuella opponents pjäs position
+      * Uppdatera spel bräda 
 ### InputDialogs
 * Har metoder som kan:
   * Starta konsol dialog för att skapa nytt spel
@@ -113,25 +113,25 @@ GameEngine api innehåller följande funktionalitet som kan anropas externt:
 * Inte lagra spel och stänga av databaskoppling
 * Lagra spel i databasen
 * Lagra spel i fil (json)
-* Lada spel från databasen och forstätta spela den
-* Lada spel från fil och forstätta spela den (spel från fil lagras i databasen om den inte redans finns där)
+* Lada spel från databasen och fortsätta spela den
+* Lada spel från fil och fortsätta spela den (spel från fil lagras i databasen om den inte redans finns där)
 * Kan utföra spel enligt "Ludo med knuff" reglarna med vanliga spelare, AI spelare (robot) och båda
 
-Funktioner som sker "bakom kulliserna":
+Funktioner som sker "bakom kulisser":
 * Spelare får urval av pjäser som för flyttas med spelets förutsättningar (pjäspositionering, tärningskast)
-* Spelare för grafiskt represantation av spelbräda med utpacerade pjäser
-* Robotspelare kan göra prioriteringar på vilka pjäser bor flyttas för att vinna spelet fårn olika faktorer:
+* Spelare för grafiskt representation av spelbräda med utplacerade pjäser
+* Robotspelare kan göra prioriteringar på vilka pjäser bor flyttas för att vinna spelet från olika faktorer:
   * Kommer pjäsen knuffa annan pjäs
-  * Är pjäsen hotat av anna pjäs
-  * Blir pjäsen hotat av anna pjäs om flyttat
+  * Är pjäsen hotat av annan pjäs
+  * Blir pjäsen hotat av annan pjäs om flyttat
   * Är pjäsen i basen och har chansen att flyttas på banan
   * Är pjäsen längs fram så bor man använda den för att nå slutbanan snabbare
-* När ny spel är skapad och lagras i dataasen sker det asynkront och programmet körs vidare tills urval av nästa steg ska göras
+* När ny spel är skapad och lagras i databasen sker det asynkront och programmet körs vidare tills urval av nästa steg ska göras
 * Databas uppdateringar sker i transaktioner för att uppfylla ACID principen
-* För att öka prestanta:
+* För att öka prestanda:
   * Databas sökningar sker på PK (primärnyckel)
-  * Det hämtas bara nödvädiga data. Tillexempel föra att ladda spel hämtas först lista med alla spel utan relaterad data. Sen sär viss specifikt spel har valsts laddas ochså relaterade data.
-  * Det lagras ingen extra data i databasen som går inte att beräkna i aplikatinen. Spel bräda och positionering av pjäser beräknas bara från pjäspositioner. Det lagras ingen information om själva brädan i databasen.
+  * Det hämtas bara nödvändiga data. Till exempel föra att ladda spel hämtas först lista med alla spel utan relaterad data. Sen när en specifikt spel har valts laddas också relaterade data.
+  * Det lagras ingen extra data i databasen som går inte att beräkna i applikationen. Spel bräda och positionering av pjäser beräknas bara från pjäspositioner. Det lagras ingen information om själva brädan i databasen.
   * DcContext.Save() anrop är så minimalt som möjligt
 ## GameEngine extern anrop exempel
 ### Starta ny spel och spela den

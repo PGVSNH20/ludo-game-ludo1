@@ -163,4 +163,14 @@ game.ToogleDbConnection(false).LoadGameFromFile(fileName).PlayGame();
 ```
 ## Rest API
 Vår data kan anropas med rest API. En "get" anrop kan tas emot och den returnerar lista med alla spel i databasen.
+## UnitTests
+Vi använder oss av två unittests ramverk - XUnit och NUnit. Detta för att prova olika fördelar som respektive ramverk erbjuder.
+Vi testar enbart GameEngine projektet med följande klasser och metoder:
+* GameAi - metoder som AISpelare använder för att bedöma bästa möjliga steg
+* DbContext - alla metoder som lagrar och läser från databas i GameRunner
+* GameBoard - metoder som uppdaterar tracks och skriver ut grafiskrepresentation av spelbrädan
+* GameDice - metod som genererar slag från tärningskast
+* GameRunner - metoder som skapar move och exekverar move
+* Tools - alla metoder som anropas under applikations körningen
+* InputDialogs - alla metoder som exekverar console dialog
 

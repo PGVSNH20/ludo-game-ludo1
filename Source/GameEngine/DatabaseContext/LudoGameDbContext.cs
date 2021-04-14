@@ -14,9 +14,18 @@ namespace GameEngine.DatabaseContext
         public DbSet<GameMove> GameMoves { get; set; }
         public DbSet<GamePiece> GamePieces { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public LudoGameDbContext()
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=LudoGameDb;User Id=sa;Password=My!P@ssw0rd1;");
+        }
+
+        public LudoGameDbContext(DbContextOptions<LudoGameDbContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            if (!options.IsConfigured)
+                options.UseSqlServer(@"Server=localhost;Database=LudoGameDb;User Id=sa;Password=My!P@ssw0rd1;");
         }
     }
 }

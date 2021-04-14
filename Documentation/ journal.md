@@ -63,4 +63,7 @@
 * Vi jobbade med inspelning av video
 ## 2021-04-13
 * Vi satt ihop alla delar till en video och la upp den på stream
-* Vi la till en datatjänst projekt "LudoGameRESTApi" som kan ta fram lista med alla spel i databasen
+* Vi la till en datatjänst-projekt "LudoGameRESTApi" som kan ta fram lista med alla spel i databasen
+## 2021-04-14
+* Vi skapade tester för dbContext som testar att lagra ny spel, lagra move i pågående spel, ladda alla spel, ladda en spel med inkluderande data
+* Vi introducerade en ny metod i GameRunner - DbTransactionWrapper(). Detta för att kunna köra databasuppdateringar i tester utan transaktioner.

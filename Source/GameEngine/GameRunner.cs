@@ -51,7 +51,8 @@ namespace GameEngine
 
             if (DbConnectionIsActive)
             {
-                SaveNewGameTask = new Task(() => SaveGameToDataBase());
+                var db = new LudoGameDbContext();
+                SaveNewGameTask = new Task(() => SaveGameToDataBase(db));
                 SaveNewGameTask.Start();
             }
 
@@ -62,9 +63,10 @@ namespace GameEngine
         {
             if (DbConnectionIsActive)
             {
-                var allGames = LoadAllGamesFromDataBase();
+                var db = new LudoGameDbContext();
+                var allGames = LoadAllGamesFromDataBase(db);
                 var oneLudoGame = InputDialogs.GetLudoGame(allGames);
-                LoadGameFromDatabase(oneLudoGame);
+                LoadGameFromDatabase(oneLudoGame, db);
                 Board.UpdateTracks(Game.PieceSetup);
             }
             else Console.WriteLine("Db connections is not active");
@@ -81,7 +83,7 @@ namespace GameEngine
                 if (!db.Games.Contains(Game))
                 {
                     Game = Tools.DeepCloneGame(Game);
-                    SaveGameToDataBase();
+                    DbTransactionWrapper(db, db => SaveGameToDataBase(db));
                 }
             }
 
@@ -150,7 +152,10 @@ namespace GameEngine
                             Console.ReadKey();
                     }
                     if (DbConnectionIsActive)
-                        SaveMoveToDataBase();
+                    {
+                        var db = new LudoGameDbContext();
+                        DbTransactionWrapper(db, db => SaveMoveToDataBase(db));
+                    }
                 }
             }
             if (Game.Winer != null)
@@ -252,13 +257,11 @@ namespace GameEngine
             }
         }
 
-        private void SaveMoveToDataBase()
+        public bool SaveMoveToDataBase(LudoGameDbContext db)
         {
             if (SaveNewGameTask != null && SaveNewGameTask.Status == TaskStatus.Running)
                 SaveNewGameTask.Wait();
             GamePiece gamePiece = null;
-            var db = new LudoGameDbContext();
-            using var transaction = db.Database.BeginTransaction();
             if (Game.Moves.Last().Piece != null)
             {
                 gamePiece = db.GamePieces.Where(p => p == Game.Moves.Last().Piece).Single();
@@ -296,24 +299,26 @@ namespace GameEngine
                 game.Moves.Last().Piece = gamePiece;
                 db.Games.Update(game);
                 db.SaveChanges();
-
-                transaction.Commit();
             }
+            return true;
         }
 
-        private void SaveGameToDataBase()
+        public bool SaveGameToDataBase(LudoGameDbContext db)
         {
-            var db = new LudoGameDbContext();
-            using var transaction = db.Database.BeginTransaction();
             db.Games.Add(Game);
             db.SaveChanges();
+            return true;
+        }
+
+        public void DbTransactionWrapper(LudoGameDbContext db, Func<LudoGameDbContext, bool> dbExecution)
+        {
+            using var transaction = db.Database.BeginTransaction();
+            dbExecution(db);
             transaction.Commit();
         }
 
-        private void LoadGameFromDatabase(LudoGame ludoGame)
+        public void LoadGameFromDatabase(LudoGame ludoGame, LudoGameDbContext db)
         {
-            var db = new LudoGameDbContext();
-
             Game = db.Games
                     .Where(g => g == ludoGame)
                     .Include(g => g.GamePlayers)
@@ -330,9 +335,8 @@ namespace GameEngine
             Game.GamePlayers = gamePlayers;
         }
 
-        private List<LudoGame> LoadAllGamesFromDataBase()
+        public List<LudoGame> LoadAllGamesFromDataBase(LudoGameDbContext db)
         {
-            var db = new LudoGameDbContext();
             List<LudoGame> ludoGames = db.Games.Where(g => g.Winer == null).AsNoTracking().ToList();
             return ludoGames;
         }

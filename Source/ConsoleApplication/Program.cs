@@ -11,6 +11,7 @@ namespace ConsoleApplication
             while (alive)
             {
                 GameRunner game = new GameRunner();
+                game.ToogleDbConnection(false);
                 PrintMenu(13, 4);
 
                 var input = Console.ReadLine();

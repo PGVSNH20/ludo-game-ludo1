@@ -82,9 +82,10 @@ namespace GameEngine.Assets
             return newPosition;
         }
 
-        public static void SetConsoleColor(GameColor gameColor)
+        public static void SetConsoleColor(GameColor? gameColor)
         {
-            if (gameColor == 0) Console.ForegroundColor = ConsoleColor.Blue;
+            if (gameColor == null) Console.ForegroundColor = ConsoleColor.White;
+            else if (gameColor == 0) Console.ForegroundColor = ConsoleColor.Blue;
             else if (gameColor == (GameColor)1) Console.ForegroundColor = ConsoleColor.Red;
             else if (gameColor == (GameColor)2) Console.ForegroundColor = ConsoleColor.Yellow;
             else if (gameColor == (GameColor)3) Console.ForegroundColor = ConsoleColor.Green;

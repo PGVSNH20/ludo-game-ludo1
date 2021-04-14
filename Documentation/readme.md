@@ -174,5 +174,4 @@ För att öka prestanda har vi intruducerat följande åtgärder:
 * Det lagras ingen extra data i databasen som går inte att beräkna i applikationen. Spelbräda och positionering av pjäser beräknas bara från pjäspositioner. Det lagras ingen information om själva brädan i databasen.
 * Antal DcContext.Save() anrop är så minimalt som möjligt
 * DbContext.AsNoTracking() används i anrop där lista med lagrade spel laddas för att sen presenteras till användare
-
-
+* Lagring av ny spel sker asyncront för att minska väntatiden för slutanvändare.
